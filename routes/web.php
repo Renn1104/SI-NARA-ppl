@@ -24,7 +24,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('auth.V_landing');
+    return view('auth.V_Landing');
 })->name('landing');
 
 // Route Landing

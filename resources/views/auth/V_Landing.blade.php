@@ -23,9 +23,7 @@
       <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="h-12 object-contain">
     </div>
     
-<!-- Kanan -->
-<!-- @uf(Auth::user()->roles != 'admin'); -->
-
+    <!-- Kanan -->
     <div class="flex items-center gap-4">
       <a href="{{ route('V_Login') }}" class="px-4 py-2 border-2 border-purple-800 text-purple-800 font-semibold rounded hover:bg-purple-200 transition">
         Masuk

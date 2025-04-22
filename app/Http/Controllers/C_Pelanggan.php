@@ -8,6 +8,6 @@ class C_Pelanggan extends Controller
 {
     public function beranda()
     {
-        return view('pelanggan.V_beranda'); // pastikan ada view yang sesuai
+        return view('pelanggan.V_beranda');
     }
 }

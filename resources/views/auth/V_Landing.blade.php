@@ -123,12 +123,12 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
   @php
     $items = [
-      ['img' => 'assets/Konten1.png', 'title' => 'Panen Anggur Hitam'],
-      ['img' => 'assets/Konten2.png', 'title' => 'Tari Tradisional'],
-      ['img' => 'assets/Konten3.png', 'title' => 'Tari Suwun'],
-      ['img' => 'assets/Konten4.png', 'title' => 'Panen Anggur Hijau'],
-      ['img' => 'assets/Konten5.png', 'title' => 'Tari Gandrung'],
-      ['img' => 'assets/Konten6.png', 'title' => 'Hijau Lestari'],
+      ['img' => asset('assets/Konten1.png'), 'title' => 'Panen Anggur Hitam'],
+      ['img' => asset('assets/Konten2.png'), 'title' => 'Tari Tradisional'],
+      ['img' => asset('assets/Konten3.png'), 'title' => 'Tari Suwun'],
+      ['img' => asset('assets/Konten4.png'), 'title' => 'Panen Anggur Hijau'],
+      ['img' => asset('assets/Konten5.png'), 'title' => 'Tari Gandrung'],
+      ['img' => asset('assets/Konten6.png'), 'title' => 'Hijau Lestari'],
     ];
     @endphp
 

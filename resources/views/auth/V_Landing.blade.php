@@ -151,8 +151,8 @@
           <img src="{{ asset('assets/logo sinara.png') }}" alt="Logo" class="w-36 h-auto">
         </div>
         <p>Jember, Indonesia</p>
-        <p class="mt-2">Telepon: +62 81249494460</p>
-        <p>Email: sinara.id@gmail.com</p>
+        <p class="mt-2">Telepon: +62 823-3532-2371</p>
+        <p>Email: selobonang@gmail.com</p>
       </div>
       <div>
         <h3 class="font-semibold mb-2">Kunjungi kami di:</h3>

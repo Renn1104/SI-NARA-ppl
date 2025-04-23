@@ -23,6 +23,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+
 Route::get('/', function () {
     return view('auth.V_Landing');
 })->name('landing');
@@ -38,23 +39,27 @@ Route::post('/register', [C_Register::class, 'store'])->name('register.store');
 Route::get('/login', [C_Login::class, 'login'])->name('V_Login');
 Route::post('/login', [C_Login::class, 'cekdata']);
 
+// Route Konten
+// Route::get('/konten', [C_Konten::class, 'konten'])->name('V_Konten');
+Route::get('/konten', [C_Konten::class, 'index'])->name('V_Konten');
+// Route::post('/konten', [C_Konten::class, 'store'])->name('konten.store');
+
+
+// Route::get('/admin/konten', [C_Konten::class, 'index'])->name('admin.konten.index');
 // Route Admin dan Pelanggan 
 Route::get('/pelanggan/beranda', [C_Pelanggan::class, 'beranda'])->name('pelanggan.beranda');
 Route::get('/admin/beranda', [C_Admin::class, 'beranda'])->name('admin.beranda');
 
-Route::get('/konten', [C_Konten::class, 'index'])->name('V_Konten');
-Route::post('/konten', [C_Konten::class, 'store'])->name('konten.store');
-Route::get('/admin/konten', [C_Konten::class, 'index'])->name('admin.konten.index');
-Route::get('/konten/tambahkonten', [C_Konten::class, 'create'])->name('konten.create');
+// Route::get('/admin/konten', [C_Konten::class, 'index'])->name('admin.konten.index');
+// Route::get('/konten/tambahkonten', [C_Konten::class, 'create'])->name('konten.create');
 
-
-Route::get('/konten', function () {
-    return '<h1>Halo ini ntar yaa masih ada kendala dimodel sama route/view nya </h1>';
-})->name('V_Konten');
+// Route::get('/konten', function () {
+//     return '<h1>Halo ini ntar yaa masih ada kendala dimodel sama route/view nya </h1>';
+// })->name('V_Konten');
 
 
 Route::get('/kalenderevent', [C_KalenderEvent::class, 'kalenderevent'])->name('V_KalenderEvent');
-Route::post('/cekdata', [C_Login::class, 'cekdata'])->name('cekdata');
+// Route::post('/cekdata', [C_Login::class, 'cekdata'])->name('cekdata');
 
 
 

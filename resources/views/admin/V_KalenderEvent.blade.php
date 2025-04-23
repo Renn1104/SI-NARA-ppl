@@ -163,25 +163,24 @@
       <div class="mt-6 px-2 text-center">
         <h3 class="text-lg font-semibold italic">Festival Budaya Nusantara</h3>
         <p class="text-sm text-gray-700 mt-2 leading-relaxed">
-          Festival Budaya Nusantara adalah perayaan kekayaan budaya Indonesia yang mempertemukan beragam warisan tradisi dari Sabang hingga Merauke dalam satu panggung yang meriah dan penuh warna. Acara ini menghadirkan pertunjukan seni tari, musik tradisional, pameran kerajinan tangan, kuliner khas daerah, serta berbagai workshop budaya yang edukatif dan interaktif.
-          Festival ini tidak hanya menjadi ajang hiburan, tetapi juga ruang untuk mengenal dan mencintai keberagaman budaya yang dimiliki Indonesia. Melalui semangat Bhineka Tunggal Ika, Festival Budaya Nusantara mengajak generasi muda untuk menjaga dan melestarikan identitas budaya bangsa di tengah arus modernisasi.
-          Dengan suasana yang hangat, penuh semangat gotong royong, dan dipenuhi nuansa tradisional yang autentik, festival ini menjadi momentum penting dalam mempererat tali persaudaraan serta menggugah rasa bangga terhadap budaya lokal yang kaya dan mendalam.
+        Siap-siap terpukau dalam Festival budaya dari seluruh penjuru Indonesia? Festival ini akan dimeriahkan oleh beragam pertunjukan seni yang seru dan autentik, dibawakan langsung oleh para ahli di bidangnya.
+        Mulai dari tarian tradisional, musik etnik, hingga atraksi budaya khas tiap daerah, semuanya hadir dalam satu panggung spektakuler yang sayang banget untuk dilewatkan.
         </p>
       </div>
     </div>
 
     <!-- Detail Poster & Waktu -->
     <div class="w-full md:w-1/3 bg-white flex flex-col items-center">
-        <img src="https://visitingjogja.jogjaprov.go.id/wp-content/uploads/2024/11/prambanan-jazz-1.jpg" alt="Poster Festival Budaya" class="w-full h-auto rounded-lg shadow object-cover">
+        <img src="https://i.pinimg.com/originals/31/d7/31/31d731a44c0068d5ec359002084fbb0e.png" alt="Poster Festival Budaya" class="w-full h-auto rounded-lg shadow object-cover">
     <div class="mt-4 text-sm space-y-2">
         <div class="flex items-center space-x-2">
         <!-- <img src="{{ asset('assets/Calender event.png') }}" alt="kalender event" class="w-full rounded-lg shadow"> -->
           <span class="text-xl">📅</span>
-          <span class="text-base font-medium">4, 5, & 6 Juli 2025</span>
+          <span class="text-base font-medium">16 Juli 2024</span>
         </div>
         <div class="flex items-center space-x-2">
-          <!-- <span class="text-xl">⏰</span> -->
-          <!-- <!-- <span class="text-base font-medium">11.00 - selesai</span> -->
+          <span class="text-xl">⏰</span>
+          <span class="text-base font-medium">08.00 - selesai</span>
         </div>
       </div>
     </div>

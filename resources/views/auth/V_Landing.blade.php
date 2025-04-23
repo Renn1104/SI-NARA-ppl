@@ -9,10 +9,10 @@
 </head>
 <body class="font-sans bg-white">
 
-<!-- Navbar -->
-<nav class="sticky top-0 z-50 bg-white shadow-md">
-  <div class="flex items-center justify-between px-4 md:px-6 py-4">
-    <!-- Kiri -->
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="flex items-center justify-between px-4 md:px-6 py-4">
+      <!-- Kiri -->
     <div class="flex items-center gap-4">
       <img src="{{ asset('assets/Menu.png') }}" alt="menu" class="w-10 h-10">
       <img src="{{ asset('assets/Home.png') }}" alt="home" class="w-9 h-8">
@@ -34,8 +34,6 @@
     </div>
   </div>
 
-
-
     <!-- Menu Navigasi -->
     <div class="bg-white border-t border-gray-200">
       <ul class="flex justify-center gap-6 py-3 font-semibold text-gray-700">
@@ -43,7 +41,7 @@
           <a href="{{ route('V_Konten') }}" 
              class="{{ request()->routeIs('V_Konten') ? 'text-black border-b-4 border-purple-800 pb-1' : 'hover:text-purple-700' }}">
              Konten
-          </a>
+            </a>
         </li>
         <li>
           <a href="{{ route('V_KalenderEvent') }}" 
@@ -63,7 +61,7 @@
       </ul>
     </div>
   </nav>
-
+  
   <!-- Carousel -->
   <section class="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden" id="carousel">
   <!-- Slides -->
@@ -71,17 +69,17 @@
   @php
   $slides = [
     [
-      'img' => 'https://indonesiakaya.com/wp-content/uploads/2025/03/SLIDER-BANNER.jpg',
-      'link' => 'https://www.youtube.com/watch?v=sVAlntCnM0Q&list=PL-ZVYC7zvvypXJO9nYXQUVshzF5iJfxa7'
+      'img' => asset('assets/Carousel 1.png'),
+      'link' => 'https://www.youtube.com/watch?v=Z1I3R8FDwgM'
     ],
     [
-      'img' => 'https://indonesiakaya.com/wp-content/uploads/2025/04/gik-19april-1519.jpg',
-      'link' => 'https://indonesiakaya.com/agenda-budaya/'
+      'img' => asset('assets/Carousel 2.png'),
+      'link' => 'https://www.youtube.com/watch?v=ZX7UhT65ePY/'
     ],
     [
       'img' => 'https://indonesiakaya.com/wp-content/uploads/2025/01/download-74.jpeg',
       'link' => 'https://indonesiakaya.com/pustaka-indonesia/buku-indonesia-habis-gelap-terbitlah-terang-ra-kartini/'
-    ]
+    ]           
   ];
 @endphp
 
@@ -89,8 +87,6 @@
     <a href="{{ $slide['link'] }}" target="_blank" class="carousel-item absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100 z-20' : 'opacity-0 z-10' }}" style="background-image: url('{{ $slide['img'] }}');">
     </a>
   @endforeach
-
-
   </div>
 
   <!-- Panah -->
@@ -121,24 +117,31 @@
     </div>
   </section>
 
-  <!-- Rekomendasi -->
-  <section class="px-4 md:px-6 py-10">
-    <h2 class="text-center text-lg font-bold mb-7">KONTEN SI-NARA</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-      @foreach ([
-        ['img' => 'https://asset.kompas.com/crops/hDtvYX-grg8Xt-gyhAM5LKHEtW4=/100x67:900x600/1200x800/data/photo/2022/12/29/63ad0ce09d95a.jpg', 'title' => 'Panen Anggur'],
-        ['img' => 'https://asset.kompas.com/crops/WN3Y6wXytRklh_u9QcuTfmJX3wk=/0x0:750x500/1200x800/data/photo/2022/02/26/6219a4e3e53c2.jpeg', 'title' => 'Tari Gandrung'],
-        ['img' => 'https://asset.kompas.com/crops/57U1WwJNOTq5mopVfMRAn4toPnI=/29x29:705x480/1200x800/data/photo/2021/02/08/60211aa458180.jpg', 'title' => 'Tari Suwun'],
-      ] as $item)
-        @for ($i = 0; $i < 2; $i++) <!-- duplikat x2 -->
-        <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
-          <img src="{{ $item['img'] }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
-          <p class="text-center py-2 font-semibold">{{ $item['title'] }}</p>
-        </div>
-        @endfor
-      @endforeach
-    </div>
-  </section>
+<!-- Rekomendasi -->
+<section class="px-4 md:px-6 py-10">
+  <h2 class="text-center text-lg font-bold mb-7">KONTEN SI-NARA</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+  @php
+    $items = [
+      ['img' => 'assets/Konten1.png', 'title' => 'Panen Anggur Hitam'],
+      ['img' => 'assets/Konten2.png', 'title' => 'Tari Tradisional'],
+      ['img' => 'assets/Konten3.png', 'title' => 'Tari Suwun'],
+      ['img' => 'assets/Konten4.png', 'title' => 'Panen Anggur Hijau'],
+      ['img' => 'assets/Konten5.png', 'title' => 'Tari Gandrung'],
+      ['img' => 'assets/Konten6.png', 'title' => 'Hijau Lestari'],
+    ];
+    @endphp
+
+      @foreach ($items as $item)
+      <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
+        <img src="{{ asset($item['img']) }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
+        <p class="text-center py-2 font-semibold">{{ $item['title'] }}</p>
+      </div>
+    @endforeach
+
+  </div>
+</section>
+
 
   <!-- Footer -->
   <footer class="bg-purple-900 text-white mt-10 py-8 px-4">

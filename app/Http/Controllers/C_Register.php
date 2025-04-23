@@ -34,6 +34,7 @@ class C_Register extends Controller
         ]);
     
         return redirect()->route('V_Landing')->with('success', 'Akun berhasil dibuat. Silakan login.');
+    // dd($user);
     }
 }    
 

@@ -58,47 +58,50 @@
         <li>
           <a href="#" class="hover:text-purple-700">Transaksi</a>
         </li>
+        <li>
+          <a href="#" class="hover:text-purple-700">Transaksi</a>
+        </li>
       </ul>
     </div>
   </nav>
 
-  <!-- Rekomendasi Konten -->
-  <section class="px-6 py-10">
-  <h2 class="text-center text-lg font-bold mb-6">REKOMENDASI</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-    <!-- Item 1 -->
-    <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
-      <img src="https://asset.kompas.com/crops/hDtvYX-grg8Xt-gyhAM5LKHEtW4=/100x67:900x600/1200x800/data/photo/2022/12/29/63ad0ce09d95a.jpg" alt="Panen Anggur" class="w-full h-48 object-cover">
-      <p class="text-center py-2 font-semibold">Panen Anggur</p>
+      <!-- Tombol Tambah Event -->
+      @if(Auth::user()->role == 'admin')
+  <div class="flex justify-end mt-6 px-6">
+    <a href="{{route('konten.create')}}"
+       class="flex items-center space-x-2 bg-purple-800 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition">
+      <span class="text-lg"></span>
+        <span class="text-sm md:text-base font-medium">Tambah Konten</span>
+        
+        <span class="text-lg">＋</span>
+      </a>
     </div>
+    @else
+    @endif
 
-    <!-- Item 2 -->
-    <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
-      <img src="https://asset.kompas.com/crops/WN3Y6wXytRklh_u9QcuTfmJX3wk=/0x0:750x500/1200x800/data/photo/2022/02/26/6219a4e3e53c2.jpeg" alt="Tari Gandrung" class="w-full h-48 object-cover">
-      <p class="text-center py-2 font-semibold">Tari Gandrung</p>
-    </div>
 
-    <!-- Item 3 -->
-    <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
-      <img src="https://asset.kompas.com/crops/57U1WwJNOTq5mopVfMRAn4toPnI=/29x29:705x480/1200x800/data/photo/2021/02/08/60211aa458180.jpg" alt="Tari Suwun" class="w-full h-48 object-cover">
-      <p class="text-center py-2 font-semibold">Tari Suwun</p>
-    </div>
+  <!-- Rekomendasi -->
+<section class="px-4 md:px-6 py-10">
+  <h2 class="text-center text-lg font-bold mb-7">KONTEN SI-NARA</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+  @php
+    $items = [
+      ['img' => 'assets/Konten1.png', 'title' => 'Panen Anggur Hitam'],
+      ['img' => 'assets/Konten2.png', 'title' => 'Tari Tradisional'],
+      ['img' => 'assets/Konten3.png', 'title' => 'Tari Suwun'],
+      ['img' => 'assets/Konten4.png', 'title' => 'Panen Anggur Hijau'],
+      ['img' => 'assets/Konten5.png', 'title' => 'Tari Gandrung'],
+      ['img' => 'assets/Konten6.png', 'title' => 'Hijau Lestari'],
+    ];
+    @endphp
+    return view('admin.konten.index', compact('items'));
+      @foreach ($items as $item)
+      <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
+        <img src="{{ asset($item['img']) }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
+        <p class="text-center py-2 font-semibold">{{ $item['title'] }}</p>
+      </div>
+    @endforeach
 
-    <!-- Duplikat lainnya dengan efek yang sama -->
-    <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
-      <img src="https://asset.kompas.com/crops/hDtvYX-grg8Xt-gyhAM5LKHEtW4=/100x67:900x600/1200x800/data/photo/2022/12/29/63ad0ce09d95a.jpg" alt="Panen Anggur" class="w-full h-48 object-cover">
-      <p class="text-center py-2 font-semibold">Panen Anggur</p>
-    </div>
-
-    <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
-      <img src="https://asset.kompas.com/crops/WN3Y6wXytRklh_u9QcuTfmJX3wk=/0x0:750x500/1200x800/data/photo/2022/02/26/6219a4e3e53c2.jpeg" alt="Tari Gandrung" class="w-full h-48 object-cover">
-      <p class="text-center py-2 font-semibold">Tari Gandrung</p>
-    </div>
-
-    <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
-      <img src="https://asset.kompas.com/crops/57U1WwJNOTq5mopVfMRAn4toPnI=/29x29:705x480/1200x800/data/photo/2021/02/08/60211aa458180.jpg" alt="Tari Suwun" class="w-full h-48 object-cover">
-      <p class="text-center py-2 font-semibold">Tari Suwun</p>
-    </div>
   </div>
 </section>
 

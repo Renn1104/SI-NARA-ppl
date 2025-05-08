@@ -1,4 +1,3 @@
-<!-- @include('Login') -->
   <!-- Footer -->
   <footer class="bg-purple-900 text-white mt-10 py-8 px-4">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between">

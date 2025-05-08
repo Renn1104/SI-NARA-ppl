@@ -34,8 +34,12 @@ class C_Login extends Controller
 
         // Arahkan berdasarkan role
         if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.beranda');
+            $user= Auth::user();
+            session(['user'=>$user]);
+            return  redirect()->route('admin.beranda');
         } elseif (Auth::user()->role === 'pelanggan') {
+            $user= Auth::user();
+            session(['user'=>$user]);
             return redirect()->route('pelanggan.beranda');
         }
 

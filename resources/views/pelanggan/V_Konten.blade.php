@@ -98,9 +98,12 @@
     <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-300 hover:scale-105">
       <img src="https://asset.kompas.com/crops/57U1WwJNOTq5mopVfMRAn4toPnI=/29x29:705x480/1200x800/data/photo/2021/02/08/60211aa458180.jpg" alt="Tari Suwun" class="w-full h-48 object-cover">
       <p class="text-center py-2 font-semibold">Tari Suwun</p>
+    <p></p>
     </div>
+    
   </div>
 </section>
+
 
 
   <!-- Footer -->

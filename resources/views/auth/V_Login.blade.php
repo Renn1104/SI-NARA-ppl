@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - SI-NARA</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@extends('layouts.layouts')
+@section('title', 'Login')
+@section('content')
+
 <body class="bg-cover bg-center min-h-screen flex items-center justify-center" style="background-image: url('{{ asset('assets/bg_login.png') }}')">
 
   <div class="absolute top-5 left-5 flex items-center space-x-2">
@@ -14,9 +10,6 @@
   </div>
 
   <div class="bg-white bg-opacity-90 shadow-lg rounded-xl p-8 w-full max-w-md relative">
-    <!-- Ornamen background -->
-    <!-- <img src="https://i.imgur.com/uqA0GMc.png" class="absolute bottom-4 left-4 w-12 opacity-10" />
-    <img src="https://i.imgur.com/uqA0GMc.png" class="absolute top-4 right-4 w-12 opacity-10" />  --> 
 
     <h2 class="text-xl font-bold mb-6 text-black">Masuk</h2>
 
@@ -55,5 +48,4 @@
     }
 
   </script>
-</body>
-</html>
+@endsection

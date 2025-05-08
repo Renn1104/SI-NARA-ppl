@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daftar - SI-NARA</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@extends('layouts.layouts')
+@section('title', 'Register')
+@section('content')
+
 <body class="min-h-screen bg-cover bg-center relative" style="background-image: url('{{ asset('assets/bg_login.png') }}')">
 
   <!-- Logo di kiri atas -->
@@ -68,7 +64,6 @@
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
           </div>
-
 
         <!-- Email -->
         <div>

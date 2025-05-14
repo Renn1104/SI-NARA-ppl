@@ -19,7 +19,7 @@
     [
       'img' => 'https://indonesiakaya.com/wp-content/uploads/2025/01/download-74.jpeg',
       'link' => 'https://indonesiakaya.com/pustaka-indonesia/buku-indonesia-habis-gelap-terbitlah-terang-ra-kartini/'
-    ]           
+    ]
   ];
 @endphp
 
@@ -45,12 +45,12 @@
 <section class="px-4 md:px-6 py-16 bg-gray-50">
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-      
+
       <!-- Gambar dengan slide dari kiri & efek hover -->
       <div class="flex-shrink-0 w-full md:w-1/2 mt-6 md:mt-12 transform transition duration-700 ease-in-out animate-slide-in-left">
-        <img 
-          src="{{ asset('assets/owner.jpg') }}" 
-          alt="Pemilik Nara Garden" 
+        <img
+          src="{{ asset('assets/owner.jpg') }}"
+          alt="Pemilik Nara Garden"
           class="w-full rounded-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-500"
         >
       </div>
@@ -111,7 +111,7 @@
 
       @foreach ($items as $item)
       <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
-        <img src="{{ asset($item['img']) }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
+        <img src="{{ $item['img'] }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
         <p class="text-center py-2 font-semibold">{{ $item['title'] }}</p>
       </div>
     @endforeach

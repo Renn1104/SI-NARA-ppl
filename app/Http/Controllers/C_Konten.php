@@ -19,11 +19,11 @@ class C_Konten extends Controller
     // }
 
     // Menampilkan daftar konten dari database
- 
+
     public function index()
     {
         try {
-            
+
             // Ambil semua konten, urut terbaru
             $data = Konten::all();
 
@@ -33,7 +33,7 @@ class C_Konten extends Controller
             return back()->withErrors(['error' => 'Gagal menampilkan data konten.']);
         }
     }
-    
+
     // Menyimpan konten baru
     // public function store(Request $request)
     // {
@@ -73,19 +73,19 @@ class C_Konten extends Controller
         $validated = $request->validate([
             'judul_konten' => 'required|string|max:255',
             'deskripsi_konten' => 'required|string',
-            'file_konten' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:2048',
+            'file_konten' => 'nullable|file|mimes:jpg,jpeg,png',
             'tanggal' => 'required|date',
             'jam' => 'required',
         ]);
-    
+
         $fileName = null;
-    
+
         if ($request->hasFile('file_konten')) {
             $file = $request->file('file_konten');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('kontens'), $fileName);
+            $file->storeAs('public/kontens', $fileName);
         }
-    
+
         Konten::create([
             'judul_konten' => $request->input('judul_konten'),
             'deskripsi_konten' => $request->input('deskripsi_konten'),
@@ -93,10 +93,11 @@ class C_Konten extends Controller
             'update_at' => $request->input('tanggal'),
             'jam' => $request->input('jam'),
             'rememberToken'=>'uiiuiui',
+            'tanggal_unggah'=> now()
         ]);
-    
+
         return redirect()->route('konten')->with('success', 'Konten berhasil ditambahkan.');
-        
+
     }
     public function edit($id)
     {

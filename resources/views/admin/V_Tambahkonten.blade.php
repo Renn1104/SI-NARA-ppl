@@ -1,12 +1,14 @@
 @extends('layouts.layouts')
+
 @section('title', 'Tambahkonten')
+
 @section('content')
   <!-- Form Section -->
   <main class="flex justify-center items-center py-12 px-4">
     <div class="bg-white shadow-lg rounded-xl w-full max-w-xl p-6 relative">
       
       <!-- Tombol Close -->
-      <button class="absolute right-4 top-4 text-gray-500 hover:text-red-500 text-2xl leading-none">&times;</button>
+      <a href="{{ route('konten.create') }}" class="absolute right-4 top-4 text-gray-500 hover:text-red-500 text-2xl leading-none">&times;</a>
 
       <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Tambah Konten</h2>
 
@@ -50,11 +52,16 @@
               <div class="mt-4 flex text-sm text-gray-600 justify-center">
                 <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
                   <span>Upload a file</span>
-                  <input id="file-upload" name="file_konten" type="file" class="sr-only">
+                  <input id="file-upload" name="file_konten" type="file" class="sr-only" onchange="previewImage(event)">
                 </label>
                 <p class="pl-1">or drag and drop</p>
               </div>
               <p class="text-xs text-gray-600">PNG, JPG, GIF up to 10MB</p>
+
+              <!-- Preview Gambar -->
+              <div class="mt-4">
+                <img id="image-preview" src="#" alt="Preview" class="hidden mx-auto max-h-48 rounded shadow">
+              </div>
             </div>
           </div>
         </div>
@@ -68,4 +75,21 @@
       </form>
     </div>
   </main>
+
+  <!-- Script untuk preview gambar -->
+  <script>
+    function previewImage(event) {
+      const input = event.target;
+      const preview = document.getElementById('image-preview');
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
 @endsection

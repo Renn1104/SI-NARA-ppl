@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Konten;
+use Carbon\Carbon;
+
 
 class C_Konten extends Controller
 {
@@ -100,11 +103,13 @@ class C_Konten extends Controller
         $konten = Konten::findOrFail($id);
 
         return view('admin.V_UbahKonten', [
-            'judul' => $konten->judul,
-            'deskripsiKonten' => $konten->deskripsi_konten,
-            'fileKonten' => $konten->file_konten,
-            'id' => $konten->id,
-        ]);
+        'judul' => $konten->judul_konten, // ✅ ini benar
+        'deskripsiKonten' => $konten->deskripsi_konten,
+        'fileKonten' => $konten->file_konten,
+        'tanggal' => $konten->tanggal,
+        'jam' => $konten->jam,
+        'id' => $konten->id,
+]);
     }
     public function update(Request $request, $id)
 {
@@ -118,9 +123,9 @@ class C_Konten extends Controller
 
     $konten = Konten::findOrFail($id);
     $konten->judul_konten = $request->judul_konten;
-    $konten->tanggal = $request->tanggal;
-    $konten->jam = $request->jam;
     $konten->deskripsi_konten = $request->deskripsi_konten;
+    $konten->tanggal_unggah = $request->tanggal . ' ' . $request->jam; // ✅ ganti ini
+
 
     // Cek apakah ada file yang di-upload
     if ($request->hasFile('file_konten')) {
@@ -139,6 +144,21 @@ class C_Konten extends Controller
 
     $konten->save();
 
-    return redirect()->route('konten.index')->with('success', 'Konten berhasil diperbarui.');
-}
+        return redirect()->route('konten')->with('success', 'Konten berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+{
+    $konten = Konten::findOrFail($id);
+
+    // Hapus file jika ada
+    if ($konten->file_konten && file_exists(public_path('kontens/' . $konten->file_konten))) {
+        unlink(public_path('kontens/' . $konten->file_konten));
+    }
+
+    $konten->delete();
+
+    return redirect()->route('konten')->with('success', 'Konten berhasil dihapus.');
+    }
+
 }

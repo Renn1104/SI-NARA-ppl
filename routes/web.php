@@ -1,8 +1,7 @@
 <?php
 
-// use App\Http\Controllers\HomeController;
-// use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\C_Landing;
 use App\Http\Controllers\C_Login;
 use App\Http\Controllers\C_Register;
@@ -11,65 +10,90 @@ use App\Http\Controllers\C_KalenderEvent;
 use App\Http\Controllers\C_Admin;
 use App\Http\Controllers\C_Pelanggan;
 use App\Http\Controllers\C_Belanja;
+use App\Http\Controllers\C_Profil;
 
-
+// ===========================
+// ROUTE LANDING (BERANDA AWAL)
+// ===========================
 Route::get('/', function () {
-    return view('auth.V_Landing',[
-        'role'=>session('role','guest')
-    ]);
+    return view('auth.V_Landing', ['role' => session('role', 'guest')]);
 })->name('landing');
 
-// Route Landing
 Route::get('/landing', [C_Landing::class, 'index'])->name('V_Landing');
 
-// Route Register
+// ===========================
+// ROUTE AUTH (LOGIN & REGISTER)
+// ===========================
 Route::get('/register', [C_Register::class, 'register'])->name('V_Register');
 Route::post('/register', [C_Register::class, 'store'])->name('register.store');
 
-// Route Login
 Route::get('/login', [C_Login::class, 'login'])->name('V_Login');
 Route::post('/login', [C_Login::class, 'cekdata']);
 
-// Route Konten
+// ===========================
+// ROUTE KONTEN
+// ===========================
 Route::get('/konten', [C_Konten::class, 'index'])->name('konten');
-Route::get('/konten/create', function (){
+
+Route::get('/konten/create', function () {
     return view('admin.V_Tambahkonten');
-})->name('konten.store');
-
-Route::get('/kalenderevent', [C_KalenderEvent::class, 'kalenderevent'])->name('kalenderevent');
-Route::get('/kalenderevent', function(){
-    return view('admin.V_KalenderEvent',[
-        'role'=>session('role','guest')
-    ]);
-})->name('kalenderevent');
-
-// Route Admin dan Pelanggan 
-Route::get('/admin/beranda', function (){
-    
-    return view('admin.V_Beranda',[
-        'role'=>session('role','guest')
-    ]);
-})->name('admin.beranda');
-Route::get('/pelanggan/beranda', [C_Pelanggan::class, 'beranda'])->name('pelanggan.beranda');
-
-
-Route::get('/konten/tambahkonten', function (){
-
-    return view('admin.V_Tambahkonten');
-}
-)->name('konten.create');
+})->name('konten.create');
 
 Route::post('/konten', [C_Konten::class, 'store'])->name('konten.store');
 
-Route::get('detailkonten/{judul}/{deskripsiKonten}/{fileKonten}/{id}', function($judul,$deskripsiKonten,$fileKonten,$id){
-    return view('admin.V_DetailKonten', compact('judul','deskripsiKonten','fileKonten','id'));
-})->name('detailkonten');
- 
+Route::get('/konten/edit/{id}', [C_Konten::class, 'edit'])->name('editKonten');
+Route::put('/konten/{id}', [C_Konten::class, 'update'])->name('konten.update');
+Route::delete('/konten/{id}', [C_Konten::class, 'destroy'])->name('konten.destroy');
 
+// Detail Konten
+Route::get('detailkonten/{judul}/{deskripsiKonten}/{fileKonten}/{id}', function ($judul, $deskripsiKonten, $fileKonten, $id) {
+    return view('admin.V_DetailKonten', compact('judul', 'deskripsiKonten', 'fileKonten', 'id'));
+})->name('detailkonten');
+
+// ===========================
+// ROUTE KALENDER EVENT
+// ===========================
+Route::get('/kalenderevent', [C_KalenderEvent::class, 'index'])->name('kalenderevent.index');
+Route::get('/kalenderevent/create', [C_KalenderEvent::class, 'create'])->name('kalenderevent.create');
+Route::post('/kalenderevent', [C_KalenderEvent::class, 'store'])->name('kalenderevent.store');
+
+// Tambahan tampilan langsung (tidak disarankan jika sudah ada controller-nya)
+Route::get('/kalenderevent', function () {
+    return view('admin.V_KalenderEvent', ['role' => session('role', 'guest')]);
+})->name('kalenderevent');
+
+// ===========================
+// ROUTE BERANDA ADMIN & PELANGGAN
+// ===========================
+Route::get('/admin/beranda', function () {
+    return view('admin.V_Beranda', ['role' => session('role', 'guest')]);
+})->name('admin.beranda');
+
+Route::get('/pelanggan/beranda', [C_Pelanggan::class, 'beranda'])->name('pelanggan.beranda');
+
+// ===========================
+// ROUTE BELANJA / PRODUK
+// ===========================
 Route::get('/produk', [C_Belanja::class, 'belanja'])->name('produk');
 
+// ===========================
+// ROUTE PROFIL (USER & ADMIN)
+// ===========================
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/profil', [C_Admin::class, 'profil'])->name('admin.profil');
+    Route::get('/admin/profilpelanggan', [C_Admin::class, 'profilPelanggan'])->name('admin.profilpelanggan');
+});
 
-Route::get('editKonten/{id}', [C_Konten::class, 'edit'])->name('editKonten');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/{role}/profil', [C_Profil::class, 'profil'])->name('user.profil');
+    Route::get('/{role}/profilpelanggan', [C_Profil::class, 'profilPelanggan'])->name('user.profilpelanggan');
+});
 
+// ===========================
+// ROUTE LOGOUT
+// ===========================
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('V_Landing'); // Redirect ke halaman guest (landing page)
+})->name('logout');
 
-Route::put('/konten/{id}', [C_Konten::class, 'update'])->name('konten.update');

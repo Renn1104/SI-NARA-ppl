@@ -33,8 +33,12 @@ class C_Register extends Controller
             'role' => 'pelanggan',
         ]);
     
-        return redirect()->route('V_Landing')->with('success', 'Akun berhasil dibuat. Silakan login.');
-    // dd($user);
+        return redirect()->route('admin.beranda')->with('success', 'Akun berhasil dibuat. Silakan login.');
+
+            Auth::login($user);
+            session(['user' => $user]);
+
+    return redirect()->route($user->role . '.beranda');
     }
 }    
 

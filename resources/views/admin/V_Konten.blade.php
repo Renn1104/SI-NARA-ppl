@@ -2,11 +2,10 @@
 @section('title', 'Konten')
 @section('content')
       <!-- Tombol Tambah Event -->
-    @php
-    // Cek session role, jika null beri default 'guest'
-    $role = session('user', 'guest');
-    $role  =$role['role']
+@php
+    $role = auth()->check() ? auth()->user()->role : 'guest';
 @endphp
+
 @if($role == 'admin')
     <div class="flex justify-end mt-6 px-6">
         <a href="{{ route('konten.create') }}"

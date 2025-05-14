@@ -2,15 +2,17 @@
 @section('title', 'KalenderEvent')
 @section('content')
   <!-- <--Tombol Tambah Kalender -->
-  @php
-    // Cek session role, jika null beri default 'guest'
-    $role = session('role', 'guest');
-@endphp
-<div class="text-end mb-3">
-  @if($role == 'admin')
-    <a href="/kalenderevent/create" class="btn btn-success">Tambah Kalender Event</a>
+@auth
+  @if(Auth::user()->role === 'admin')
+    <div class="flex justify-end mt-6 px-6">
+        <a href="{{ route('kalenderevent.create') }}"
+           class="flex items-center space-x-2 bg-purple-800 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition">
+            <span class="text-sm md:text-base font-medium">Tambah Kalender Event</span>
+            <span class="text-lg">＋</span>
+        </a>
+    </div>
   @endif
-</div>
+@endauth
 
   <!-- Konten Kalender + Detail Event -->
   <div class="flex flex-col md:flex-row gap-4 p-6 bg-white max-w-7xl mx-auto">

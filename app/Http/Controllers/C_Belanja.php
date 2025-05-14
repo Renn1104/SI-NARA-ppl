@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 
 class C_Belanja extends Controller
 {
-    public function index()
+    public function belanja()
     {
-        // Contoh data produk statis (nanti bisa diganti dari database)
         $produk = [
             [
                 'nama' => 'Anggur hitam K189',
@@ -48,7 +47,7 @@ class C_Belanja extends Controller
             ],
         ];
 
-        return view('belanja', compact('produk'));
+        return view('admin.V_Belanja', compact('produk'));
 
     }
 }

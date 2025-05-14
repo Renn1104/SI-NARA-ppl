@@ -1,5 +1,6 @@
 @extends('layouts.layouts')
 @section('title', 'UbahKonten')
+
 @section('content')
 <main class="flex justify-center items-center py-12 px-4">
   <div class="bg-white shadow-lg rounded-xl w-full max-w-xl p-6 relative">
@@ -9,20 +10,18 @@
 
     <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Ubah Konten</h2>
 
-    <form action="{{ route('konten.update', $id) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+    <form action="{{ route('konten.update', $id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-konten">
       @csrf
       @method('PUT')
-    @php
-    $judul =$judul;
-    @endphp
+
       <!-- Judul Konten -->
       <div>
         <label class="block text-sm font-semibold">Judul Konten*</label>
         <input type="text"
-               name="judul_konten"
-               value="{{$judul}}"
-               class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
-               required>
+              name="judul_konten"
+              value="{{ old('judul_konten', $judul ?? '') }}"
+              class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
+              required>
       </div>
 
       <!-- Tanggal dan Jam -->
@@ -75,12 +74,48 @@
 
       <!-- Tombol Submit -->
       <div class="text-center">
-        <button type="submit"
+        <button type="button" id="btn-submit"
                 class="bg-purple-800 text-white font-semibold px-6 py-2 rounded hover:bg-purple-900 transition">
           Simpan Perubahan
         </button>
       </div>
     </form>
   </div>
+
+  <!-- Modal Konfirmasi -->
+  <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-purple-800 text-white rounded-xl shadow-lg p-6 w-[90%] max-w-md text-center relative animate-fade-in">
+      <div class="text-4xl text-yellow-300 mb-4">⚠️</div>
+      <p class="text-lg font-semibold mb-6">Apakah anda yakin dengan perubahan yang dilakukan ?</p>
+      <div class="flex justify-center gap-4">
+        <button id="confirmYes" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded">YA</button>
+        <button id="confirmNo" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">Tidak</button>
+      </div>
+    </div>
+  </div>
 </main>
 @endsection
+
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnSubmit = document.getElementById('btn-submit');
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+    const form = document.getElementById('form-ubah-konten');
+
+    btnSubmit.addEventListener('click', () => {
+      confirmModal.classList.remove('hidden');
+    });
+
+    confirmNo.addEventListener('click', () => {
+      confirmModal.classList.add('hidden');
+    });
+
+    confirmYes.addEventListener('click', () => {
+      form.submit();
+    });
+  });
+</script>
+@endpush

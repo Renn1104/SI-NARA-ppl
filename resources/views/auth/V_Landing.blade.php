@@ -41,25 +41,62 @@
   </div>
 </section>
 
-  <!-- Tentang -->
-  <section class="px-4 md:px-6 py-16 bg-gray-50">
-    <div class="max-w-4xl mx-auto text-center">
-      <div class="flex flex-col items-center mb-6">
-        <img src="{{ asset('assets/logo.png') }}" alt="Icon Anggur" class="w-36 h-auto mb-4 animate-bounce" />
-        <h2 class="text-3xl font-bold text-purple-800">Tentang Nara Garden</h2>
+<!-- Section Tentang Nara Garden -->
+<section class="px-4 md:px-6 py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+      
+      <!-- Gambar dengan slide dari kiri & efek hover -->
+      <div class="flex-shrink-0 w-full md:w-1/2 mt-6 md:mt-12 transform transition duration-700 ease-in-out animate-slide-in-left">
+        <img 
+          src="{{ asset('assets/owner.jpg') }}" 
+          alt="Pemilik Nara Garden" 
+          class="w-full rounded-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-500"
+        >
       </div>
-      <p class="text-gray-700 text-justify text-base md:text-lg leading-relaxed">
-      Didirikan pada tahun 2021, Nara Garden Jember hadir sebagai destinasi wisata agro yang mengusung konsep petik buah langsung dari kebun. Terletak di Jember, Jawa Timur, tempat ini menawarkan pengalaman unik bagi pengunjung untuk memetik buah anggur langsung dari pohonnya sambil menikmati suasana kebun yang asri, sejuk, dan menyegarkan.
-      Sejak dibuka, Nara Garden telah menjadi tempat favorit keluarga untuk menghabiskan waktu bersama. Aktivitas petik anggur tidak hanya seru, tetapi juga edukatif—terutama bagi anak-anak yang ingin mengenal lebih dekat proses budidaya tanaman buah.
-      Selain area kebun, Nara Garden juga menyediakan fasilitas lengkap seperti area bermain anak, kafe dengan menu lokal, serta tempat bersantai yang cocok untuk berswafoto. Tempat ini ideal untuk dijadikan lokasi piknik keluarga, edutrip sekolah, foto prewedding, atau bahkan acara komunitas dan gathering.
-      Dengan semangat memadukan wisata, edukasi, dan nuansa alam, Nara Garden terus berkembang menjadi salah satu ikon wisata agro terbaik di Jember.
-      </p>
+
+      <!-- Konten teks -->
+      <div class="w-full md:w-1/2">
+        <div class="flex flex-col items-start mb-4">
+          <img src="{{ asset('assets/logo.png') }}" alt="Icon Anggur" class="w-28 h-auto mb-4 animate-bounce" />
+          <h2 class="text-3xl font-bold text-purple-800">Tentang Nara Garden</h2>
+        </div>
+        <p class="text-gray-700 text-justify text-base md:text-lg leading-relaxed">
+          Didirikan pada tahun 2021, Nara Garden Jember hadir sebagai destinasi wisata agro yang mengusung konsep petik buah langsung dari kebun. Terletak di Jember, Jawa Timur, tempat ini menawarkan pengalaman unik bagi pengunjung untuk memetik buah anggur langsung dari pohonnya sambil menikmati suasana kebun yang asri, sejuk, dan menyegarkan.
+          Sejak dibuka, Nara Garden telah menjadi tempat favorit keluarga untuk menghabiskan waktu bersama. Aktivitas petik anggur tidak hanya seru, tetapi juga edukatif—terutama bagi anak-anak yang ingin mengenal lebih dekat proses budidaya tanaman buah.
+          <br><br>
+          Selain area kebun, Nara Garden juga menyediakan fasilitas lengkap seperti area bermain anak, kafe dengan menu lokal, serta tempat bersantai yang cocok untuk berswafoto. Tempat ini ideal untuk dijadikan lokasi piknik keluarga, edutrip sekolah, foto prewedding, atau bahkan acara komunitas dan gathering.
+          Dengan semangat memadukan wisata, edukasi, dan nuansa alam, Nara Garden terus berkembang menjadi salah satu ikon wisata agro terbaik di Jember.
+        </p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- CSS Animasi Slide dari Kiri -->
+<style>
+  @keyframes slideInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 2s ease-out forwards;
+  }
+</style>
+
+
+
 
 <!-- Rekomendasi -->
 <section class="px-4 md:px-6 py-10">
-  <h2 class="text-center text-lg font-bold mb-7">KONTEN SI-NARA</h2>
+  <h2 class="text-center text-lg font-bold mb-7">REKOMENDASI</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
   @php
     $items = [

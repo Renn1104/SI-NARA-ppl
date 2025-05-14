@@ -28,26 +28,17 @@ class C_Login extends Controller
         'username' => $request->username,
         'password' => $request->password,
     ];
-    
+
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
+        $user = Auth::user();
+        session(['user' => $user]);
 
-        // Arahkan berdasarkan role
-        if (Auth::user()->role === 'admin') {
-            $user= Auth::user();
-            session(['user'=>$user]);
-            return  redirect()->route('admin.beranda');
-        } elseif (Auth::user()->role === 'pelanggan') {
-            $user= Auth::user();
-            session(['user'=>$user]);
-            return redirect()->route('pelanggan.beranda');
-        }
-
-        // Optional: default fallback
-        return redirect()->route('V_Landing');
+        // Redirect berdasarkan role
+        return redirect()->route($user->role . '.beranda');
     }
 
-    return redirect('/login')->with('failed', 'Username atau Password salah!');
-
+    return redirect()->route('V_Login')->with('failed', 'Username atau Password salah!');
     }
+
 }

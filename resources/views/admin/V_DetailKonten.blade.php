@@ -4,7 +4,7 @@
   <!-- Konten -->
   <main class="max-w-3xl mx-auto bg-white mt-6 rounded-md shadow-lg">
     @php
-      $fileKonten = 'kontens/' . $fileKonten;
+      $fileKonten = 'storage/kontens/' . $fileKonten;
     @endphp
 
     <!-- Gambar -->

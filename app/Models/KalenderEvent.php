@@ -9,8 +9,8 @@ class KalenderEvent extends Model
 {
     use HasFactory;
 
-    protected $table = 'kalender_event'; // Sesuaikan dengan nama tabel di database kamu
-    protected $primaryKey = 'id_event'; // Sesuaikan dengan primary key tabel
+    protected $table = 'kalenderevents'; // Sesuaikan dengan nama tabel di database kamu
+    // protected $primaryKey = 'id_event'; // Sesuaikan dengan primary key tabel
     public $timestamps = false; // Kalau tidak pakai created_at / updated_at
 
     protected $fillable = [

@@ -50,44 +50,75 @@ Route::get('detailkonten/{judul}/{deskripsiKonten}/{fileKonten}/{id}', function 
     return view('admin.V_DetailKonten', compact('judul', 'deskripsiKonten', 'fileKonten', 'id'));
 })->name('detailkonten');
 
+
+
 // ===========================
 // ROUTE KALENDER EVENT
 // ===========================
+
 Route::get('/kalenderevent', [C_KalenderEvent::class, 'index'])->name('kalenderevent.index');
 Route::get('/kalenderevent/create', [C_KalenderEvent::class, 'create'])->name('kalenderevent.create');
 Route::post('/kalenderevent', [C_KalenderEvent::class, 'store'])->name('kalenderevent.store');
+Route::get('/kalenderevent/{id_event}/edit', [C_KalenderEvent::class, 'V_UbahKalenderEvent'])->name('kalenderevent.edit');
+Route::put('/kalenderevent/{id}', [KalenderEventController::class, 'update'])->name('kalenderevent.update');
+
+// Route::get('/kalenderevent/{id}/edit', [C_KalenderEvent::class, 'edit'])->name('kalenderevent.edit');
+// Route::put('/kalenderevent/{id}', [C_KalenderEvent::class, 'update'])->name('kalenderevent.update');
+// Route::put('/kalenderevent/{id_event}/edit', [C_KalenderEvent::class, 'update'])->name('kalenderevent.edit');
+
 
 // Tambahan tampilan langsung (tidak disarankan jika sudah ada controller-nya)
-Route::get('/kalenderevent', function () {
-    return view('admin.V_KalenderEvent', ['role' => session('role', 'guest')]);
-})->name('kalenderevent');
+Route::get('/kalenderevent',[C_KalenderEvent::class,'index'])->name('kalenderevent');
+
+
+
 
 // ===========================
 // ROUTE BERANDA ADMIN & PELANGGAN
 // ===========================
 Route::get('/admin/beranda', function () {
-    return view('admin.V_Beranda', ['role' => session('role', 'guest')]);
+    return view('admin.V_beranda', ['role' => session('role', 'guest')]);
 })->name('admin.beranda');
 
 Route::get('/pelanggan/beranda', [C_Pelanggan::class, 'beranda'])->name('pelanggan.beranda');
+
+
+
+
 
 // ===========================
 // ROUTE BELANJA / PRODUK
 // ===========================
 Route::get('/produk', [C_Belanja::class, 'belanja'])->name('produk');
+Route::get('admin/produk', [C_Belanja::class, 'create'])->name('admin.V_UnggahProduk');
+
+
+
+
+
+
 
 // ===========================
 // ROUTE PROFIL (USER & ADMIN)
 // ===========================
+
+// Untuk admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/profil', [C_Admin::class, 'profil'])->name('admin.profil');
-    Route::get('/admin/profilpelanggan', [C_Admin::class, 'profilPelanggan'])->name('admin.profilpelanggan');
+    Route::get('/admin/profil/edit', [C_Profil::class, 'editProfil'])->name('admin.profil.edit');
+    Route::get('/admin/profil', [C_Profil::class, 'profil'])->name('admin.profil');
+    Route::post('/admin/profil/update', [C_Profil::class, 'updateProfil'])->name('admin.profil.update');
+
+    Route::get('/admin/profil/edit', [C_Profil::class, 'editProfil'])->name('admin.profil.edit');
+    Route::post('/admin/profil/update', [C_Profil::class, 'updateProfil'])->name('admin.profil.update');
+    Route::get('/admin/profilpelanggan', [C_Profil::class, 'profilPelanggan'])->name('admin.profilpelanggan');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/{role}/profil', [C_Profil::class, 'profil'])->name('user.profil');
-    Route::get('/{role}/profilpelanggan', [C_Profil::class, 'profilPelanggan'])->name('user.profilpelanggan');
+Route::middleware(['auth', 'role:pelanggan'])->group(function () {
+    Route::get('/pelanggan/profil', [C_Profil::class, 'profil'])->name('pelanggan.profil');
 });
+
+
+
 
 // ===========================
 // ROUTE LOGOUT

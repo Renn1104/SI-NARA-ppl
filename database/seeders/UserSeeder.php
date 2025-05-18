@@ -15,9 +15,11 @@ class UserSeeder extends Seeder
         User::create([
             'username' => 'sinara71',
             'password' => Hash::make('naragarden71'),
+            'plain_password' => 'naragarden71', // HANYA untuk testing
             'namalengkap' => 'SI-NARA',
             'email' => 'selobonang@gmail.com',
             'role' => 'admin'
+
         ]);
     }
 

@@ -95,7 +95,7 @@
 
 
 <!-- Rekomendasi -->
-<section class="px-4 md:px-6 py-10">
+<section class="px-4 md:px-6 py-10 min-h-screen">
   <h2 class="text-center text-lg font-bold mb-7">REKOMENDASI</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
   @php

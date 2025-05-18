@@ -1,94 +1,156 @@
 @extends('layouts.layouts')
 @section('title', 'KalenderEvent')
 @section('content')
-  <!-- <--Tombol Tambah Kalender -->
+
 @auth
-  @if(Auth::user()->role === 'admin')
-    <div class="flex justify-end mt-6 px-6">
-        <a href="{{ route('kalenderevent.create') }}"
-           class="flex items-center space-x-2 bg-purple-800 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition">
-            <span class="text-sm md:text-base font-medium">Tambah Kalender Event</span>
-            <span class="text-lg">＋</span>
-        </a>
-    </div>
-  @endif
+@if(Auth::user()->role === 'admin')
+<div class="flex justify-end mt-6 px-6">
+  <a href="{{ route('kalenderevent.create') }}"
+    class="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg shadow transition duration-300">
+    <span class="text-sm md:text-base font-medium">Tambah Event</span>
+    <span class="text-lg">＋</span>
+  </a>
+</div>
+@endif
 @endauth
 
-  <!-- Konten Kalender + Detail Event -->
-  <div class="flex flex-col md:flex-row gap-4 p-6 bg-white max-w-7xl mx-auto">
+<!-- Filter -->
+<div class="px-6 mt-4 hidden" id="filterFormWrapper">
+  <form id="filterForm" method="GET" action="{{ route('kalenderevent') }}" class="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg shadow">
+    <select name="month" class="border rounded px-3 py-2 text-sm" onchange="this.form.submit()">
+      @foreach([
+          '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+          '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+          '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+      ] as $num => $name)
+        <option value="{{ $num }}" {{ $month == $num ? 'selected' : '' }}>{{ $name }}</option>
+      @endforeach
+    </select>
 
-    <!-- Kalender -->
-    <div class="w-full md:w-2/3 bg-white rounded-md shadow-md">
-      <!-- Header Kalender -->
-      <div class="flex items-center justify-between bg-purple-700 text-white px-4 py-3 rounded-t-md">
-        <h2 class="text-lg font-semibold">JULI 2024</h2>
-        <button class="text-2xl">📅</button>
-      </div>
+    <select name="year" class="border rounded px-3 py-2 text-sm" onchange="this.form.submit()">
+      @for ($y = 2025; $y <= 2030; $y++)
+        <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
+      @endfor
+    </select>
 
-      <!-- Hari -->
-      <div class="grid grid-cols-7 text-center text-sm py-2 font-semibold text-gray-700 border-b">
-        <div>M</div><div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div>
-      </div>
+    <button type="submit" class="bg-purple-700 hover:bg-purple-600 text-white px-4 py-2 rounded-md text-sm">Tampilkan</button>
+  </form>
+</div>
 
-      <!-- Tanggal -->
-      <div class="grid grid-cols-7 text-center gap-y-4 py-4 text-sm">
-        <!-- Minggu 1 -->
-        <div class="text-gray-400">1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div>
-        <!-- Minggu 2 -->
-        <div>8</div>
-        <div class="relative">
-          <div class="cursor-pointer hover:bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center mx-auto">9</div>
-          <div class="w-2 h-2 bg-purple-700 rounded-full absolute bottom-0 left-1/2 -translate-x-1/2"></div>
-        </div>
-        <div class="relative">
-          <div class="cursor-pointer hover:bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center mx-auto">10</div>
-          <div class="w-2 h-2 bg-purple-700 rounded-full absolute bottom-0 left-1/2 -translate-x-1/2"></div>
-        </div>
-        <div>11</div><div>12</div>
-        <div class="relative">
-          <div class="cursor-pointer hover:bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center mx-auto">13</div>
-          <div class="w-2 h-2 bg-purple-700 rounded-full absolute bottom-0 left-1/2 -translate-x-1/2"></div>
-        </div>
-        <div class="relative">
-          <div class="cursor-pointer hover:bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center mx-auto">14</div>
-          <div class="w-2 h-2 bg-purple-700 rounded-full absolute bottom-0 left-1/2 -translate-x-1/2"></div>
-        </div>
-        <!-- Minggu 3 -->
-        <div class="cursor-pointer border border-purple-600 bg-purple-100 text-purple-800 font-semibold rounded-full w-8 h-8 flex items-center justify-center mx-auto">15</div>
-        <div class="relative">
-          <div class="cursor-pointer hover:bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center mx-auto">16</div>
-          <div class="w-2 h-2 bg-purple-700 rounded-full absolute bottom-0 left-1/2 -translate-x-1/2"></div>
-        </div>
-        <div>17</div><div>18</div><div>19</div><div>20</div><div>21</div>
-        <!-- Minggu 4 -->
-        <div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div><div>28</div>
-        <!-- Minggu 5 -->
-        <div>29</div><div>30</div><div>31</div><div></div><div></div><div></div><div></div>
-      </div>
+<!-- Layout Utama -->
+<div class="grid md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto mt-6">
 
-      <!-- Deskripsi Event -->
-      <div class="mt-6 px-2 text-center">
-        <h3 class="text-lg font-semibold italic">Festival Budaya Nusantara</h3>
-        <p class="text-sm text-gray-700 mt-2 leading-relaxed">
-        Siap-siap terpukau dalam Festival budaya dari seluruh penjuru Indonesia? Festival ini akan dimeriahkan oleh beragam pertunjukan seni yang seru dan autentik, dibawakan langsung oleh para ahli di bidangnya.
-        Mulai dari tarian tradisional, musik etnik, hingga atraksi budaya khas tiap daerah, semuanya hadir dalam satu panggung spektakuler yang sayang banget untuk dilewatkan.
-        </p>
-      </div>
+  <!-- Kalender -->
+  <div class="md:col-span-2 bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="flex items-center justify-between bg-purple-600 text-white px-5 py-4">
+      <h2 class="text-lg font-semibold">{{ \Carbon\Carbon::create($year, $month)->translatedFormat('F Y') }}</h2>
+      <button id="toggleFilterBtn" class="text-xl hover:scale-110 transition">📅</button>
     </div>
 
-    <!-- Detail Poster & Waktu -->
-    <div class="w-full md:w-1/3 bg-white flex flex-col items-center">
-        <img src="https://i.pinimg.com/originals/31/d7/31/31d731a44c0068d5ec359002084fbb0e.png" alt="Poster Festival Budaya" class="w-full h-auto rounded-lg shadow object-cover">
-    <div class="mt-4 text-sm space-y-2">
-        <div class="flex items-center space-x-2">
-        <!-- <img src="{{ asset('assets/Calender event.png') }}" alt="kalender event" class="w-full rounded-lg shadow"> -->
-          <span class="text-xl">📅</span>
-          <span class="text-base font-medium">16 Juli 2024</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span class="text-xl">⏰</span>
-          <span class="text-base font-medium">08.00 - selesai</span>
-        </div>
-      </div>
+    <!-- Hari -->
+    <div class="grid grid-cols-7 text-center text-sm font-medium text-gray-600 bg-gray-100 py-3 border-b">
+      <div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div><div>Min</div>
     </div>
+
+    <!-- Tanggal -->
+    <div class="grid grid-cols-7 gap-y-5 text-sm px-4 py-6">
+      @php
+        $startDay = \Carbon\Carbon::create($year, $month, 1)->dayOfWeekIso;
+        $daysInMonth = \Carbon\Carbon::create($year, $month)->daysInMonth;
+      @endphp
+
+      @for ($empty = 1; $empty < $startDay; $empty++)
+        <div></div>
+      @endfor
+
+      @for ($day = 1; $day <= $daysInMonth; $day++)
+        @php
+          $dateStr = \Carbon\Carbon::create($year, $month, $day)->format('Y-m-d');
+          $eventsOnDate = $kalender->where('tanggal_event', $dateStr);
+          $hasEvent = $eventsOnDate->count() > 0;
+          $firstEvent = $hasEvent ? $eventsOnDate->first() : null;
+        @endphp
+
+        <div
+          class="relative group cursor-pointer rounded-full w-10 h-10 mx-auto flex items-center justify-center
+            {{ $hasEvent ? 'bg-purple-100 text-purple-800 font-semibold hover:bg-purple-200' : 'text-gray-700 hover:bg-gray-200' }}
+            transition duration-200 ease-in-out"
+          data-event='@json($firstEvent)'
+        >
+          {{ $day }}
+          @if($hasEvent)
+            <div class="w-2 h-2 bg-purple-700 rounded-full absolute bottom-1 left-1/2 -translate-x-1/2"></div>
+          @endif
+        </div>
+      @endfor
+    </div>
+  </div>
+
+  <!-- Detail Event -->
+  <div id="eventDetail"
+    class="bg-white rounded-lg shadow-md p-5 sticky top-24 h-fit">
+    <p class="text-gray-500 italic text-sm text-center">Klik tanggal bertitik untuk melihat detail event</p>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  // Toggle Filter
+  document.getElementById('toggleFilterBtn').addEventListener('click', function () {
+    document.getElementById('filterFormWrapper').classList.toggle('hidden');
+  });
+
+  // Klik kalender
+  document.querySelectorAll('.grid > div[data-event]').forEach(div => {
+    div.addEventListener('click', () => {
+      const data = div.getAttribute('data-event');
+      const panel = document.getElementById('eventDetail');
+
+      if (!data || data === 'null') {
+        panel.innerHTML = '<p class="text-gray-500 italic text-sm text-center">Tidak ada event di tanggal ini.</p>';
+        return;
+      }
+
+      const e = JSON.parse(data);
+      const tgl = new Date(e.tanggal_event);
+      const formattedDate = tgl.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+
+
+const userRole = 'admin'; // atau 'user', dll
+panel.innerHTML = `
+  <img src="/storage/${e.file_event ?? 'https://via.placeholder.com/400x250?text=No+Image'}"
+      alt="Poster Event"
+      class="w-full h-auto rounded-md object-cover mb-4 shadow-sm" />
+
+  <div class="flex items-center justify-center gap-2 mb-1">
+    <h3 class="text-center font-semibold">${e.judul_event}</h3>
+
+    ${userRole === 'admin' ? `
+      <a href="/kalenderevent/${e.id_event}/edit">
+        <button class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-md" title="Edit">
+          ✏️
+        </button>
+      </a>
+    ` : ''}
+  </div>
+
+  <p class="text-justify text-gray-700 mb-2 leading-relaxed">${e.deskripsi_event}</p>
+
+  <div class="mt-4 text-sm space-y-2 text-center">
+    <div class="flex items-center justify-center gap-2">
+      <span class="text-lg">📅</span>
+      <span>${formattedDate}</span>
+    </div>
+    <div class="flex items-center justify-center gap-2">
+      <span class="text-lg">⏰</span>
+      <span>${e.waktu_event}</span>
+    </div>
+  </div>
+
+`;
+
+    });
+  });
+</script>
+
 @endsection

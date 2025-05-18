@@ -8,7 +8,7 @@ class C_Pelanggan extends Controller
 {
     public function beranda()
     {
-        return view('pelanggan.V_Beranda', [
+        return view('pelanggan.V_beranda', [
             'role' => session('role', 'guest')
         ]);
     }

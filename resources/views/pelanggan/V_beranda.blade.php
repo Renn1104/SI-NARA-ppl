@@ -2,31 +2,31 @@
 @section('title','Landing')
 @section('content')
 
-  <!-- Carousel -->
-  <section class="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden" id="carousel">
-  <!-- Slides -->
-  <div class="carousel-slides w-full h-full relative">
-  @php
-  $slides = [
-    [
-      'img' => asset('assets/Carousel 1.png'),
-      'link' => 'https://www.youtube.com/watch?v=Z1I3R8FDwgM'
-    ],
-    [
-      'img' => asset('assets/Carousel 2.png'),
-      'link' => 'https://www.youtube.com/watch?v=ZX7UhT65ePY/'
-    ],
-    [
-      'img' => 'https://indonesiakaya.com/wp-content/uploads/2025/01/download-74.jpeg',
-      'link' => 'https://indonesiakaya.com/pustaka-indonesia/buku-indonesia-habis-gelap-terbitlah-terang-ra-kartini/'
-    ]           
-  ];
-@endphp
+{{-- Flash message (success) --}}
+@if(session('success'))
+  <div id="welcomeAlert"
+       class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg z-50">
+    {{ session('success') }}
+  </div>
+@endif
 
-  @foreach ($slides as $index => $slide)
-    <a href="{{ $slide['link'] }}" target="_blank" class="carousel-item absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100 z-20' : 'opacity-0 z-10' }}" style="background-image: url('{{ $slide['img'] }}');">
-    </a>
-  @endforeach
+<!-- Carousel -->
+<section class="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden" id="carousel">
+  <div class="carousel-slides w-full h-full relative">
+    @php
+      $slides = [
+        ['img' => asset('assets/Carousel 1.png'), 'link' => 'https://www.youtube.com/watch?v=Z1I3R8FDwgM'],
+        ['img' => asset('assets/Carousel 2.png'), 'link' => 'https://www.youtube.com/watch?v=ZX7UhT65ePY/'],
+        ['img' => 'https://indonesiakaya.com/wp-content/uploads/2025/01/download-74.jpeg', 'link' => 'https://indonesiakaya.com/pustaka-indonesia/buku-indonesia-habis-gelap-terbitlah-terang-ra-kartini/']
+      ];
+    @endphp
+
+    @foreach ($slides as $index => $slide)
+      <a href="{{ $slide['link'] }}" target="_blank"
+         class="carousel-item absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100 z-20' : 'opacity-0 z-10' }}"
+         style="background-image: url('{{ $slide['img'] }}');">
+      </a>
+    @endforeach
   </div>
 
   <!-- Panah -->
@@ -45,12 +45,10 @@
 <section class="px-4 md:px-6 py-16 bg-gray-50">
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-      
-      <!-- Gambar dengan slide dari kiri & efek hover -->
       <div class="flex-shrink-0 w-full md:w-1/2 mt-6 md:mt-12 transform transition duration-700 ease-in-out animate-slide-in-left">
-        <img 
-          src="{{ asset('assets/owner.jpg') }}" 
-          alt="Pemilik Nara Garden" 
+        <img
+          src="{{ asset('assets/owner.jpg') }}"
+          alt="Pemilik Nara Garden"
           class="w-full rounded-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-500"
         >
       </div>
@@ -91,25 +89,22 @@
   }
 </style>
 
-
-
-
 <!-- Rekomendasi -->
 <section class="px-4 md:px-6 py-10">
   <h2 class="text-center text-lg font-bold mb-7">REKOMENDASI</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-  @php
-    $items = [
-      ['img' => asset('assets/Konten1.png'), 'title' => 'Panen Anggur Hitam'],
-      ['img' => asset('assets/Konten2.png'), 'title' => 'Tari Tradisional'],
-      ['img' => asset('assets/Konten3.png'), 'title' => 'Tari Suwun'],
-      ['img' => asset('assets/Konten4.png'), 'title' => 'Panen Anggur Hijau'],
-      ['img' => asset('assets/Konten5.png'), 'title' => 'Tari Gandrung'],
-      ['img' => asset('assets/Konten6.png'), 'title' => 'Hijau Lestari'],
-    ];
+    @php
+      $items = [
+        ['img' => asset('assets/Konten1.png'), 'title' => 'Panen Anggur Hitam'],
+        ['img' => asset('assets/Konten2.png'), 'title' => 'Tari Tradisional'],
+        ['img' => asset('assets/Konten3.png'), 'title' => 'Tari Suwun'],
+        ['img' => asset('assets/Konten4.png'), 'title' => 'Panen Anggur Hijau'],
+        ['img' => asset('assets/Konten5.png'), 'title' => 'Tari Gandrung'],
+        ['img' => asset('assets/Konten6.png'), 'title' => 'Hijau Lestari'],
+      ];
     @endphp
 
-      @foreach ($items as $item)
+    @foreach ($items as $item)
       <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
         <img src="{{ asset($item['img']) }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
         <p class="text-center py-2 font-semibold">{{ $item['title'] }}</p>
@@ -118,8 +113,8 @@
   </div>
 </section>
 
-
-  <script>
+<script>
+  // Carousel
   const slides = document.querySelectorAll('.carousel-item');
   const dots = document.querySelectorAll('.carousel-dot');
   let currentIndex = 0;
@@ -166,5 +161,18 @@
     clearInterval(interval);
     interval = setInterval(nextSlide, intervalTime);
   }
+
+  // Auto-hide welcome alert
+  document.addEventListener('DOMContentLoaded', () => {
+    const alert = document.getElementById('welcomeAlert');
+    if (alert) {
+      setTimeout(() => {
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-10px)';
+        setTimeout(() => alert.remove(), 300);
+      }, 4000);
+    }
+  });
 </script>
+
 @endsection

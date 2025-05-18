@@ -10,7 +10,7 @@
 
     <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Ubah Konten</h2>
 
-    <form action="{{ route('konten.update', $id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-konten">
+    <form action="{{ route('konten.update', $event->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-konten">
       @csrf
       @method('PUT')
 
@@ -19,30 +19,30 @@
         <label class="block text-sm font-semibold">Judul Konten*</label>
         <input type="text"
               name="judul_konten"
-              value="{{ old('judul_konten', $judul ?? '') }}"
+              value="{{ old('judul_konten', $event->judul_event) }}"
               class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
               required>
       </div>
 
       <!-- Tanggal dan Jam -->
-      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
         <div class="flex-1">
-          <label class="block text-sm font-semibold">Tanggal*</label>
-          <input type="date"
-                 name="tanggal"
-                 value="{{ old('tanggal', $tanggal ?? '') }}"
-                 class="mt-1 w-full border border-gray-300 rounded p-2"
-                 required>
+            <label class="block text-sm font-semibold">Tanggal*</label>
+            <input type="date"
+                name="tanggal"
+                value="{{ old('tanggal', $event->tanggal_event ? \Carbon\Carbon::parse($event->tanggal_event)->format('Y-m-d') : '') }}"
+                class="mt-1 w-full border border-gray-300 rounded p-2"
+                required>
         </div>
         <div class="flex-1">
-          <label class="block text-sm font-semibold">Jam*</label>
-          <input type="time"
-                 name="jam"
-                 value="{{ old('jam', $jam ?? '') }}"
-                 class="mt-1 w-full border border-gray-300 rounded p-2"
-                 required>
+            <label class="block text-sm font-semibold">Jam*</label>
+            <input type="time"
+                name="jam"
+                value="{{ old('jam', $event->waktu_event) }}"
+                class="mt-1 w-full border border-gray-300 rounded p-2"
+                required>
         </div>
-      </div>
+        </div>
 
       <!-- Deskripsi Konten -->
       <div>
@@ -50,24 +50,28 @@
         <textarea name="deskripsi_konten"
                   rows="4"
                   class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
-                  placeholder="{{ old('deskripsi_konten') ? '' : $deskripsiKonten }}"
-                  required>{{ old('deskripsi_konten', $deskripsiKonten) }}</textarea>
+                  required>{{ old('deskripsi_konten', $event->deskripsi_event) }}</textarea>
       </div>
 
       <!-- Cover Photo -->
       <div>
         <label for="cover-photo" class="block text-sm font-medium text-gray-900">Cover photo</label>
-        <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-          <div class="text-center">
-            @if($fileKonten)
-              <p class="text-sm mb-2">File lama: <strong>{{ $fileKonten }}</strong></p>
-            @endif
-            <label for="file-upload"
-              class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
-              <span>Upload file baru</span>
-              <input id="file-upload" name="file_konten" type="file" class="sr-only">
-            </label>
-            <p class="text-xs text-gray-600 mt-2">PNG, JPG, GIF up to 10MB</p>
+        <div class="mt-2">
+          @if($event->file_event)
+            <div class="mb-4">
+              <p class="text-sm">File lama:</p>
+              <img src="{{ asset('storage/' . $event->file_event) }}" alt="File Lama" class="rounded max-h-40">
+            </div>
+          @endif
+
+          <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+            <div class="text-center">
+              <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
+                <span>Upload file baru</span>
+                <input id="file-upload" name="file_konten" type="file" class="sr-only">
+              </label>
+              <p class="text-xs text-gray-600 mt-2">PNG, JPG, GIF up to 10MB</p>
+            </div>
           </div>
         </div>
       </div>

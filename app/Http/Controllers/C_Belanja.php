@@ -50,4 +50,9 @@ class C_Belanja extends Controller
         return view('admin.V_Belanja', compact('produk'));
 
     }
+
+    public function create()
+    {
+        return view('admin.V_UnggahProduk'); // buat file blade untuk form upload bibit
+    }
 }

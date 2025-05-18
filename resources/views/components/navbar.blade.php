@@ -4,7 +4,7 @@
 
 <nav x-data="{ open: false, dropdownOpen: false }" class="sticky top-0 z-50 bg-white shadow-md">
   <div class="flex items-center justify-between px-4 md:px-6 py-4">
-    
+
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <a href="{{ route('V_Landing') }}">
@@ -14,7 +14,7 @@
 
     <!-- Right Section: Nav + Auth + Hamburger -->
     <div class="flex items-center gap-4 ml-auto">
-      
+
       <!-- Desktop Nav -->
       <ul class="hidden md:flex gap-6 font-semibold text-gray-700 text-sm md:text-base">
         <li><a href="{{ route('landing') }}" class="{{ request()->routeIs('V_Landing') ? 'text-black border-b-4 border-purple-800 pb-1' : 'hover:text-purple-700' }}">Beranda</a></li>
@@ -43,13 +43,13 @@
                class="absolute right-0 mt-2 w-52 bg-white rounded-md shadow-lg z-50 border border-gray-200">
             <ul class="py-2 text-gray-700">
               <li>
-                <a href="{{ route('user.profil', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('admin.profil', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
                   <img src="{{ asset('assets/user.png') }}" alt="Profil" class="w-5 h-5 mr-2"> Profil
                 </a>
               </li>
               @if(Auth::user()->role === 'admin')
               <li>
-                <a href="{{ route('user.profilpelanggan', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('pelanggan.profil', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
                   <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 3.13a4 4 0 010 7.75M8 3.13a4 4 0 000 7.75"/>

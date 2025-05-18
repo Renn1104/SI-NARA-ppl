@@ -12,7 +12,7 @@
       ['id' => 3, 'img' => 'anggur 2.jpg', 'nama' => 'Bibit Anggur Gosvi', 'harga' => 50000],
       ['id' => 4, 'img' => 'anggur 1.jpg', 'nama' => 'Bibit Anggur Beuty Ravesca', 'harga' => 50000],
       ['id' => 5, 'img' => 'anggur 2.jpg', 'nama' => 'Bibit Anggur Jupiter', 'harga' => 50000],
-      ['id' => 6, 'img' => 'anggur 1.jpg', 'nama' => 'Bibit Anggur ???', 'harga' => 50000]
+      ['id' => 6, 'img' => 'anggur 1.jpg', 'nama' => 'Bibit Anggur ???', 'harga' => 75000]
     ];
   @endphp
 
@@ -25,9 +25,11 @@
         <p class="text-center text-purple-700 font-bold mt-1">
           Rp{{ number_format($item['harga'], 0, ',', '.') }}
         </p>
+            @if(Auth::user()->role != 'admin')
         <button @click="addToCart({{ $item['id'] }}, '{{ $item['nama'] }}', {{ $item['harga'] }}, '/assets/{{ $item['img'] }}')" class="absolute bottom-3 right-3 bg-purple-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-lg hover:bg-purple-800">
           +
         </button>
+        @endif
       </div>
     @endforeach
   </div>
@@ -60,6 +62,15 @@
     <button class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Cek Pesanan</button>
   </div>
 </main>
+
+@auth
+    @if(Auth::user()->role === 'admin')
+        <a href="{{ route('admin.V_UnggahProduk') }}"
+           class="absolute bottom-3 right-3 bg-purple-700 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-purple-800 transition duration-200">
+            +
+        </a>
+    @endif
+@endauth
 
 <script>
   function cartApp() {

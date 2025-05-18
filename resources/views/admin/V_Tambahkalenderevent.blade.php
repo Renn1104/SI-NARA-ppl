@@ -4,14 +4,14 @@
   <!-- Form Section -->
   <main class="flex justify-center items-center py-12 px-4">
     <div class="bg-white shadow-lg rounded-xl w-full max-w-xl p-6 relative">
-      
+
       <!-- Tombol Close -->
       <button class="absolute right-4 top-4 text-gray-500 hover:text-red-500 text-2xl leading-none">&times;</button>
 
       <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Tambah Kalender Event</h2>
 
       <!-- FORM MULAI -->
-      <form action="{{ route('kalenderevent.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+      <form action="{{ route('kalenderevent') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
         @csrf
 
         <!-- Judul Event -->

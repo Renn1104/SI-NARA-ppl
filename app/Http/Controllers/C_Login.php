@@ -34,11 +34,15 @@ class C_Login extends Controller
         $user = Auth::user();
         session(['user' => $user]);
 
+        // Tambahkan flash message di sini
+        session()->flash('success', 'Selamat datang, ' . $user->username . '!');
+
         // Redirect berdasarkan role
         return redirect()->route($user->role . '.beranda');
     }
 
     return redirect()->route('V_Login')->with('failed', 'Username atau Password salah!');
-    }
+}
+
 
 }

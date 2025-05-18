@@ -17,6 +17,12 @@
   <!-- Card Form Login -->
   <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-10 py-12 w-full max-w-md">
 
+    @if (session('error'))
+    <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-center">
+        {{ session('error') }}
+    </div>
+    @endif
+
     <!-- Judul -->
     <h2 class="text-2xl font-bold text-black text-center mb-6">Masuk</h2>
 

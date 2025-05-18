@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class C_Register extends Controller
 {
@@ -24,22 +24,24 @@ class C_Register extends Controller
             'password' => 'required|min:6|confirmed',
             'namalengkap' => 'required',
         ]);
-    
-        User::create([
+
+        // Buat user dan simpan hasilnya di $user
+        $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'namalengkap' => $request->namalengkap,
             'role' => 'pelanggan',
         ]);
-    
-        return redirect()->route('admin.beranda')->with('success', 'Akun berhasil dibuat. Silakan login.');
 
-            Auth::login($user);
-            session(['user' => $user]);
+        // Langsung login user yang baru dibuat
+        Auth::login($user);
+        // Jika ingin menyimpan session custom, bisa dilakukan, tapi biasanya Auth sudah cukup
+        // session(['user' => $user]);
 
-    return redirect()->route($user->role . '.beranda');
+        // Redirect ke halaman beranda sesuai role, misalnya route 'pelanggan.beranda'
+        return redirect()->route($user->role . '.beranda')->with('success', 'Akun berhasil dibuat. Selamat datang!');
     }
-}    
+}
 
 

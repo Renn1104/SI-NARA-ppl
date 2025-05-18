@@ -11,7 +11,7 @@
       <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Ubah Kalender Event</h2>
 
       <!-- FORM MULAI -->
-        <form action="{{ route('kalenderevent.edit', $event->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-kalender-event">
+        <form action="{{ route('kalenderevent.update', $event->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-kalender-event">
         @csrf
         @method('PUT')
 
@@ -40,7 +40,7 @@
           <label class="block text-sm font-semibold">Deskripsi Event*</label>
           <textarea name="deskripsi_konten" rows="4" class="mt-1 w-full border ..." required>{{ old('deskripsi_konten', $event->deskripsi_event) }}</textarea>
 
-            class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required></textarea>
+            <class="mt-1 w-full border-gray-300 rounded p-2 focus:outline-purple-700" required></textarea>
         </div>
 
         <!-- Poster Event -->
@@ -62,7 +62,10 @@
 
               <!-- Preview Gambar -->
               <div class="mt-4">
-                <img id="image-preview" src="#" alt="Preview" class="hidden mx-auto max-h-48 rounded shadow">
+                <img id="image-preview" src="{{ old('file_konten') ? asset('storage/' . old('file_konten')) : ($event->file_konten ? asset('storage/' . $event->file_konten) : '') }}"
+                alt="Preview"
+                    class="mx-auto max-h-48 rounded shadow {{ $event->file_konten || old('file_konten') ? '' : 'hidden' }}">
+
               </div>
             </div>
           </div>
@@ -81,19 +84,18 @@
   </main>
 
   <!-- Script untuk preview gambar -->
-  <script>
-    function previewImage(event) {
-      const input = event.target;
-      const preview = document.getElementById('image-preview');
+<script>
+  function previewImage(event) {
+    const reader = new FileReader();
+    const imageField = document.getElementById("image-preview");
 
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          preview.src = e.target.result;
-          preview.classList.remove('hidden');
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-  </script>
+    reader.onload = function () {
+      imageField.src = reader.result;
+      imageField.classList.remove("hidden");
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>
+
 @endsection

@@ -4,19 +4,20 @@
 
 @auth
 @if(Auth::user()->role === 'admin')
-<div class="flex justify-end mt-6 px-6">
-  <a href="{{ route('kalenderevent.create') }}"
-    class="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg shadow transition duration-300">
-    <span class="text-sm md:text-base font-medium">Tambah Event</span>
-    <span class="text-lg">＋</span>
-  </a>
-</div>
+  <div class="flex justify-end mt-6 px-6">
+    <a href="{{ route('kalenderevent.create') }}"
+           class="flex items-center space-x-2 bg-purple-800 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition">
+            <span class="text-sm md:text-base font-medium">Tambah Kalender Event</span>
+            <span class="text-lg">＋</span>
+        </a>
+  </div>
 @endif
 @endauth
 
 <!-- Filter -->
 <div class="px-6 mt-4 hidden" id="filterFormWrapper">
-  <form id="filterForm" method="GET" action="{{ route('kalenderevent') }}" class="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg shadow">
+  <form id="filterForm" method="GET" action="{{ route('kalenderevent') }}"
+    class="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg shadow">
     <select name="month" class="border rounded px-3 py-2 text-sm" onchange="this.form.submit()">
       @foreach([
           '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
@@ -87,14 +88,15 @@
   </div>
 
   <!-- Detail Event -->
-  <div id="eventDetail"
-    class="bg-white rounded-lg shadow-md p-5 sticky top-24 h-fit">
+  <div id="eventDetail" class="bg-white rounded-lg shadow-md p-5 sticky top-24 h-fit">
     <p class="text-gray-500 italic text-sm text-center">Klik tanggal bertitik untuk melihat detail event</p>
   </div>
 </div>
 
 <!-- Script -->
 <script>
+  const userRole = @json(Auth::check() ? Auth::user()->role : 'guest');
+
   // Toggle Filter
   document.getElementById('toggleFilterBtn').addEventListener('click', function () {
     document.getElementById('filterFormWrapper').classList.toggle('hidden');
@@ -111,44 +113,39 @@
         return;
       }
 
-      const e = JSON.parse(data);
-      const tgl = new Date(e.tanggal_event);
-      const formattedDate = tgl.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+        const e = JSON.parse(data);
+        const tgl = new Date(e.tanggal_event);
+        const formattedDate = tgl.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
 
+        panel.innerHTML = `
+        <img src="/storage/${e.file_event ?? 'https://via.placeholder.com/400x250?text=No+Image'}"
+            alt="Poster Event"
+            class="w-full h-auto rounded-md object-cover mb-4 shadow-sm" />
 
-const userRole = 'admin'; // atau 'user', dll
-panel.innerHTML = `
-  <img src="/storage/${e.file_event ?? 'https://via.placeholder.com/400x250?text=No+Image'}"
-      alt="Poster Event"
-      class="w-full h-auto rounded-md object-cover mb-4 shadow-sm" />
+        <h3 class="text-center font-semibold text-lg mb-2">${e.judul_event}</h3>
 
-  <div class="flex items-center justify-center gap-2 mb-1">
-    <h3 class="text-center font-semibold">${e.judul_event}</h3>
+        <p class="text-justify text-gray-700 mb-4 leading-relaxed">${e.deskripsi_event}</p>
 
-    ${userRole === 'admin' ? `
-      <a href="/kalenderevent/${e.id_event}/edit">
-        <button class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-md" title="Edit">
-          ✏️
-        </button>
-      </a>
-    ` : ''}
-  </div>
+        <div class="text-sm space-y-2 mb-4 text-center">
+            <div class="flex items-center justify-center gap-2">
+            <span class="text-lg">📅</span>
+            <span>${formattedDate}</span>
+            </div>
+            <div class="flex items-center justify-center gap-2">
+            <span class="text-lg">⏰</span>
+            <span>${e.waktu_event}</span>
+            </div>
+        </div>
 
-  <p class="text-justify text-gray-700 mb-2 leading-relaxed">${e.deskripsi_event}</p>
-
-  <div class="mt-4 text-sm space-y-2 text-center">
-    <div class="flex items-center justify-center gap-2">
-      <span class="text-lg">📅</span>
-      <span>${formattedDate}</span>
-    </div>
-    <div class="flex items-center justify-center gap-2">
-      <span class="text-lg">⏰</span>
-      <span>${e.waktu_event}</span>
-    </div>
-  </div>
-
-`;
-
+        ${userRole === 'admin' ? `
+            <div class="flex justify-center">
+            <a href="/kalenderevent/${e.id}/edit" title="Edit">
+                <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full shadow-md flex items-center gap-2 text-sm">
+                ✏️ <span></span>
+                </button>
+            </a>
+            </div>` : ''}
+        `;
     });
   });
 </script>

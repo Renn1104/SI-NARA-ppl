@@ -50,21 +50,16 @@ Route::get('detailkonten/{judul}/{deskripsiKonten}/{fileKonten}/{id}', function 
     return view('admin.V_DetailKonten', compact('judul', 'deskripsiKonten', 'fileKonten', 'id'));
 })->name('detailkonten');
 
-
-
 // ===========================
 // ROUTE KALENDER EVENT
 // ===========================
 
-Route::get('/kalenderevent', [C_KalenderEvent::class, 'index'])->name('kalenderevent.index');
-Route::get('/kalenderevent/create', [C_KalenderEvent::class, 'create'])->name('kalenderevent.create');
-Route::post('/kalenderevent', [C_KalenderEvent::class, 'store'])->name('kalenderevent.store');
-Route::get('/kalenderevent/{id_event}/edit', [C_KalenderEvent::class, 'V_UbahKalenderEvent'])->name('kalenderevent.edit');
-Route::put('/kalenderevent/{id}', [KalenderEventController::class, 'update'])->name('kalenderevent.update');
+Route::get('/kalenderevent',                [C_KalenderEvent::class, 'index'])->name('kalenderevent.index');
+Route::get('/kalenderevent/create',         [C_KalenderEvent::class, 'create'])->name('kalenderevent.create');
+Route::post('/kalenderevent',               [C_KalenderEvent::class, 'store'])->name('kalenderevent.store');
+Route::get('/kalenderevent/{kalenderevent}/edit', [C_KalenderEvent::class, 'edit'])->name('kalenderevent.edit');
+Route::put('/kalenderevent/{kalenderevent}',      [C_KalenderEvent::class, 'update'])->name('kalenderevent.update');
 
-// Route::get('/kalenderevent/{id}/edit', [C_KalenderEvent::class, 'edit'])->name('kalenderevent.edit');
-// Route::put('/kalenderevent/{id}', [C_KalenderEvent::class, 'update'])->name('kalenderevent.update');
-// Route::put('/kalenderevent/{id_event}/edit', [C_KalenderEvent::class, 'update'])->name('kalenderevent.edit');
 
 
 // Tambahan tampilan langsung (tidak disarankan jika sudah ada controller-nya)

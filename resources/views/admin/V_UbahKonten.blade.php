@@ -10,7 +10,7 @@
 
     <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Ubah Konten</h2>
 
-    <form action="{{ route('konten.update', $event->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-konten">
+    <form action="{{ route('konten.update', $konten->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="form-ubah-konten">
       @csrf
       @method('PUT')
 
@@ -19,7 +19,7 @@
         <label class="block text-sm font-semibold">Judul Konten*</label>
         <input type="text"
               name="judul_konten"
-              value="{{ old('judul_konten', $event->judul_event) }}"
+              value="{{ old('judul_konten', $konten->judul_event) }}"
               class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
               required>
       </div>
@@ -30,7 +30,7 @@
             <label class="block text-sm font-semibold">Tanggal*</label>
             <input type="date"
                 name="tanggal"
-                value="{{ old('tanggal', $event->tanggal_event ? \Carbon\Carbon::parse($event->tanggal_event)->format('Y-m-d') : '') }}"
+                value="{{ old('tanggal', $konten->tanggal_event ? \Carbon\Carbon::parse($konten->tanggal_event)->format('Y-m-d') : '') }}"
                 class="mt-1 w-full border border-gray-300 rounded p-2"
                 required>
         </div>
@@ -38,7 +38,7 @@
             <label class="block text-sm font-semibold">Jam*</label>
             <input type="time"
                 name="jam"
-                value="{{ old('jam', $event->waktu_event) }}"
+                value="{{ old('jam', $konten->waktu_event) }}"
                 class="mt-1 w-full border border-gray-300 rounded p-2"
                 required>
         </div>
@@ -50,17 +50,17 @@
         <textarea name="deskripsi_konten"
                   rows="4"
                   class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
-                  required>{{ old('deskripsi_konten', $event->deskripsi_event) }}</textarea>
+                  required>{{ old('deskripsi_konten', $konten->deskripsi_event) }}</textarea>
       </div>
 
       <!-- Cover Photo -->
       <div>
         <label for="cover-photo" class="block text-sm font-medium text-gray-900">Cover photo</label>
         <div class="mt-2">
-          @if($event->file_event)
+          @if($konten->file_event)
             <div class="mb-4">
               <p class="text-sm">File lama:</p>
-              <img src="{{ asset('storage/' . $event->file_event) }}" alt="File Lama" class="rounded max-h-40">
+              <img src="{{ asset('storage/' . $konten->file_event) }}" alt="File Lama" class="rounded max-h-40">
             </div>
           @endif
 

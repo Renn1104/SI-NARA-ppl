@@ -54,7 +54,6 @@
                 <span>Upload a file</span>
                 <input id="file-upload" name="file_konten" type="file"
                     accept="image/*"
-                    capture="environment"
                     class="sr-only"
                     onchange="previewImage(event)">
                 </label>

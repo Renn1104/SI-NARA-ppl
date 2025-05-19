@@ -19,7 +19,7 @@
         <label class="block text-sm font-semibold">Judul Konten*</label>
         <input type="text"
               name="judul_konten"
-              value="{{ old('judul_konten', $konten->judul_event) }}"
+              value="{{ old('judul_konten', $konten->judul_konten) }}"
               class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
               required>
       </div>
@@ -30,7 +30,7 @@
             <label class="block text-sm font-semibold">Tanggal*</label>
             <input type="date"
                 name="tanggal"
-                value="{{ old('tanggal', $konten->tanggal_event ? \Carbon\Carbon::parse($konten->tanggal_event)->format('Y-m-d') : '') }}"
+                value="{{ old('tanggal', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('Y-m-d')) }}"
                 class="mt-1 w-full border border-gray-300 rounded p-2"
                 required>
         </div>
@@ -38,7 +38,7 @@
             <label class="block text-sm font-semibold">Jam*</label>
             <input type="time"
                 name="jam"
-                value="{{ old('jam', $konten->waktu_event) }}"
+                value="{{ old('jam', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('H:i')) }}"
                 class="mt-1 w-full border border-gray-300 rounded p-2"
                 required>
         </div>
@@ -50,17 +50,17 @@
         <textarea name="deskripsi_konten"
                   rows="4"
                   class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
-                  required>{{ old('deskripsi_konten', $konten->deskripsi_event) }}</textarea>
+                  required>{{ old('deskripsi_konten', $konten->deskripsi_konten) }}</textarea>
       </div>
 
       <!-- Cover Photo -->
       <div>
         <label for="cover-photo" class="block text-sm font-medium text-gray-900">Cover photo</label>
         <div class="mt-2">
-          @if($konten->file_event)
+          @if($konten->file_konten)
             <div class="mb-4">
               <p class="text-sm">File lama:</p>
-              <img src="{{ asset('storage/' . $konten->file_event) }}" alt="File Lama" class="rounded max-h-40">
+              <img src="{{ asset('storage/kontens/' . $konten->file_konten) }}" alt="File Lama" class="rounded max-h-40">
             </div>
           @endif
 

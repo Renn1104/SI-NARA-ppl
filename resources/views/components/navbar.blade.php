@@ -136,9 +136,15 @@
     </div>
 
     <!-- Logout Confirmation Modal -->
-    <div x-show="showLogoutConfirm" x-transition class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div x-data="{ showLogoutConfirm: false }"
+        x-show="showLogoutConfirm"
+        @show-logout.window="showLogoutConfirm = true"
+        x-transition
+        x-cloak
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+
         <div class="bg-purple-800 text-white rounded-lg shadow-lg p-6 w-80 text-center">
-            <img src="/assets/alert.png" alt="Warning Icon" class="w-12 h-12 mx-auto mb-4" />
+            <img src="{{ asset('assets/Alert.png') }}" alt="Warning Icon" class="w-12 h-12 mx-auto mb-4" />
             <p class="text-base font-semibold mb-6">Apakah anda yakin ingin Logout?</p>
             <div class="flex justify-center gap-4">
                 <form method="POST" action="{{ route('logout') }}">
@@ -147,13 +153,13 @@
                         YA
                     </button>
                 </form>
-                <button @click="showLogoutConfirm = false" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full transition">
+                <button @click="$dispatch('show-logout'); dropdownOpen = false"
                     Tidak
                 </button>
             </div>
         </div>
     </div>
-</nav>
+
 
 
 <!-- Alpine.js -->

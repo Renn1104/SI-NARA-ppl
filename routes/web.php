@@ -67,7 +67,6 @@ Route::get('/kalenderevent',[C_KalenderEvent::class,'index'])->name('kalendereve
 
 
 
-
 // ===========================
 // ROUTE BERANDA ADMIN & PELANGGAN
 // ===========================

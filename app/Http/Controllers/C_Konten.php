@@ -99,57 +99,88 @@ class C_Konten extends Controller
         return redirect()->route('konten')->with('success', 'Konten berhasil ditambahkan.');
 
     }
+
     public function edit($id)
     {
         $konten = Konten::findOrFail($id);
-
-        return view('admin.V_UbahKonten', [
-        'judul' => $konten->judul_konten, // ✅ ini benar
-        'deskripsiKonten' => $konten->deskripsi_konten,
-        'fileKonten' => $konten->file_konten,
-        'tanggal' => $konten->tanggal,
-        'jam' => $konten->jam,
-        'id' => $konten->id,
-]);
+        return view('admin.V_UbahKonten', compact('konten'));
     }
+
+    // public function update(Request $request, $id)
+    // {
+    // $request->validate([
+    //     'judul_konten' => 'required|max:120',
+    //     'tanggal' => 'required|date',
+    //     'jam' => 'required',
+    //     'deskripsi_konten' => 'required',
+    //     'file_konten' => 'nullable|file|mimes:png,jpg,jpeg,gif|max:10240', // 10MB
+    // ]);
+
+    // $konten = Konten::findOrFail($id);
+    // $konten->judul_konten = $request->judul_konten;
+    // $konten->deskripsi_konten = $request->deskripsi_konten;
+    // $konten->tanggal_unggah = $request->tanggal . ' ' . $request->jam; // ✅ ganti ini
+
+
+    // // Cek apakah ada file yang di-upload
+    // if ($request->hasFile('file_konten')) {
+    //     // Hapus file lama jika ada
+    //     if ($konten->file_konten && Storage::exists('public/konten/' . $konten->file_konten)) {
+    //         Storage::delete('public/konten/' . $konten->file_konten);
+    //     }
+
+    //     // Simpan file baru
+    //     $file = $request->file('file_konten');
+    //     $filename = time() . '_' . $file->getClientOriginalName();
+    //     $file->storeAs('public/konten', $filename);
+
+    //     $konten->file_konten = $filename;
+    // }
+
+    // $konten->save();
+
+    //     return redirect()->route('konten')->with('success', 'Konten berhasil diperbarui.');
+    // }
+
+
     public function update(Request $request, $id)
-{
+    {
+    $konten = Konten::findOrFail($id);
+
     $request->validate([
-        'judul_konten' => 'required|max:120',
+        'judul_konten' => 'required|string|max:255',
         'tanggal' => 'required|date',
         'jam' => 'required',
-        'deskripsi_konten' => 'required',
-        'file_konten' => 'nullable|file|mimes:png,jpg,jpeg,gif|max:10240', // 10MB
+        'deskripsi_konten' => 'required|string',
+        'file_konten' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240', // max 10MB
     ]);
 
-    $konten = Konten::findOrFail($id);
     $konten->judul_konten = $request->judul_konten;
+    $konten->tanggal_unggah = $request->tanggal . ' ' . $request->jam;
     $konten->deskripsi_konten = $request->deskripsi_konten;
-    $konten->tanggal_unggah = $request->tanggal . ' ' . $request->jam; // ✅ ganti ini
 
-
-    // Cek apakah ada file yang di-upload
+    // 🔁 Cek apakah ada file baru
     if ($request->hasFile('file_konten')) {
         // Hapus file lama jika ada
-        if ($konten->file_konten && Storage::exists('public/konten/' . $konten->file_konten)) {
-            Storage::delete('public/konten/' . $konten->file_konten);
+        if ($konten->file_konten && Storage::disk('public')->exists('kontens/' . $konten->file_konten)) {
+            Storage::disk('public')->delete('kontens/' . $konten->file_konten);
         }
 
         // Simpan file baru
         $file = $request->file('file_konten');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->storeAs('public/konten', $filename);
+        $file->storeAs('public/kontens', $filename);
 
         $konten->file_konten = $filename;
     }
 
     $konten->save();
 
-        return redirect()->route('konten')->with('success', 'Konten berhasil diperbarui.');
+    return redirect()->route('konten')->with('success', 'Konten berhasil diperbarui.');
     }
 
     public function destroy($id)
-{
+    {
     $konten = Konten::findOrFail($id);
 
     // Hapus file jika ada

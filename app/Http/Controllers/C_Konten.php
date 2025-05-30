@@ -13,13 +13,6 @@ use Carbon\Carbon;
 class C_Konten extends Controller
 {
 
-    // public function konten()
-    // {
-    //     return view('admin.V_Konten');
-    // }
-
-    // Menampilkan daftar konten dari database
-
     public function index()
     {
         try {
@@ -34,40 +27,6 @@ class C_Konten extends Controller
         }
     }
 
-    // Menyimpan konten baru
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         Log::info('Start store method', ['request' => $request->all()]);
-
-    //         $validated = $request->validate([
-    //             'judul_konten' => 'required|string|max:255',
-    //             'deskripsi_konten' => 'required|string',
-    //             'file_konten' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:2048',
-    //             'tanggal' => 'required|date',
-    //             'jam' => 'required',
-    //         ]);
-
-    //         Log::info('Validation passed', ['validated' => $validated]);
-
-    //         $data = $request->all();
-    //         $data['tanggal_unggah'] = $request->tanggal . ' ' . $request->jam;
-    //         unset($data['tanggal'], $data['jam']);
-
-    //         if ($request->hasFile('file_konten')) {
-    //             $data['file_konten'] = $request->file('file_konten')->store('konten', 'public');
-    //             Log::info('File uploaded', ['file_path' => $data['file_konten']]);
-    //         }
-
-    //         $konten = Konten::create($data);
-    //         Log::info('Data saved to DB', ['konten' => $konten]);
-
-    //         return redirect()->route('konten')->with('success', 'Konten berhasil ditambahkan');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error in store method', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-    //         return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
-    //     }
-    // }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -96,7 +55,7 @@ class C_Konten extends Controller
             'tanggal_unggah'=> now()
         ]);
 
-        return redirect()->route('konten')->with('success', 'Konten berhasil ditambahkan.');
+        return redirect()->route('konten.create')->with('success', 'Konten berhasil diunggah');
 
     }
 
@@ -105,43 +64,6 @@ class C_Konten extends Controller
         $konten = Konten::findOrFail($id);
         return view('admin.V_UbahKonten', compact('konten'));
     }
-
-    // public function update(Request $request, $id)
-    // {
-    // $request->validate([
-    //     'judul_konten' => 'required|max:120',
-    //     'tanggal' => 'required|date',
-    //     'jam' => 'required',
-    //     'deskripsi_konten' => 'required',
-    //     'file_konten' => 'nullable|file|mimes:png,jpg,jpeg,gif|max:10240', // 10MB
-    // ]);
-
-    // $konten = Konten::findOrFail($id);
-    // $konten->judul_konten = $request->judul_konten;
-    // $konten->deskripsi_konten = $request->deskripsi_konten;
-    // $konten->tanggal_unggah = $request->tanggal . ' ' . $request->jam; // ✅ ganti ini
-
-
-    // // Cek apakah ada file yang di-upload
-    // if ($request->hasFile('file_konten')) {
-    //     // Hapus file lama jika ada
-    //     if ($konten->file_konten && Storage::exists('public/konten/' . $konten->file_konten)) {
-    //         Storage::delete('public/konten/' . $konten->file_konten);
-    //     }
-
-    //     // Simpan file baru
-    //     $file = $request->file('file_konten');
-    //     $filename = time() . '_' . $file->getClientOriginalName();
-    //     $file->storeAs('public/konten', $filename);
-
-    //     $konten->file_konten = $filename;
-    // }
-
-    // $konten->save();
-
-    //     return redirect()->route('konten')->with('success', 'Konten berhasil diperbarui.');
-    // }
-
 
     public function update(Request $request, $id)
     {
@@ -176,7 +98,7 @@ class C_Konten extends Controller
 
     $konten->save();
 
-    return redirect()->route('konten')->with('success', 'Konten berhasil diperbarui.');
+     return redirect()->back()->with('success', 'Perubahan berhasil disimpan');
     }
 
     public function destroy($id)
@@ -190,7 +112,11 @@ class C_Konten extends Controller
 
     $konten->delete();
 
-    return redirect()->route('konten')->with('success', 'Konten berhasil dihapus.');
+    return redirect()
+       ->route('konten', $id)   // ATAU route mana pun tempat toast berada
+       ->with('success', 'Konten berhasil dihapus');
+
+
     }
 
 }

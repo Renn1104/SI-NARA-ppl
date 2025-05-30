@@ -35,8 +35,8 @@ class C_KalenderEvent extends Controller
             'tanggal_event' => $request->tanggal,
             'waktu_event' => $request->jam,
         ]);
+    return redirect()->back()->with('success', 'Kalender event berhasil diunggah');
 
-        return redirect()->route('kalenderevent');
     }
     public function index(Request $request)
 {
@@ -112,7 +112,9 @@ public function update(Request $request, $id)
 
     $event->save();
 
-    return redirect()->route('kalenderevent')->with('success', 'Event berhasil diupdate.');
+
+return redirect()->route('kalenderevent.edit', $id)->with('success', 'Kalender event berhasil diperbarui!');
+
 }
 
 

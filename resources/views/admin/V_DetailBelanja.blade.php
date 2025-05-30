@@ -1,63 +1,145 @@
 @extends('layouts.layouts')
 @section('title', 'DetailBelanja')
-@section('content')
 
-<!-- Produk -->
-  <main class="max-w-4xl mx-auto p-6">
-    <div class="bg-white shadow-lg rounded-lg p-6">
-      <div class="flex flex-col md:flex-row gap-6">
-        <img src="https://bibitonline.com/wp-content/uploads/2021/12/anggur-trans.webp" alt="Bibit Anggur Trans" class="w-full md:w-1/2 rounded">
-        <div class="flex-1 space-y-3">
-          <h2 class="text-2xl font-semibold">Bibit Anggur Trans</h2>
-          <p class="text-purple-600 text-2xl font-bold">Rp50.000 
-            <span class="text-gray-400 text-base line-through ml-2">Rp100.000</span>
-            <span class="text-sm bg-red-200 text-red-600 px-2 py-0.5 rounded-full text-xs">50%</span>
-          </p>
-          <p class="text-sm text-gray-500">Stok 300</p>
-          <div class="flex items-center gap-2 mt-4">
-            <span>Jumlah</span>
-            <button class="px-2 py-1 border border-gray-300 rounded">-</button>
-            <span>1</span>
-            <button class="px-2 py-1 border border-gray-300 rounded">+</button>
-          </div>
-          <button class="mt-4 bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600">
-            Beli Sekarang
-          </button>
+@section('content')
+<main class="max-w-4xl mx-auto px-4 py-8 bg-white rounded-lg shadow-lg mt-6">
+  <div class="flex flex-col md:flex-row gap-6">
+    <img src="{{ asset('storage/' . $produk->foto_bibit) }}" alt="{{ $produk->judul_bibit }}" class="w-full md:w-1/2 object-contain rounded" />
+
+    <div class="flex flex-col gap-4 md:w-1/2">
+      <h2 class="text-xl font-semibold">{{ $produk->judul_bibit }}</h2>
+      <p class="text-sm text-gray-600">Stok: {{ $produk->jumlah_bibit }}</p>
+      <p class="text-2xl font-bold text-purple-700">Rp{{ number_format($produk->harga_bibit, 0, ',', '.') }}</p>
+
+      <div class="flex items-center gap-2">
+        <label for="jumlah" class="text-sm">Jumlah</label>
+        <div class="flex border rounded px-2 py-1">
+          <button id="minus" type="button" class="px-2 text-lg">-</button>
+          <input type="number" id="jumlah" name="jumlah" value="1" min="1" class="w-10 text-center" />
+          <button id="plus" type="button" class="px-2 text-lg">+</button>
         </div>
       </div>
 
-      <!-- Deskripsi -->
-      <div class="mt-8">
-        <h3 class="text-lg font-semibold mb-2">Deskripsi</h3>
-        <p class="mb-4">Bibit Anggur Trans – Tumbuh Subur &amp; Cepat Berbuah!<br>
-        Ingin menanam anggur sendiri di rumah? Bibit Anggur Trans adalah pilihan terbaik untuk Anda yang menginginkan tanaman anggur berkualitas dengan hasil buah melimpah dan rasa yang manis!</p>
-
-        <h4 class="font-semibold mt-4 mb-2">🍀 Keunggulan Produk:</h4>
-        <ul class="list-disc list-inside space-y-1">
-          <li>✅ Cepat Berbuah – Mulai berbuah dalam waktu 1–1,5 tahun dengan perawatan optimal.</li>
-          <li>✅ Rasa Buah Manis &amp; Segar – Cocok untuk dikonsumsi langsung atau dijadikan jus dan selai.</li>
-          <li>✅ Tahan Terhadap Hama – Bibit unggul yang lebih kuat menghadapi serangan penyakit.</li>
-          <li>✅ Cocok untuk Iklim Tropis – Bisa ditanam di pekarangan rumah, pot besar, atau kebun.</li>
-        </ul>
-
-        <h4 class="font-semibold mt-4 mb-2">🐒 Spesifikasi Bibit:</h4>
-        <ul class="list-disc list-inside space-y-1">
-          <li>Tinggi bibit: ± 40–60 cm</li>
-          <li>Usia: 3–6 bulan</li>
-          <li>Media tanam: Polybag siap tanam</li>
-          <li>Jenis: Anggur Trans (unggulan lokal)</li>
-          <li>Kemasan: Aman dan rapi, menjaga bibit tetap segar sampai tujuan</li>
-        </ul>
-
-        <h4 class="font-semibold mt-4 mb-2">💡 Tips Perawatan:</h4>
-        <ul class="list-disc list-inside space-y-1">
-          <li>Letakkan di tempat yang cukup sinar matahari (minimal 6 jam/hari)</li>
-          <li>Siram secara teratur, jangan terlalu basah</li>
-          <li>Beri pupuk organik setiap 2 minggu sekali</li>
-        </ul>
-
-        <p class="mt-4">🌱 Cocok untuk pemula maupun pecinta tanaman buah. Mulai tanam hari ini, panen manisnya nanti!</p>
+      <div class="flex gap-3">
+        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">Tambahkan ke Keranjang</button>
+        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">Beli Sekarang</button>
       </div>
     </div>
-  </main>
+  </div>
+
+  <section class="mt-10">
+    <h3 class="text-lg font-bold mb-2">Deskripsi</h3>
+    <p class="mt-2 text-gray-700 leading-relaxed">{!! nl2br(e($produk->deskripsi_bibit)) !!}</p>
+  </section>
+
+  @if($produk->spesifikasi)
+    <div class="mt-6">
+      <h4 class="font-semibold mb-1">📦 Spesifikasi Bibit:</h4>
+      <ul class="list-disc pl-5 text-gray-700">
+        @foreach(explode("\n", $produk->spesifikasi) as $item)
+          <li>{{ $item }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+  @if($produk->tips)
+    <div class="mt-6">
+      <h4 class="font-semibold mb-1">💡 Tips Perawatan:</h4>
+      <ul class="list-disc pl-5 text-gray-700">
+        @foreach(explode("\n", $produk->tips) as $tip)
+          <li>{{ $tip }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+  @if(Auth::check() && Auth::user()->role == 'admin')
+    <div class="flex justify-end mt-4 gap-4">
+      <a href="{{ route('produk.edit', $produk->id) }}" class="text-purple-600 hover:text-purple-800 text-2xl">✏️</a>
+      <form id="delete-form-{{ $produk->id }}" action="{{ route('produk.destroy', $produk->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="button" class="text-red-600 hover:text-red-800 text-2xl delete-btn" data-id="{{ $produk->id }}" title="Hapus">
+          🗑️
+        </button>
+      </form>
+    </div>
+  @endif
+</main>
+
+@if (session('success'))
+  <div id="toast-success" class="fixed inset-0 flex items-start justify-center mt-20 z-50">
+    <div class="bg-purple-800 text-white px-6 py-4 rounded-xl shadow-lg flex items-center gap-4 animate-pop">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.457 14.95a1 1 0 01-1.414 0l-3.25-3.25a1 1 0 011.414-1.414L8 12.536l7.293-7.293a1 1 0 011.414 0z"/>
+      </svg>
+      <span class="font-semibold text-base">{{ session('success') }}</span>
+    </div>
+  </div>
+@endif
+
+@push('styles')
+<style>
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop {
+  animation: pop 0.4s ease-out;
+}
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Konfirmasi Hapus Produk
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.getAttribute('data-id');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Yakin ingin menghapus produk?',
+        showCancelButton: true,
+        confirmButtonColor: '#4f46e5',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak'
+      }).then(result => {
+        if (result.isConfirmed) {
+          document.getElementById(`delete-form-${id}`)?.submit();
+        }
+      });
+    });
+  });
+
+  // Toast Success Auto Hide
+  const toast = document.getElementById('toast-success');
+  if (toast) {
+    setTimeout(() => {
+      toast.classList.add('transition', 'opacity-0');
+      setTimeout(() => toast.remove(), 500);
+    }, 2500);
+  }
+
+  // Plus Minus Quantity
+  const input = document.getElementById('jumlah');
+  const plus = document.getElementById('plus');
+  const minus = document.getElementById('minus');
+
+  plus.addEventListener('click', () => {
+    input.value = parseInt(input.value) + 1;
+  });
+
+  minus.addEventListener('click', () => {
+    if (parseInt(input.value) > 1) {
+      input.value = parseInt(input.value) - 1;
+    }
+  });
+});
+</script>
+@endpush
 @endsection

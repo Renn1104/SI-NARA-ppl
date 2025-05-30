@@ -54,9 +54,12 @@
         <label class="block text-sm font-medium text-gray-900">Poster Event*</label>
         <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
           <div class="text-center">
-            <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
+            <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                    clip-rule="evenodd" />
             </svg>
+
             <div class="mt-4 flex text-sm text-gray-600 justify-center">
               <label for="file-upload"
                      class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
@@ -86,8 +89,6 @@
         </button>
       </div>
     </form>
-    <!-- FORM END -->
-
   </div>
 </main>
 
@@ -98,14 +99,34 @@
     <div class="text-4xl text-yellow-300 mb-4">⚠️</div>
     <p class="text-lg font-semibold mb-6">Apakah anda yakin dengan perubahan yang dilakukan?</p>
     <div class="flex justify-center gap-4">
-      <button id="confirmYes"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded">YA</button>
-      <button id="confirmNo"
-              class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">Tidak</button>
+      <button id="confirmYes" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded">YA</button>
+      <button id="confirmNo"  class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">Tidak</button>
     </div>
   </div>
 </div>
+
+<!-- Flash Toast Success -->
+@if(session('success'))
+  <div id="toast-success"
+       class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-purple-800 text-white px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3 animate-fade-in">
+    <img src="{{ asset('assets/Tick.png') }}" alt="success" class="w-6 h-6">
+    <span class="font-semibold">{{ session('success') }}</span>
+  </div>
+@endif
 @endsection
+
+{{-- Tambahan CSS dan Script --}}
+@push('styles')
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
@@ -126,18 +147,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmYes = document.getElementById('confirmYes');
   const confirmNo  = document.getElementById('confirmNo');
 
-  submitBtn.addEventListener('click', () => {
-    modal.classList.remove('hidden');
-  });
-
+  submitBtn.addEventListener('click', () => modal.classList.remove('hidden'));
   confirmYes.addEventListener('click', () => {
     modal.classList.add('hidden');
     form.submit();
   });
+  confirmNo.addEventListener('click', () => modal.classList.add('hidden'));
 
-  confirmNo.addEventListener('click', () => {
-    modal.classList.add('hidden');
-  });
+  // Handle toast
+  const toast = document.getElementById('toast-success');
+  if (toast) {
+    setTimeout(() => toast.classList.add('opacity-0', 'transition'), 2500);
+    setTimeout(() => {
+      toast.remove();
+      window.location.href = "{{ route('kalenderevent') }}";
+    }, 3000);
+  }
 });
 </script>
 @endpush

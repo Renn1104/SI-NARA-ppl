@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class C_Profil extends Controller
 {
-    // Menampilkan profil user sesuai role
     public function profil()
     {
         $user = Auth::user();
@@ -21,21 +21,29 @@ class C_Profil extends Controller
         abort(403, 'Role tidak dikenali');
     }
 
-    // Method edit profil (hanya contoh untuk admin)
     public function editProfil()
     {
         $user = Auth::user();
 
-        // Kalau cuma admin yang boleh edit, cek role-nya
         if ($user->role !== 'admin') {
             abort(403, 'Akses ditolak. Hanya admin yang dapat mengedit profil.');
         }
 
-        return view('admin.v_EditProfil', compact('user')); // Pastikan ini sesuai file view-nya
+        return view('admin.v_EditProfil', compact('user'));
     }
 
-    // Update data profil
-    public function updateProfil(Request $request)
+    public function editProfilPelanggan()
+    {
+        $user = Auth::user();
+
+        if ($user->role !== 'pelanggan') {
+            abort(403, 'Akses ditolak. Hanya pelanggan yang dapat mengedit profil.');
+        }
+
+        return view('pelanggan.v_EditProfil', compact('user'));
+    }
+
+    public function updateProfilAdmin(Request $request)
     {
         $user = Auth::user();
 
@@ -44,29 +52,61 @@ class C_Profil extends Controller
         }
 
         $request->validate([
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required|email',
-            'phone' => 'nullable',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'password' => 'nullable|min:6'
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string|max:255',
+            'kodepos' => 'nullable|string|max:10',
+            'password' => 'nullable|string|min:6'
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'postal_code' => $request->postal_code,
-            'password' => $request->filled('password') ? bcrypt($request->password) : $user->password,
-        ]);
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->alamat = $request->alamat;
+        $user->kodepos = $request->kodepos;
 
-        return redirect()->route('admin.V_EditProfil')->with('success', 'Profil berhasil diperbarui.');
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.profil')->with('success', 'Profil berhasil diperbarui.');
     }
 
-    // Menampilkan profil pelanggan, hanya bisa diakses admin
+    public function updateProfilPelanggan(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->role !== 'pelanggan') {
+            abort(403, 'Akses ditolak. Hanya pelanggan yang dapat mengupdate profil.');
+        }
+
+        $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string|max:255',
+            'kodepos' => 'nullable|string|max:10',
+            'password' => 'nullable|string|min:6'
+        ]);
+
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->alamat = $request->alamat;
+        $user->kodepos = $request->kodepos;
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('pelanggan.profil')->with('success', 'Profil berhasil diperbarui.');
+    }
+
     public function profilPelanggan()
     {
         $user = Auth::user();
@@ -75,6 +115,12 @@ class C_Profil extends Controller
             abort(403, 'Akses ditolak. Hanya admin yang dapat melihat profil pelanggan.');
         }
 
-        return view('admin.V_profilpelanggan', compact('user'));
+        return view('admin.V_ProfilPelanggan', compact('user'));
+    }
+
+    public function showDetailPelanggan($username)
+    {
+        $pelanggan = User::where('username', $username)->firstOrFail();
+        return view('admin.V_DetailProfilPelanggan', compact('pelanggan'));
     }
 }

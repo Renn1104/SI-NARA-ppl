@@ -10,21 +10,24 @@
 <body class="min-h-screen bg-cover bg-center flex items-center justify-center relative" style="background-image: url('{{ asset('assets/bg_login.png') }}')">
 
   <!-- Logo di pojok kiri atas layar -->
-  <div class="absolute top-6 left-6">
-    <img src="{{ asset('assets/logo.png') }}" alt="SI-NARA Logo" class="h-14">
+<!-- Card Form Login -->
+<div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-10 py-12 w-full max-w-md">
+
+  {{-- Flash Messages --}}
+  @if (session('failed'))
+  <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-center">
+      {{ session('failed') }}
   </div>
+  @endif
 
-  <!-- Card Form Login -->
-  <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-10 py-12 w-full max-w-md">
+  @if (session('success'))
+  <div class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-md text-center">
+      {{ session('success') }}
+  </div>
+  @endif
 
-    @if (session('error'))
-    <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-center">
-        {{ session('error') }}
-    </div>
-    @endif
-
-    <!-- Judul -->
-    <h2 class="text-2xl font-bold text-black text-center mb-6">Masuk</h2>
+  <!-- Judul -->
+  <h2 class="text-2xl font-bold text-black text-center mb-6">Masuk</h2>
 
     <!-- Form -->
     <form action="{{ route('V_Login') }}" method="POST" class="space-y-5">

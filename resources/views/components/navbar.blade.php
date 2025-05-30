@@ -3,27 +3,25 @@
 @endphp
 
 <nav x-data="{
-        open: false,
-        dropdownOpen: false,
-        showLogoutConfirm: false,
-        welcomeVisible: false,
+    open: false,
+    dropdownOpen: false,
+    showLogoutConfirm: false,
+    welcomeVisible: false,
+    welcomeMessage: '{{ session('success') }}',
 
-        init() {
-            @if(session('login_success'))
-                this.$nextTick(() => {
-                    setTimeout(() => {
-                        if (!this.showLogoutConfirm) {
-                            this.welcomeVisible = true;
-                            setTimeout(() => this.welcomeVisible = false, 3000);
-                        }
-                    }, 300);
-                });
-            @endif
+    init() {
+        if (this.welcomeMessage) {
+            this.welcomeVisible = true;
+            setTimeout(() => {
+                this.welcomeVisible = false;
+                fetch('/clear-success');
+            }, 3000);
         }
-
-    }"
-    class="sticky top-0 z-50 bg-white shadow-md"
+    }
+}"
+class="sticky top-0 z-50 bg-white shadow-md"
 >
+
     <div class="flex items-center justify-between px-4 md:px-6 py-4">
 
         <!-- Logo -->
@@ -63,22 +61,30 @@
                     <div x-show="dropdownOpen" @click.away="dropdownOpen = false" x-transition
                         class="absolute right-0 mt-2 w-52 bg-white rounded-md shadow-lg z-50 border border-gray-200">
                         <ul class="py-2 text-gray-700">
-                            <li>
-                                <a href="{{ route('admin.profil', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
-                                    <img src="{{ asset('assets/user.png') }}" alt="Profil" class="w-5 h-5 mr-2"> Profil
-                                </a>
-                            </li>
                             @if($role === 'admin')
-                            <li>
-                                <a href="{{ route('pelanggan.profil', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
-                                    <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 3.13a4 4 0 010 7.75M8 3.13a4 4 0 000 7.75"/>
-                                    </svg>
-                                    Profil Pelanggan
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="{{ route('admin.profil') }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+                                        <img src="{{ asset('assets/user.png') }}" alt="Profil" class="w-5 h-5 mr-2"> Profil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.profilpelanggan', ['role' => $role]) }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+                                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 3.13a4 4 0 010 7.75M8 3.13a4 4 0 000 7.75"/>
+                                        </svg>
+                                        Profil Pelanggan
+                                    </a>
+                                </li>
+                            @elseif($role === 'pelanggan')
+                                <li>
+                                    <a href="{{ route('pelanggan.profil') }}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+                                        <img src="{{ asset('assets/user.png') }}" alt="Profil" class="w-5 h-5 mr-2"> Profil
+                                    </a>
+                                </li>
                             @endif
+
+                            <!-- Logout -->
                             <li>
                                 <button @click="showLogoutConfirm = true; welcomeVisible = false; dropdownOpen = false"
                                     class="flex items-center px-4 py-2 text-red-600 hover:bg-gray-100 w-full">
@@ -92,6 +98,7 @@
                         </ul>
                     </div>
                 </div>
+
             @else
                 <a href="{{ route('V_Login') }}" class="px-4 py-2 border-2 border-purple-800 text-purple-800 font-semibold rounded hover:bg-purple-200 transition">
                     Masuk
@@ -130,13 +137,13 @@
         </ul>
     </div>
 
-    <!-- Ucapan Selamat Datang -->
-    <div x-show="welcomeVisible" x-transition class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-        Selamat datang, {{ Auth::user()->name ?? 'User' }}!
-    </div>
-
     <!-- Logout Confirmation Modal -->
-    <div x-show="showLogoutConfirm" x-transition class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div
+        x-show="showLogoutConfirm"
+        x-transition
+        x-effect="welcomeVisible = false"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[70]">
+
         <div class="bg-purple-800 text-white rounded-lg shadow-lg p-6 w-80 text-center">
             <img src="/assets/alert.png" alt="Warning Icon" class="w-12 h-12 mx-auto mb-4" />
             <p class="text-base font-semibold mb-6">Apakah anda yakin ingin Logout?</p>
@@ -154,7 +161,6 @@
         </div>
     </div>
 </nav>
-
 
 <!-- Alpine.js -->
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

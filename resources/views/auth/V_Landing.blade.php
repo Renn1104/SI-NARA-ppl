@@ -9,7 +9,7 @@
   @php
   $slides = [
     [
-      'img' => asset('assets/Carousel 1.png'),
+      'img' => asset('assets/Cr1.png'),
       'link' => 'https://www.youtube.com/watch?v=Z1I3R8FDwgM'
     ],
     [
@@ -58,22 +58,18 @@
       <!-- Konten teks -->
       <div class="w-full md:w-1/2">
         <div class="flex flex-col items-start mb-4">
-          <img src="{{ asset('assets/logo.png') }}" alt="Icon Anggur" class="w-28 h-auto mb-4 animate-bounce" />
+          {{-- <img src="{{ asset('assets/logo.png') }}" alt="Icon Anggur" class="w-28 h-auto mb-4 animate-bounce" /> --}}
           <h2 class="text-3xl font-bold text-purple-800">Tentang Nara Garden</h2>
         </div>
         <p class="text-gray-700 text-justify text-base md:text-lg leading-relaxed">
           Didirikan pada tahun 2021, Nara Garden Jember hadir sebagai destinasi wisata agro yang mengusung konsep petik buah langsung dari kebun. Terletak di Jember, Jawa Timur, tempat ini menawarkan pengalaman unik bagi pengunjung untuk memetik buah anggur langsung dari pohonnya sambil menikmati suasana kebun yang asri, sejuk, dan menyegarkan.
-          Sejak dibuka, Nara Garden telah menjadi tempat favorit keluarga untuk menghabiskan waktu bersama. Aktivitas petik anggur tidak hanya seru, tetapi juga edukatif—terutama bagi anak-anak yang ingin mengenal lebih dekat proses budidaya tanaman buah.
-          <br><br>
-          Selain area kebun, Nara Garden juga menyediakan fasilitas lengkap seperti area bermain anak, kafe dengan menu lokal, serta tempat bersantai yang cocok untuk berswafoto. Tempat ini ideal untuk dijadikan lokasi piknik keluarga, edutrip sekolah, foto prewedding, atau bahkan acara komunitas dan gathering.
-          Dengan semangat memadukan wisata, edukasi, dan nuansa alam, Nara Garden terus berkembang menjadi salah satu ikon wisata agro terbaik di Jember.
+          Sejak dibuka, Nara Garden telah menjadi tempat favorit keluarga untuk menghabiskan waktu bersama. Aktivitas petik anggur tidak hanya seru, tetapi juga edukatif terutama bagi anak-anak yang ingin mengenal lebih dekat proses budidaya tanaman buah.
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CSS Animasi Slide dari Kiri -->
 <style>
   @keyframes slideInLeft {
     0% {
@@ -92,31 +88,65 @@
 </style>
 
 
+<section class="py-12 px-4 md:px-8 bg-white text-center animate-fade-in-up">
+<h2 class="text-2xl md:text-3xl font-bold mb-12 text-purple-800">
+  Fitur Utama dari
+  <img
+    src="{{ asset('assets/logo.png') }}"
+    alt="Logo Nara"
+    class="w-35 h-20 inline-block align-middle ml-2 animate-bounce"
+  />
+</h2>
 
 
-<!-- Rekomendasi -->
-<section class="px-4 md:px-6 py-10 min-h-screen">
-  <h2 class="text-center text-lg font-bold mb-7">REKOMENDASI</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-  @php
-    $items = [
-      ['img' => asset('assets/konten1.png'), 'title' => 'Panen Anggur Hitam'],
-      ['img' => asset('assets/konten2.png'), 'title' => 'Tari Tradisional'],
-      ['img' => asset('assets/konten3.png'), 'title' => 'Tari Suwun'],
-      ['img' => asset('assets/konten4.png'), 'title' => 'Panen Anggur Hijau'],
-      ['img' => asset('assets/konten5.png'), 'title' => 'Tari Gandrung'],
-      ['img' => asset('assets/konten6.png'), 'title' => 'Hijau Lestari'],
-    ];
-    @endphp
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+    <!-- KONTEN -->
+    <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="{{ asset('assets/content.png') }}" alt="KONTEN" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
+      <h3 class="text-xl font-bold mb-2">KONTEN</h3>
+      <p class="text-gray-600 max-w-xs">
+        Kami menyediakan konten seputar kegiatan apa saja yang dilakukan oleh SI-NARA
+      </p>
+    </div>
 
-      @foreach ($items as $item)
-      <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
-        <img src="{{ $item['img'] }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover">
-        <p class="text-center py-2 font-semibold">{{ $item['title'] }}</p>
-      </div>
-    @endforeach
+    <!-- KALENDER EVENT -->
+    <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="{{ asset('assets/schedule.png') }}" alt="KALENDER EVENT" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
+      <h3 class="text-xl font-bold mb-2">KALENDER EVENT</h3>
+      <p class="text-gray-600 max-w-xs">
+        Dengan kalender event ini jadwal acara SI-NARA lebih teratur
+      </p>
+    </div>
+
+    <!-- BELANJA -->
+    <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <img src="{{ asset('assets/shopping-bag.png') }}" alt="BELANJA" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
+      <h3 class="text-xl font-bold mb-2">BELANJA</h3>
+      <p class="text-gray-600 max-w-xs">
+        Kami siap membantu Anda menemukan bibit Anggur yang cocok untuk budidaya.
+      </p>
+    </div>
   </div>
 </section>
+
+<!-- Tambahkan CSS Animasi Fade In Up -->
+<style>
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+  }
+</style>
+
 
 
   <script>

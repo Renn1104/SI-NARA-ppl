@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Bibit;
 use App\Models\Produk;
+use App\Models\Pesanan;
+use App\Models\DetailPesanan;
 use Illuminate\Http\Request;
 
 class C_Belanja extends Controller
@@ -87,7 +89,6 @@ class C_Belanja extends Controller
     {
     $produk = Bibit::findOrFail($id);
 
-    // Hapus gambar jika perlu
     if ($produk->foto && file_exists(public_path('storage/' . $produk->foto))) {
         unlink(public_path('storage/' . $produk->foto));
     }
@@ -97,4 +98,29 @@ class C_Belanja extends Controller
     return redirect()->route('produk')->with('success', 'Produk berhasil dihapus.');
     }
 
+    public function checkout(Request $request)
+    {
+    $cartData = json_decode($request->cartItems, true);
+
+    $pesanan = Pesanan::create([
+        'user_id' => auth()->id(),
+        'total_harga' => collect($cartData)->sum(fn($item) => $item['price'] * $item['qty']),
+        'status' => 'Menunggu Konfirmasi',
+    ]);
+
+    foreach ($cartData as $item) {
+        DetailPesanan::create([
+            'pesanan_id' => $pesanan->id,
+            'bibit_id' => $item['id'],
+            'jumlah' => $item['qty'],
+            'harga_satuan' => $item['price'],
+        ]);
+    }
+    return redirect()->route('belanja.detailpesanan', $pesanan->id)->with('success', 'Pesanan berhasil dibuat!');
+    }
+    public function showDetailPesanan($id)
+    {
+        $pesanan = Pesanan::with('detailPesanan.bibit')->findOrFail($id);
+        return view('admin.V_PesananPelanggan', compact('pesanan'));
+    }
 }

@@ -31,6 +31,7 @@ Route::post('/register', [C_Register::class, 'store'])->name('register.store');
 Route::get('/login', [C_Login::class, 'login'])->name('V_Login');
 Route::post('/login', [C_Login::class, 'cekdata']);
 
+
 // ===========================
 // ROUTE BERANDA ADMIN & PELANGGAN
 // ===========================
@@ -38,6 +39,7 @@ Route::get('/admin/beranda', function () {
     return view('admin.V_beranda', ['role' => session('role', 'guest')]);
 })->name('admin.beranda');
 Route::get('/pelanggan/beranda', [C_Pelanggan::class, 'beranda'])->name('pelanggan.beranda');
+
 
 // ===========================
 // ROUTE KONTEN
@@ -74,7 +76,8 @@ Route::get('/belanja/{id}', [C_Belanja::class, 'show'])->name('belanja.detail');
 Route::get('/produk/{id}/edit', [C_Belanja::class, 'edit'])->name('produk.edit');
 Route::put('/admin/produk/{id}', [C_Belanja::class, 'update'])->name('produk.update');
 Route::delete('/produk/{id}', [C_Belanja::class, 'destroy'])->name('produk.destroy');
-
+Route::post('/checkout', [C_Belanja::class, 'checkout'])->name('belanja.checkout');
+Route::get('/pesanan/{id}', [C_Belanja::class, 'showDetailPesanan'])->name('belanja.detailpesanan');
 
 // ===========================
 // ROUTE PROFIL (USER & ADMIN)

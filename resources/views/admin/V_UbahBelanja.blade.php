@@ -1,6 +1,7 @@
 @extends('layouts.layouts')
 @section('title', 'UbahBelanja')
 @section('content')
+
 <div class="min-h-screen bg-[#f0f8ff] flex flex-col items-center justify-center px-4 py-10 relative">
 
     <!-- Modal Box -->
@@ -163,7 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const form       = document.querySelector('form');
 
     btnSubmit.addEventListener('click', () => {
-        confirmMod.classList.remove('hidden');
+        if (form.checkValidity()) {
+            confirmMod.classList.remove('hidden'); 
+        } else {
+            form.reportValidity();
+        }
     });
 
     confirmNo.addEventListener('click', () => {
@@ -182,5 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 });
+
 </script>
 @endpush

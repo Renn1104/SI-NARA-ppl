@@ -39,7 +39,7 @@
 </div>
 
 <!-- Layout Utama -->
-<div class="grid md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto mt-6 max-h-screen">
+<div class="grid md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto mt-6">
 
   <!-- Kalender -->
   <div class="md:col-span-2 bg-white rounded-lg shadow-md overflow-hidden">

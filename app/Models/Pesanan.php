@@ -12,6 +12,8 @@ class Pesanan extends Model
         'user_id',
         'total_harga',
         'status',
+        'ongkir', 
+
 
     ];
 
@@ -23,4 +25,5 @@ class Pesanan extends Model
     {
         return $this->hasMany(DetailPesanan::class, 'pesanan_id');
     }
+
 }

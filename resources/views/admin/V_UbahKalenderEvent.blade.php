@@ -17,70 +17,90 @@
       @csrf
       @method('PUT')
 
-      <!-- Judul Event -->
-      <div>
-        <label class="block text-sm font-semibold">Judul Event*</label>
-        <input type="text" name="judul_konten"
-               value="{{ old('judul_konten', $event->judul_event) }}"
-               placeholder="Masukkan judul event anda, maksimal 120 karakter"
-               class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required>
-      </div>
+        <!-- Judul Event -->
+    <div>
+    <label class="block text-sm font-semibold">
+        Judul Event<span class="text-red-500">*</span>
+    </label>
+    <input type="text" name="judul_konten"
+            value="{{ old('judul_konten', $event->judul_event) }}"
+            placeholder="Masukkan judul event anda, maksimal 120 karakter"
+            class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required>
+    </div>
 
-      <!-- Tanggal dan Jam -->
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex-1">
-          <label class="block text-sm font-semibold">Tanggal*</label>
-          <input type="date" name="tanggal"
-                 value="{{ old('tanggal', $event->tanggal_event) }}"
-                 class="mt-1 w-full border border-gray-300 rounded p-2" required>
-        </div>
-        <div class="flex-1">
-          <label class="block text-sm font-semibold">Jam*</label>
-          <input type="time" name="jam"
-                 value="{{ old('jam', $event->waktu_event) }}"
-                 class="mt-1 w-full border border-gray-300 rounded p-2" required>
-        </div>
-      </div>
+    <!-- Tanggal dan Jam -->
+    <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex-1">
+        <label class="block text-sm font-semibold">
+        Tanggal<span class="text-red-500">*</span>
+        </label>
+        <input type="date" name="tanggal"
+            value="{{ old('tanggal', $event->tanggal_event) }}"
+            class="mt-1 w-full border border-gray-300 rounded p-2" required>
+    </div>
+    <div class="flex-1">
+        <label class="block text-sm font-semibold">
+        Jam<span class="text-red-500">*</span>
+        </label>
+        <input type="time" name="jam"
+            value="{{ old('jam', $event->waktu_event) }}"
+            class="mt-1 w-full border border-gray-300 rounded p-2" required>
+    </div>
+    </div>
 
-      <!-- Deskripsi Event -->
-      <div>
-        <label class="block text-sm font-semibold">Deskripsi Event*</label>
-        <textarea name="deskripsi_konten" rows="4"
-                  class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required>{{ old('deskripsi_konten', $event->deskripsi_event) }}</textarea>
-      </div>
+    <!-- Deskripsi Event -->
+    <div>
+    <label class="block text-sm font-semibold">
+        Deskripsi Event<span class="text-red-500">*</span>
+    </label>
+    <textarea name="deskripsi_konten" rows="4"
+                class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
+                required>{{ old('deskripsi_konten', $event->deskripsi_event) }}</textarea>
+    </div>
 
-      <!-- Poster Event -->
-      <div>
-        <label class="block text-sm font-medium text-gray-900">Poster Event*</label>
-        <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-          <div class="text-center">
+            <!-- Poster Event -->
+        <div>
+        <label class="block text-sm font-medium text-gray-900">Poster Event</label>
+
+        <!-- Gambar Lama -->
+        @if ($event->file_konten)
+            <div id="old-image-container" class="mb-4">
+            <p class="text-sm text-gray-700 mb-1">File lama:</p>
+            <img src="{{ asset('storage/' . $event->file_konten) }}"
+                alt="Gambar Lama"
+                class="w-auto max-h-48 mx-auto rounded shadow">
+            </div>
+        @endif
+
+        <!-- Upload File Baru -->
+        <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+            <div class="text-center">
             <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
-              <path fill-rule="evenodd"
+                <path fill-rule="evenodd"
                     d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
                     clip-rule="evenodd" />
             </svg>
 
             <div class="mt-4 flex text-sm text-gray-600 justify-center">
-              <label for="file-upload"
-                     class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
-                <span>Upload a file</span>
+                <label for="file-upload"
+                    class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
+                <span>Upload file baru</span>
                 <input id="file-upload" name="file_konten" type="file" class="sr-only" onchange="previewImage(event)">
-              </label>
-              <p class="pl-1">or drag and drop</p>
+                </label>
+                <p class="pl-1">or drag and drop</p>
             </div>
             <p class="text-xs text-gray-600">PNG, JPG, GIF up to 10MB</p>
 
-            <!-- Preview Gambar -->
+            <!-- Preview Gambar Baru -->
             <div class="mt-4">
-              <img id="image-preview"
-                   src="{{ old('file_konten') ? asset('storage/' . old('file_konten')) : ($event->file_konten ? asset('storage/' . $event->file_konten) : '') }}"
-                   alt="Preview"
-                   class="mx-auto max-h-48 rounded shadow {{ $event->file_konten || old('file_konten') ? '' : 'hidden' }}">
+                <img id="image-preview"
+                    src=""
+                    alt="Preview Baru"
+                    class="mx-auto max-h-48 rounded shadow hidden">
             </div>
-          </div>
+            </div>
         </div>
-      </div>
-
+        </div>
       <!-- Tombol Submit -->
       <div class="text-center">
         <button id="btn-submit" type="button"
@@ -129,40 +149,59 @@
 @endpush
 
 @push('scripts')
+<!-- Script Preview -->
 <script>
-function previewImage(event) {
-  const reader = new FileReader();
-  const imageField = document.getElementById('image-preview');
-  reader.onload = () => {
-    imageField.src = reader.result;
-    imageField.classList.remove('hidden');
-  };
-  reader.readAsDataURL(event.target.files[0]);
-}
+  function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('image-preview');
+    const oldImageContainer = document.getElementById('old-image-container');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const submitBtn  = document.getElementById('btn-submit');
-  const form       = document.getElementById('form-ubah-kalender-event');
-  const modal      = document.getElementById('confirmModal');
-  const confirmYes = document.getElementById('confirmYes');
-  const confirmNo  = document.getElementById('confirmNo');
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
 
-  submitBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-  confirmYes.addEventListener('click', () => {
-    modal.classList.add('hidden');
-    form.submit();
-  });
-  confirmNo.addEventListener('click', () => modal.classList.add('hidden'));
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+        if (oldImageContainer) {
+          oldImageContainer.classList.add('hidden'); // sembunyikan gambar lama
+        }
+      };
 
-  // Handle toast
-  const toast = document.getElementById('toast-success');
-  if (toast) {
-    setTimeout(() => toast.classList.add('opacity-0', 'transition'), 2500);
-    setTimeout(() => {
-      toast.remove();
-      window.location.href = "{{ route('kalenderevent') }}";
-    }, 3000);
+      reader.readAsDataURL(input.files[0]);
+    }
   }
-});
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn  = document.getElementById('btn-submit');
+    const form       = document.getElementById('form-ubah-kalender-event');
+    const modal      = document.getElementById('confirmModal');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo  = document.getElementById('confirmNo');
+
+    submitBtn.addEventListener('click', () => {
+        if (form.checkValidity()) {
+        modal.classList.remove('hidden');
+        } else {
+        form.reportValidity();
+        }
+    });
+
+    confirmYes.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        form.submit();
+    });
+
+    confirmNo.addEventListener('click', () => modal.classList.add('hidden'));
+
+    // Handle toast
+    const toast = document.getElementById('toast-success');
+    if (toast) {
+        setTimeout(() => toast.classList.add('opacity-0', 'transition'), 2500);
+        setTimeout(() => {
+        toast.remove();
+        window.location.href = "{{ route('kalenderevent') }}";
+        }, 3000);
+    }
+    });
 </script>
 @endpush

@@ -1,16 +1,17 @@
 @extends('layouts.layouts')
 @section('title', 'DetailKonten')
 
-{{-- ==============  CONTENT  ============== --}}
+@php
+  \Carbon\Carbon::setLocale('id');
+@endphp
+
 @section('content')
 <main class="max-w-3xl mx-auto bg-white mt-6 rounded-md shadow-lg">
 
-  {{-- === Gambar === --}}
   <img src="{{ asset('storage/kontens/'.$fileKonten) }}"
        alt="Cover Konten"
        class="w-full h-auto object-cover border-4 border-purple-400 rounded-md"/>
 
-  {{-- === Judul + Deskripsi === --}}
   <div class="px-6 py-4">
     <h1 class="text-2xl font-bold text-center mb-4">{{ $judul }}</h1>
     <div class="text-gray-800 space-y-4 text-justify">
@@ -18,19 +19,16 @@
     </div>
 
     {{-- <p class="text-sm text-gray-500 mt-6 text-right">
-      Diunggah pada: {{ \Carbon\Carbon::parse($tanggalUnggah)->translatedFormat('d F Y, H:i') }} WIB
+        Diunggah pada: {{ \Carbon\Carbon::parse($tanggalUnggah)->translatedFormat('d F Y, H:i') }} WIB
     </p> --}}
 
-    {{-- === Tombol Aksi (admin only) === --}}
     @auth
       @if(Auth::user()->role === 'admin')
         <div class="flex justify-end space-x-4 mt-4">
-          {{-- Edit --}}
           <a href="{{ route('editKonten', $id) }}"
              class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-md"
              title="Edit">✏️</a>
 
-          {{-- Delete --}}
           <form id="delete-form"
                 action="{{ route('konten.destroy', $id) }}"
                 method="POST" class="inline">
@@ -45,7 +43,6 @@
   </div>
 </main>
 
-{{-- ======= Toast sukses (tetap DI DALAM section) ======= --}}
 @if (session('success'))
   <div id="toast-success"
        class="fixed inset-0 flex items-start justify-center mt-20 z-50">
@@ -61,9 +58,8 @@
     </div>
   </div>
 @endif
-@endsection      {{--  ⬅️  tutup section content  --}}
+@endsection
 
-{{-- =============  STYLES  ============= --}}
 @push('styles')
 <style>
 @keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
@@ -71,12 +67,10 @@
 </style>
 @endpush
 
-{{-- =============  SCRIPTS  ============= --}}
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  /* konfirmasi delete */
   document.getElementById('delete-btn')?.addEventListener('click', () => {
     Swal.fire({
       icon: 'warning',
@@ -91,10 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* toast auto‑hide */
   const toast = document.getElementById('toast-success');
   if (toast){
-    setTimeout(()=>{                 // fade‑out
+    setTimeout(()=>{
       toast.classList.add('transition','opacity-0');
       setTimeout(()=>toast.remove(),500);
     },2500);

@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class DetailPesanan extends Model
 {
     use HasFactory;
-    protected $fillable = [
-            'pesanan_id',
-            'bibit_id',
-            'jumlah',
-            'harga_satuan',
 
+    protected $fillable = [
+        'pesanan_id',
+        'bibit_id',
+        'nama_produk',
+        'harga_satuan',
+        'jumlah',
+        'gambar_produk',
     ];
 
     public function pesanan()
@@ -24,4 +26,5 @@ class DetailPesanan extends Model
     {
         return $this->belongsTo(Bibit::class, 'bibit_id');
     }
+
 }

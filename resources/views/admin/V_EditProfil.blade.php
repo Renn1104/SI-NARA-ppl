@@ -91,9 +91,18 @@
 {{-- Script Modal --}}
 <script>
     function openModal() {
-        const modal = document.getElementById('confirmModal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+        const form = document.getElementById('editProfilForm');
+
+        // Validasi HTML5 native
+        if (form.checkValidity()) {
+            // Kalau valid, tampilkan modal
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        } else {
+            // Kalau ada input kosong, munculkan native alert bawaan browser
+            form.reportValidity();
+        }
     }
 
     function closeModal() {
@@ -106,4 +115,5 @@
         document.getElementById('editProfilForm').submit();
     }
 </script>
+
 @endsection

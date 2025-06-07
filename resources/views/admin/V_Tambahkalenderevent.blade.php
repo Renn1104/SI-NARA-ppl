@@ -98,7 +98,7 @@
 </main>
 @endsection
 
-@push('styles')
+{{-- @push('styles')
 <style>
   @keyframes pop {
     0% {
@@ -121,15 +121,15 @@
     animation: pop .4s ease-out;
   }
 </style>
-@endpush
+@endpush --}}
 
 @push('scripts')
 <script>
   window.addEventListener('load', () => {
     const toast = document.getElementById('toast-success');
     if (toast) {
-      setTimeout(() => { toast.classList.add('transition', 'opacity-0'); }, 2500);
-      setTimeout(() => { toast.remove(); }, 3000);
+    //   setTimeout(() => { toast.classList.add('transition', 'opacity-0'); }, 2500);
+    //   setTimeout(() => { toast.remove(); }, 3000);
       // Redirect setelah notifikasi hilang
       setTimeout(() => {
         window.location.href = "{{ route('kalenderevent') }}";

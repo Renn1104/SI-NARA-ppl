@@ -19,60 +19,68 @@
           class="space-y-5">
       @csrf @method('PUT')
 
-      {{-- Judul --}}
-      <div>
-        <label class="block text-sm font-semibold">Judul Konten*</label>
-        <input type="text" name="judul_konten"
-               value="{{ old('judul_konten', $konten->judul_konten) }}"
-               class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required>
-      </div>
-
-      {{-- Tanggal & Jam --}}
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex-1">
-          <label class="block text-sm font-semibold">Tanggal*</label>
-          <input type="date" name="tanggal"
-                 value="{{ old('tanggal', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('Y-m-d')) }}"
-                 class="mt-1 w-full border border-gray-300 rounded p-2" required>
-        </div>
-        <div class="flex-1">
-          <label class="block text-sm font-semibold">Jam*</label>
-          <input type="time" name="jam"
-                 value="{{ old('jam', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('H:i')) }}"
-                 class="mt-1 w-full border border-gray-300 rounded p-2" required>
-        </div>
-      </div>
-
-      {{-- Deskripsi --}}
-      <div>
-        <label class="block text-sm font-semibold">Deskripsi Konten*</label>
-        <textarea name="deskripsi_konten" rows="4"
-                  class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
-                  required>{{ old('deskripsi_konten', $konten->deskripsi_konten) }}</textarea>
-      </div>
-
-{{-- Cover --}}
-<div>
-  <label class="block text-sm font-medium text-gray-900 mb-2">Cover photo</label>
-  <div>
-    @if ($konten->file_konten)
-      <p class="text-sm mb-2">File lama:</p>
-      <img src="{{ asset('storage/kontens/' . $konten->file_konten) }}" alt="File Lama"
-           class="rounded max-h-40 mb-4 object-contain">
-    @endif
-
-    <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 cursor-pointer hover:bg-gray-50 transition">
-      <label for="file-upload" class="flex flex-col items-center cursor-pointer text-indigo-600 hover:text-indigo-500 select-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v8m0-8l-3 3m3-3l3 3M12 4v8" />
-        </svg>
-        <input id="file-upload" name="file_konten" type="file" class="sr-only" />
-        <span class="font-semibold">Upload file baru</span>
-        <p class="text-xs text-gray-600 mt-1">PNG, JPG, GIF up to 10MB</p>
-      </label>
+        {{-- Judul --}}
+    <div>
+    <label class="block text-sm font-semibold">
+        Judul Konten<span class="text-red-500">*</span>
+    </label>
+    <input type="text" name="judul_konten"
+            value="{{ old('judul_konten', $konten->judul_konten) }}"
+            class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required>
     </div>
-  </div>
-</div>
+
+    {{-- Tanggal & Jam --}}
+    {{-- <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex-1">
+        <label class="block text-sm font-semibold">
+        Tanggal<span class="text-red-500">*</span>
+        </label>
+        <input type="date" name="tanggal"
+            value="{{ old('tanggal', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('Y-m-d')) }}"
+            class="mt-1 w-full border border-gray-300 rounded p-2" required>
+    </div>
+    <div class="flex-1">
+        <label class="block text-sm font-semibold">
+        Jam<span class="text-red-500">*</span>
+        </label>
+        <input type="time" name="jam"
+            value="{{ old('jam', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('H:i')) }}"
+            class="mt-1 w-full border border-gray-300 rounded p-2" required>
+    </div>
+    </div> --}}
+
+    {{-- Deskripsi --}}
+    <div>
+    <label class="block text-sm font-semibold">
+        Deskripsi Konten<span class="text-red-500">*</span>
+    </label>
+    <textarea name="deskripsi_konten" rows="4"
+                class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700"
+                required>{{ old('deskripsi_konten', $konten->deskripsi_konten) }}</textarea>
+    </div>
+
+    {{-- Cover --}}
+    <div>
+    <label class="block text-sm font-medium text-gray-900 mb-2">Cover photo</label>
+    <div>
+        @if ($konten->file_konten)
+        <p class="text-sm mb-2">File lama:</p>
+        <img src="{{ asset('storage/kontens/' . $konten->file_konten) }}" alt="File Lama"
+            class="rounded max-h-40 mb-4 object-contain">
+        @endif
+
+        <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 cursor-pointer hover:bg-gray-50 transition">
+        <label for="file-upload" class="flex flex-col items-center cursor-pointer text-indigo-600 hover:text-indigo-500 select-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v8m0-8l-3 3m3-3l3 3M12 4v8" />
+            </svg>
+            <input id="file-upload" name="file_konten" type="file" class="sr-only" />
+            <span class="font-semibold">Upload file baru</span>
+            <p class="text-xs text-gray-600 mt-1">PNG, JPG, GIF up to 10MB</p>
+        </label>
+        </div>
+    </div>
+    </div>
 
 
       {{-- Tombol Submit --}}
@@ -127,30 +135,34 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  /* Modal konfirmasi */
   const btnSubmit  = document.getElementById('btn-submit');
   const confirmMod = document.getElementById('confirmModal');
   const confirmYes = document.getElementById('confirmYes');
   const confirmNo  = document.getElementById('confirmNo');
   const form       = document.getElementById('form-ubah-konten');
 
-  btnSubmit.addEventListener('click', () => confirmMod.classList.remove('hidden'));
-  confirmNo .addEventListener('click', () => confirmMod.classList.add('hidden'));
+  btnSubmit.addEventListener('click', () => {
+    if (form.checkValidity()) {
+      confirmMod.classList.remove('hidden');
+    } else {
+      form.reportValidity(); // akan memunculkan alert hanya pada field yang kosong
+    }
+  });
+
+  confirmNo.addEventListener('click', () => confirmMod.classList.add('hidden'));
   confirmYes.addEventListener('click', () => form.submit());
 
-  /* Toast + auto‑redirect */
   const toast = document.getElementById('toast');
   if (toast) {
-    // fade‑out setelah 2.5 dtk
     setTimeout(() => {
-      toast.classList.add('transition','opacity-0');
+      toast.classList.add('transition', 'opacity-0');
       setTimeout(() => toast.remove(), 500);
     }, 2500);
-    // redirect setelah 3 dtk
     setTimeout(() => {
       window.location.href = "{{ route('konten') }}";
     }, 3000);
   }
 });
 </script>
+
 @endpush

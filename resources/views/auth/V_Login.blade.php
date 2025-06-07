@@ -9,8 +9,6 @@
 </head>
 <body class="min-h-screen bg-cover bg-center flex items-center justify-center relative" style="background-image: url('{{ asset('assets/bg_login.png') }}')">
 
-  <!-- Logo di pojok kiri atas layar -->
-<!-- Card Form Login -->
 <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-10 py-12 w-full max-w-md">
 
   {{-- Flash Messages --}}

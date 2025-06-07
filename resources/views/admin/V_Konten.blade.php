@@ -9,19 +9,18 @@
 @if($role == 'admin')
     <div class="flex justify-end mt-6 px-6">
         <a href="{{ route('konten.create') }}"
-           class="flex items-center space-x-2 bg-purple-800 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition">
-            <span class="text-sm md:text-base font-medium">Tambah Konten</span>
-            <span class="text-lg">＋</span>
-        </a>
-    </div>
+        class="flex items-center space-x-2 bg-purple-800 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition">
+        <span class="text-sm md:text-base font-medium">Tambah Konten</span>
+        <span class="text-lg">＋</span>
+    </a>
+</div>
 @endif
 
 
-  <!-- Rekomendasi -->
+<!-- Rekomendasi -->
 <section class="px-4 md:px-6 py-10 min-h-screen">
-  <h2 class="text-center text-lg font-bold mb-7">KONTEN SI-NARA</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-
+    <h1 class="text-3xl font-semibold text-center text-purple-800 mb-8">Konten SI-NARA</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
       @foreach ($data as $datum)
       @php
         $img = $datum['file_konten'];
@@ -30,8 +29,8 @@
         $deskripsi = $datum['deskripsi_konten'];
         $fileKonten = $datum['file_konten'];
         $id = $datum['id'];
-
       @endphp
+
       <a href="{{route('detailkonten',['judul'=>$judul,'deskripsiKonten'=>$deskripsi, 'fileKonten'=>$fileKonten,'id'=>$id])}}" >
         <div class="bg-white shadow-md rounded-xl overflow-hidden transform transition hover:scale-105">
           <img src="{{ asset('storage/'.$image) }}" alt="ggal" class="w-full h-48 object-cover">
@@ -39,7 +38,11 @@
         </div>
       </a>
     @endforeach
-
   </div>
+
+  <div class="mt-8 flex justify-center">
+    {{ $data->links() }}
+  </div>
+
 </section>
 @endsection

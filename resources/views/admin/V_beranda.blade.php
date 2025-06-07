@@ -15,10 +15,6 @@
     [
       'img' => asset('assets/Carousel 2.png'),
       'link' => 'https://www.youtube.com/watch?v=ZX7UhT65ePY/'
-    ],
-    [
-      'img' => 'https://indonesiakaya.com/wp-content/uploads/2025/01/download-74.jpeg',
-      'link' => 'https://indonesiakaya.com/pustaka-indonesia/buku-indonesia-habis-gelap-terbitlah-terang-ra-kartini/'
     ]
   ];
 @endphp

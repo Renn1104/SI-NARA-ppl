@@ -10,27 +10,39 @@
       <form class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-          <input type="text" value="dinarim" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+          <input type="text" value="{{ $pelanggan->namalengkap }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Username</label>
-          <input type="text" value="dina14" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+          <input type="text" value="{{ $pelanggan->username }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Nomor Telpon</label>
-          <input type="text" value="085607914835" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+          <input type="text" value="{{ $pelanggan->phone }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Email</label>
-          <input type="email" value="selobonang@gmail.com" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+          <input type="email" value="{{ $pelanggan->email }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Alamat</label>
-          <input type="text" value="Bungah Gresik" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+          <input type="text" value="{{ $pelanggan->alamat }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Kecamatan</label>
+          <input type="text" value="{{ $pelanggan->kecamatan }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Kabupaten/Kota</label>
+          <input type="text" value="{{ $pelanggan->kabupatenkota }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Provinsi</label>
+          <input type="text" value="{{ $pelanggan->provinsi }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Kode Pos</label>
-          <input type="text" value="61152" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
+          <input type="text" value="{{ $pelanggan->kodepos }}" class="w-full border rounded p-2 text-gray-500 bg-gray-100" disabled />
         </div>
       </form>
     </div>

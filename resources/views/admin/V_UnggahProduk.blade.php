@@ -22,14 +22,14 @@
             </ul>
           </div>
         @endif
-        
+
         <form action="{{ route('admin.produk.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
 
             <!-- Judul Bibit -->
             <div>
                 <label class="block font-semibold text-gray-700 mb-1">Judul Bibit<span class="text-red-600">*</span></label>
-                <input type="text" name="judul" maxlength="120" placeholder="Masukkan judul produk anda, maksimal 120 karakter"
+                <input type="text" name="judul" maxlength="120" placeholder="Masukkan judul produk anda, maksimal 50 karakter"
                     required class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-purple-600" />
             </div>
 

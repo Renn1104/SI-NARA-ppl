@@ -25,7 +25,7 @@
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white text-gray-800 pr-10" />
                 <button type="button" id="togglePassword"
                     class="absolute right-3 top-9 text-gray-600 hover:text-gray-900 focus:outline-none">
-                    Show
+
                 </button>
             </div>
 
@@ -45,6 +45,21 @@
             <div>
                 <label class="block font-semibold text-red-700 mb-2">Alamat*</label>
                 <input type="text" name="alamat" value="{{ old('alamat', $user->alamat) }}" required class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white text-gray-800" />
+            </div>
+
+            <div>
+                <label class="block font-semibold text-red-700 mb-2">Kecamatan*</label>
+                <input type="text" name="kecamatan" value="{{ old('alamat', $user->kecamatan) }}" required class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white text-gray-800" />
+            </div>
+
+            <div>
+                <label class="block font-semibold text-red-700 mb-2">Kabupaten/Kota*</label>
+                <input type="text" name="kabupatenkota" value="{{ old('kabupatenkota', $user->kabupatenkota) }}" required class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white text-gray-800" />
+            </div>
+
+            <div>
+                <label class="block font-semibold text-red-700 mb-2">Provinsi*</label>
+                <input type="text" name="provinsi" value="{{ old('provinsi', $user->provinsi) }}" required class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white text-gray-800" />
             </div>
 
             <div>
@@ -91,8 +106,17 @@
     });
 
     function openModal() {
-        confirmModal.classList.remove('hidden');
-        confirmModal.classList.add('flex');
+        const form = document.getElementById('editProfilForm');
+
+        // Cek apakah form valid
+        if (form.checkValidity()) {
+            // Kalau valid, munculkan modal konfirmasi
+            confirmModal.classList.remove('hidden');
+            confirmModal.classList.add('flex');
+        } else {
+            // Kalau tidak valid, tampilkan pesan native HTML5
+            form.reportValidity();
+        }
     }
 
     function closeModal() {

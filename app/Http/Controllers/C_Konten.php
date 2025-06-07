@@ -16,10 +16,9 @@ class C_Konten extends Controller
     public function index()
     {
         try {
+            Carbon::setLocale('id'); // ⬅️ Tambahkan ini
 
-            // Ambil semua konten, urut terbaru
-            $data = Konten::all();
-
+            $data = Konten::paginate(9);
             return view('admin.V_Konten', compact('data'));
         } catch (\Exception $e) {
             Log::error('Error in index method', ['message' => $e->getMessage()]);
@@ -30,11 +29,9 @@ class C_Konten extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul_konten' => 'required|string|max:255',
-            'deskripsi_konten' => 'required|string',
-            'file_konten' => 'nullable|file|mimes:jpg,jpeg,png',
-            'tanggal' => 'required|date',
-            'jam' => 'required',
+        'judul_konten' => 'required|string|max:255',
+        'deskripsi_konten' => 'required|string',
+        'file_konten' => 'nullable|file|mimes:jpg,jpeg,png',
         ]);
 
         $fileName = null;
@@ -49,10 +46,7 @@ class C_Konten extends Controller
             'judul_konten' => $request->input('judul_konten'),
             'deskripsi_konten' => $request->input('deskripsi_konten'),
             'file_konten' => $fileName,
-            'update_at' => $request->input('tanggal'),
-            'jam' => $request->input('jam'),
-            'rememberToken'=>'uiiuiui',
-            'tanggal_unggah'=> now()
+            'tanggal_unggah' => Carbon::now()->format('Y-m-d H:i:s'), // otomatis pakai waktu sekarang
         ]);
 
         return redirect()->route('konten.create')->with('success', 'Konten berhasil diunggah');
@@ -81,14 +75,10 @@ class C_Konten extends Controller
     $konten->tanggal_unggah = $request->tanggal . ' ' . $request->jam;
     $konten->deskripsi_konten = $request->deskripsi_konten;
 
-    // 🔁 Cek apakah ada file baru
     if ($request->hasFile('file_konten')) {
-        // Hapus file lama jika ada
         if ($konten->file_konten && Storage::disk('public')->exists('kontens/' . $konten->file_konten)) {
             Storage::disk('public')->delete('kontens/' . $konten->file_konten);
         }
-
-        // Simpan file baru
         $file = $request->file('file_konten');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->storeAs('public/kontens', $filename);
@@ -99,6 +89,19 @@ class C_Konten extends Controller
     $konten->save();
 
      return redirect()->back()->with('success', 'Perubahan berhasil disimpan');
+    }
+
+    public function show($id)
+    {
+        $konten = Konten::findOrFail($id);
+
+        return view('admin.V_DetailKonten', [
+            'judul' => $konten->judul_konten,
+            'deskripsiKonten' => $konten->deskripsi_konten,
+            'fileKonten' => $konten->file_konten,
+            'tanggalUnggah' => $konten->tanggal_unggah,  // <-- ini yang harus kamu kirim!
+            'id' => $konten->id,
+        ]);
     }
 
     public function destroy($id)

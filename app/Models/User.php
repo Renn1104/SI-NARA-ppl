@@ -20,6 +20,9 @@ class User extends Authenticatable
         'phone',
         'alamat',
         'kodepos',
+        'kecamatan',
+        'kabupatenkota',
+        'provinsi',          
     ];
 
     protected $hidden = [

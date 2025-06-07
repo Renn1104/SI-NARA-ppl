@@ -6,7 +6,7 @@
     <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-10 relative">
         <h2 class="text-center text-3xl font-bold text-purple-800 border-b-2 border-purple-700 pb-4 mb-8">Profil</h2>
 
-        <form class="grid grid-cols-1 md:grid-cols-2 gap-8 text-lg">
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-8 text-lg pb-20">
             <div>
                 <label class="block font-semibold text-gray-700 mb-2">Nama Lengkap</label>
                 <input type="text" value="{{ $user->namalengkap }}" readonly class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-100 text-gray-800" />
@@ -38,8 +38,23 @@
             </div>
 
             <div>
+                <label class="block font-semibold text-gray-700 mb-2">Kecamatan</label>
+                <input type="text" value="{{ $user->kecamatan }}" readonly class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-100 text-gray-800" />
+            </div>
+
+            <div>
+                <label class="block font-semibold text-gray-700 mb-2">Kabupaten/Kota</label>
+                <input type="text" value="{{ $user->kabupatenkota }}" readonly class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-100 text-gray-800" />
+            </div>
+
+            <div>
+                <label class="block font-semibold text-gray-700 mb-2">Provinsi</label>
+                <input type="text" value="{{ $user->provinsi}}" readonly class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-100 text-gray-800" />
+            </div>
+
+            <div>
                 <label class="block font-semibold text-gray-700 mb-2">Kode Pos</label>
-                <input type="text" value="{{ $user->kodepos }}" readonly class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-100 text-gray-800" />
+                <input type="text" value="{{ $user->kodepos}}" readonly class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-100 text-gray-800" />
             </div>
         </form>
 

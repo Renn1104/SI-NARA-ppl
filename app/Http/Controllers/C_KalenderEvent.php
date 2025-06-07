@@ -117,7 +117,6 @@ return redirect()->route('kalenderevent.edit', $id)->with('success', 'Kalender e
 
 }
 
-
 }
 
 

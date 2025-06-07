@@ -11,7 +11,9 @@ use App\Http\Controllers\C_Admin;
 use App\Http\Controllers\C_Pelanggan;
 use App\Http\Controllers\C_Belanja;
 use App\Http\Controllers\C_Profil;
-
+use App\Http\Controllers\C_Riwayat;
+use App\Http\Controllers\C_Alamat;
+use App\Http\Controllers\MidtransController;
 
 // ===========================
 // ROUTE LANDING (BERANDA AWAL)
@@ -55,6 +57,9 @@ Route::delete('/konten/{id}', [C_Konten::class, 'destroy'])->name('konten.destro
 Route::get('detailkonten/{judul}/{deskripsiKonten}/{fileKonten}/{id}', function ($judul, $deskripsiKonten, $fileKonten, $id) {
     return view('admin.V_DetailKonten', compact('judul', 'deskripsiKonten', 'fileKonten', 'id'));
 })->name('detailkonten');
+Route::get('/konten/{id}', [C_Konten::class, 'show'])->name('konten.show');
+
+
 
 // ===========================
 // ROUTE KALENDER EVENT
@@ -78,6 +83,31 @@ Route::put('/admin/produk/{id}', [C_Belanja::class, 'update'])->name('produk.upd
 Route::delete('/produk/{id}', [C_Belanja::class, 'destroy'])->name('produk.destroy');
 Route::post('/checkout', [C_Belanja::class, 'checkout'])->name('belanja.checkout');
 Route::get('/pesanan/{id}', [C_Belanja::class, 'showDetailPesanan'])->name('belanja.detailpesanan');
+
+// ROUTE UBAH ALAMAT
+Route::get('/alamat/edit', [C_Alamat::class, 'edit'])->name('alamat.edit');
+Route::put('/alamat/update', [C_Alamat::class, 'update'])->name('alamat.update');
+
+
+// ===========================
+// ROUTE RIWAYAT BELANJA
+// ===========================
+Route::middleware('auth')->group(function () {
+    Route::get('/riwayat', [C_Riwayat::class, 'index'])->name('riwayat');
+    Route::get('/riwayat/detail/{id}', [C_Riwayat::class, 'show'])->name('riwayat.detail');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/riwayat-belanja', [C_Riwayat::class, 'index'])->name('admin.riwayat');
+
+    Route::get('/admin/riwayat-belanja/{id}', [C_Riwayat::class, 'show'])
+        ->name('admin.riwayat.detail');
+});
+
+// ===========================
+// ROUTE Midtrans
+// ===========================
+Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
 
 // ===========================
 // ROUTE PROFIL (USER & ADMIN)
@@ -104,15 +134,10 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
 // ===========================
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect()->route('V_Landing'); // Redirect ke halaman guest (landing page)
+    return redirect()->route('V_Landing');
 })->name('logout');
 
-// ===========================
-// ROUTE CLEAR SUCCESS SESSION
-// ===========================
-Route::get('/clear-success', function () {
-    session()->forget('success');
-    return response()->json(['status' => 'cleared']);
-});
+
+
 
 

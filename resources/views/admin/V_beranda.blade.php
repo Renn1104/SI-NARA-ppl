@@ -97,24 +97,28 @@
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
     <!-- KONTEN -->
+    <a href="{{ route('konten') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-      <img src="{{ asset('assets/content.png') }}" alt="KONTEN" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
-      <h3 class="text-xl font-bold mb-2">KONTEN</h3>
-      <p class="text-gray-600 max-w-xs">
-        Kami menyediakan konten seputar kegiatan apa saja yang dilakukan oleh SI-NARA
-      </p>
+        <img src="{{ asset('assets/content.png') }}" alt="KONTEN" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
+        <h3 class="text-xl font-bold mb-2">KONTEN</h3>
+        <p class="text-gray-600 max-w-xs">
+        Kami menyediakan konten seputar kegiatan apa saja yang dilakukan oleh SI-NARA.
+        </p>
     </div>
+    </a>
 
     <!-- KALENDER EVENT -->
+    <a href="{{ route('kalenderevent') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="{{ asset('assets/schedule.png') }}" alt="KALENDER EVENT" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
       <h3 class="text-xl font-bold mb-2">KALENDER EVENT</h3>
       <p class="text-gray-600 max-w-xs">
-        Dengan kalender event ini jadwal acara SI-NARA lebih teratur
+        Dengan kalender event ini jadwal acara SI-NARA lebih teratur.
       </p>
     </div>
 
     <!-- BELANJA -->
+    <a href="{{ route('produk') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="{{ asset('assets/shopping-bag.png') }}" alt="BELANJA" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
       <h3 class="text-xl font-bold mb-2">BELANJA</h3>

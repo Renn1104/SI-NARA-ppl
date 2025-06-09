@@ -128,11 +128,13 @@
 <!-- Flash Toast Success -->
 @if(session('success'))
   <div id="toast-success"
-       class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-purple-800 text-white px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3 animate-fade-in">
+       class="toast-fade fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-purple-800 text-white px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3 animate-fade-in opacity-100">
     <img src="{{ asset('assets/Tick.png') }}" alt="success" class="w-6 h-6">
     <span class="font-semibold">{{ session('success') }}</span>
   </div>
+  @php session()->forget('success'); @endphp
 @endif
+
 @endsection
 
 {{-- Tambahan CSS dan Script --}}

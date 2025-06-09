@@ -18,17 +18,21 @@
                 <label for="jumlah" class="text-sm">Jumlah</label>
                 <div class="flex border rounded px-2 py-1">
                     <button id="minus" type="button" class="px-2 text-lg" @click="detailQty = Math.max(1, detailQty - 1)">-</button>
-                    <input type="number" id="jumlah" x-model.number="detailQty" min="1" class="w-12 text-center" />
+                    <input type="number" id="jumlah" x-model.number="detailQty" :max="{{ $produk->jumlah_bibit }}" min="1" class="w-12 text-center" />
                     <button id="plus" type="button" class="px-2 text-lg" @click="detailQty++">+</button>
                 </div>
             </div>
 
             @if (Auth::user() && Auth::user()->role === 'pelanggan')
-                <button
-                    @click="addToCart({{ $produk->id }}, '{{ addslashes($produk->judul_bibit) }}', {{ $produk->harga_bibit }}, '{{ asset('storage/' . $produk->foto_bibit) }}')"
-                    class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
-                    + Tambah ke Keranjang
-                </button>
+                @if ($produk->jumlah_bibit > 0)
+                    <button
+                        @click="addToCart({{ $produk->id }}, '{{ addslashes($produk->judul_bibit) }}', {{ $produk->harga_bibit }}, '{{ asset('storage/' . $produk->foto_bibit) }}', {{ $produk->jumlah_bibit }})"
+                        class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
+                        + Tambah ke Keranjang
+                    </button>
+                @else
+                    <span class="bg-red-500 text-white px-4 py-2 rounded">Sold Out</span>
+                @endif
             @endif
 
             @if (Auth::check() && Auth::user()->role == 'admin')
@@ -149,6 +153,7 @@
         return {
             cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
             detailQty: 1,
+            maxQty: 1, // ini untuk batasi input jumlah sesuai stok saat load produk
 
             saveCart() {
                 localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
@@ -164,13 +169,40 @@
                 this.saveCart();
             },
 
-            addToCart(id, name, price, image) {
+            addToCart(id, name, price, image, stock) {
+                // Batasi detailQty maksimal stok
+                if (this.detailQty > stock) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jumlah melebihi stok!',
+                        text: `Stok hanya tersedia ${stock} item.`,
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'OK'
+                    });
+                    this.detailQty = stock;
+                    return;
+                }
+
                 const existing = this.cartItems.find(i => i.id === id);
+                const totalQty = existing ? existing.qty + this.detailQty : this.detailQty;
+
+                if (totalQty > stock) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Stok Tidak Mencukupi!',
+                        text: `Stok hanya tersedia ${stock} item. Silakan kurangi jumlah pesanan.`,
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
                 if (existing) {
                     existing.qty += this.detailQty;
                 } else {
-                    this.cartItems.push({ id, name, price, image, qty: this.detailQty });
+                    this.cartItems.push({ id, name, price, image, qty: this.detailQty, stock: stock });
                 }
+
                 this.detailQty = 1;
                 this.refreshCart();
             },
@@ -178,6 +210,16 @@
             increaseQty(id) {
                 const item = this.cartItems.find(i => i.id === id);
                 if (item) {
+                    if (item.qty + 1 > item.stock) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Stok Tidak Mencukupi!',
+                            text: `Stok hanya tersedia ${item.stock} item. Tidak bisa menambah lagi.`,
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
+                    }
                     item.qty++;
                     this.refreshCart();
                 }
@@ -200,6 +242,7 @@
             }
         }
     }
+
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("checkoutform").addEventListener('submit', (e) => {

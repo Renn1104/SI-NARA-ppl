@@ -6,7 +6,7 @@
 <main class="p-4 max-w-3xl mx-auto">
 
     <h2 class="bg-purple-700 text-white text-center py-2 rounded-md font-semibold mb-4">
-        Riwayat Pesanan Pelanggan
+        Riwayat Pesanan
     </h2>
 
     {{-- Alamat Pengiriman --}}
@@ -45,37 +45,36 @@
         </div>
     @endforeach
 
-    {{-- Metode Pembayaran --}}
-   @php
-    $metodeMap = [
-        'gopay' => 'GoPay',
-        'shopeepay' => 'ShopeePay',
-        'bank_transfer' => 'Transfer Bank',
-        'bca_va' => 'Transfer Bank BCA',
-        'bni_va' => 'Transfer Bank BNI',
-        'bri_va' => 'Transfer Bank BRI',
-        'permata_va' => 'Transfer Bank Permata',
-        'echannel' => 'Mandiri Bill Payment',
-        'qris' => 'QRIS',
-        'credit_card' => 'Kartu Kredit',
-        'cstore' => 'Convenience Store',
-    ];
+    @php
+        $metodeMap = [
+            'gopay' => 'GoPay',
+            'shopeepay' => 'ShopeePay',
+            'bank_transfer' => 'Transfer Bank',
+            'bca_va' => 'Transfer Bank BCA',
+            'bni_va' => 'Transfer Bank BNI',
+            'bri_va' => 'Transfer Bank BRI',
+            'permata_va' => 'Transfer Bank Permata',
+            'echannel' => 'Mandiri Bill Payment',
+            'qris' => 'QRIS',
+            'credit_card' => 'Kartu Kredit',
+            'cstore' => 'Convenience Store',
+        ];
 
-    $metodeMidtrans = strtolower($pesanan->metode_pembayaran ?? '-');
-    $paymentDetail = is_array($pesanan->payment_detail)
-        ? $pesanan->payment_detail
-        : json_decode($pesanan->payment_detail, true);
+        $metodeMidtrans = strtolower($pesanan->metode_pembayaran ?? '-');
+        $paymentDetail = is_array($pesanan->payment_detail)
+            ? $pesanan->payment_detail
+            : json_decode($pesanan->payment_detail, true);
 
-    $namaMetodePembayaran = $metodeMap[$metodeMidtrans] ?? ucfirst(str_replace('_', ' ', $metodeMidtrans));
+        $namaMetodePembayaran = $metodeMap[$metodeMidtrans] ?? ucfirst(str_replace('_', ' ', $metodeMidtrans));
     @endphp
 
     <div class="bg-white p-4 rounded shadow mb-4">
         <h3 class="font-semibold mb-2">Metode Pembayaran</h3>
         <p class="text-orange-500 text-lg font-semibold">
-            {{ $namaMetodePembayaran }}
+           Midtrans
         </p>
 
-        {{-- Tampilkan detail berdasarkan metode --}}
+        {{-- Detail metode --}}
         @if ($metodeMidtrans === 'bank_transfer' && isset($paymentDetail['va_numbers'][0]))
             <p class="text-sm text-gray-500 mt-1">
                 Transfer ke <strong>{{ strtoupper($paymentDetail['va_numbers'][0]['bank']) }}</strong><br>
@@ -93,42 +92,35 @@
                 Biller Code: <strong>{{ $paymentDetail['biller_code'] }}</strong>
             </p>
         @elseif ($metodeMidtrans === 'qris' && isset($paymentDetail['qr_url']))
-            <p class="text-sm text-gray-500 mt-1">Silakan scan QR berikut untuk menyelesaikan pembayaran:</p>
-            <img src="{{ $paymentDetail['qr_url'] }}" alt="QRIS" class="w-48 mt-2">
+            <p class="text-sm text-gray-500 mt-1">QRIS telah digunakan untuk pembayaran ini.</p>
         @elseif ($metodeMidtrans === 'cstore' && isset($paymentDetail['payment_code']))
             <p class="text-sm text-gray-500 mt-1">
                 Bayar di <strong>{{ ucfirst($paymentDetail['store']) }}</strong><br>
                 Kode Pembayaran: <strong>{{ $paymentDetail['payment_code'] }}</strong>
             </p>
         @else
-            <p class="text-sm text-gray-500 mt-1">
-                Pembayaran telah dilakukan menggunakan {{ $namaMetodePembayaran }}.
-            </p>
+            {{-- <p class="text-sm text-gray-500 mt-1">
+                Pembayaran telah dilakukan menggunakan Midtrans {{ $namaMetodePembayaran }}.
+            </p> --}}
         @endif
     </div>
+
 
     {{-- Rincian Pembayaran --}}
     <div class="bg-white p-4 rounded shadow mb-6">
         <h3 class="font-semibold mb-2">Rincian Pembayaran</h3>
 
-        @php
-            $subtotalProduk = $pesanan->detailPesanan->sum(function($item) {
-                return $item->harga * $item->jumlah;
-            });
-            $ongkir = $pesanan->ongkir ?? 0;
-        @endphp
-
         <div class="flex justify-between text-sm mb-1">
             <span>Subtotal Produk</span>
             <span>Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</span>
         </div>
-       <div class="flex justify-between text-sm mb-1">
+        <div class="flex justify-between text-sm mb-1">
             <span>Subtotal Pengiriman</span>
-            <span>Rp.10.000</span>
+            <span>Rp{{ number_format($pesanan->ongkir ?? 0, 0, ',', '.') }}</span>
         </div>
         <div class="flex justify-between font-bold text-base mt-2">
             <span>Total Pembayaran</span>
-            <span>Rp{{ number_format($pesanan->total_harga + 10000, 0, ',', '.') }}</span>
+            <span>Rp{{ number_format(($pesanan->total_harga + ($pesanan->ongkir ?? 0)), 0, ',', '.') }}</span>
         </div>
     </div>
 

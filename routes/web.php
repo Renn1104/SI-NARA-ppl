@@ -87,6 +87,7 @@ Route::get('/pesanan/{id}', [C_Belanja::class, 'showDetailPesanan'])->name('bela
 // ROUTE UBAH ALAMAT
 Route::get('/alamat/edit', [C_Alamat::class, 'edit'])->name('alamat.edit');
 Route::put('/alamat/update', [C_Alamat::class, 'update'])->name('alamat.update');
+Route::post('/update-alamat', [C_Belanja::class, 'updateAlamat'])->name('belanja.updatealamat');
 
 
 // ===========================
@@ -107,7 +108,8 @@ Route::middleware(['auth'])->group(function () {
 // ===========================
 // ROUTE Midtrans
 // ===========================
-Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
+Route::post('/midtrans/callback', [C_Belanja::class, 'midtransCallback'])->name('midtrans.callback');
+
 
 // ===========================
 // ROUTE PROFIL (USER & ADMIN)

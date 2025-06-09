@@ -24,6 +24,11 @@
       @csrf
       @method('PUT')
 
+        {{-- Tambahkan hidden input pesanan_id --}}
+        @if(isset($pesanan))
+            <input type="hidden" name="pesanan_id" value="{{ $pesanan->id }}">
+        @endif
+
       <div>
         <label class="block text-sm font-medium mb-1">Alamat</label>
         <textarea name="alamat" required class="w-full border border-gray-300 rounded px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-purple-300" rows="2">{{ old('alamat', $user->alamat) }}</textarea>
@@ -63,7 +68,6 @@
   </div>
 </main>
 
-<!-- Optional: JS untuk validasi alert sebelum submit -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-ubah-alamat');
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   submitBtn.addEventListener('click', (e) => {
     if (!form.checkValidity()) {
       e.preventDefault();
-      form.reportValidity(); // akan menampilkan alert bawaan browser seperti: "Harap isi bidang ini"
+    //   form.reportValidity(); // akan menampilkan alert bawaan browser seperti: "Harap isi bidang ini"
     }
   });
 });

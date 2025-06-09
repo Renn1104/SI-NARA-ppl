@@ -11,7 +11,7 @@
 
   <!-- Logo pojok kiri atas -->
   <div class="absolute top-6 left-6">
-    <img src="{{ asset('assets/logo.png') }}" alt="SI-NARA Logo" class="h-14">
+    <img src="{{ asset('assets/logo.png') }}" alt="SI-NARA Logo" class="h-20">
   </div>
 
   <!-- Form Card -->

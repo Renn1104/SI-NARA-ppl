@@ -23,7 +23,7 @@
         @endif
 
         <!-- Form Update -->
-        <form action="{{ route('produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+        <form id="form-update" action="{{ route('produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
 
@@ -89,104 +89,113 @@
                 </div>
             </div>
 
-            <!-- Tombol (ubah jadi button biasa dengan id btn-submit) -->
-            <div class="text-right">
-                <button type="button" id="btn-submit"
-                    class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-6 py-2 rounded-lg transition duration-200">
-                    Simpan Perubahan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- Tombol Submit -->
+      <div class="text-center">
+        <button id="btn-submit" type="button"
+                class="bg-purple-800 text-white font-semibold px-6 py-2 rounded hover:bg-purple-900 transition">
+          Simpan Perubahan
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
 
-{{-- Modal Konfirmasi --}}
+<!-- Modal Konfirmasi -->
 <div id="confirmModal"
      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-purple-800 text-white rounded-xl shadow-lg p-6 w-[90%] max-w-md text-center animate-fade-in">
-        <div class="text-4xl text-yellow-300 mb-4">⚠️</div>
-        <p class="text-lg font-semibold mb-6">Apakah anda yakin dengan perubahan yang dilakukan?</p>
-        <div class="flex justify-center gap-4">
-            <button id="confirmYes" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded">YA</button>
-            <button id="confirmNo"  class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">Tidak</button>
-        </div>
+  <div class="bg-purple-800 text-white rounded-xl shadow-lg p-6 w-[90%] max-w-md text-center relative animate-fade-in">
+    <div class="text-4xl text-yellow-300 mb-4">⚠️</div>
+    <p class="text-lg font-semibold mb-6">Apakah anda yakin dengan perubahan yang dilakukan?</p>
+    <div class="flex justify-center gap-4">
+      <button id="confirmYes" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded">YA</button>
+      <button id="confirmNo"  class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">Tidak</button>
     </div>
+  </div>
 </div>
 
-{{-- Toast sukses --}}
+    <!-- Flash Toast Success -->
 @if (session('success'))
-<div id="toast" class="fixed inset-0 flex items-start justify-center mt-20 z-50">
+  <div id="toast" class="fixed inset-0 flex items-start justify-center mt-20 z-50">
     <div class="bg-purple-800 text-white px-8 py-6 rounded-xl shadow-lg flex items-center gap-4 animate-pop">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-lime-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8.25 8.25a1 1 0 01-1.414 0l-3.25-3.25a1 1 0 011.414-1.414L8 12.586l7.543-7.543a1 1 0 011.414 0z"
-                  clip-rule="evenodd"/>
-        </svg>
-        <span class="font-semibold text-lg">{{ session('success') }}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-lime-400" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8.25 8.25a1 1 0 01-1.414 0l-3.25-3.25a1 1 0 011.414-1.414L8 12.586l7.543-7.543a1 1 0 011.414 0z"
+              clip-rule="evenodd"/>
+      </svg>
+      <span class="font-semibold text-lg">{{ session('success') }}</span>
     </div>
-</div>
+  </div>
 @endif
-
 @endsection
 
-@push('styles')
-<style>
-@keyframes pop {
-    0% {transform: scale(.8);opacity: 0;}
-    60% {transform: scale(1.05);opacity: 1;}
-    100% {transform: scale(1);opacity: 1;}
-}
-.animate-pop {
-    animation: pop .4s ease-out;
-}
-</style>
-@endpush
+    {{-- Tambahan CSS dan Script --}}
+    @push('styles')
+    <style>
+    @keyframes fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+    }
+    .toast-fade {
+    transition: opacity 0.5s ease-out;
+    }
+    </style>
+    @endpush
+
 
 @push('scripts')
-<script>
-function previewImage(event) {
-    const input = event.target;
-    const preview = document.getElementById('image-preview');
-    if (input.files && input.files[0]) {
-        preview.src = URL.createObjectURL(input.files[0]);
-        preview.classList.remove('hidden');
-    } else {
-        preview.src = '#';
-        preview.classList.add('hidden');
+    <script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview');
+        const oldImageContainer = document.getElementById('old-image-container');
+
+        if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            if (oldImageContainer) oldImageContainer.classList.add('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+        }
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    const btnSubmit  = document.getElementById('btn-submit');
-    const confirmMod = document.getElementById('confirmModal');
-    const confirmYes = document.getElementById('confirmYes');
-    const confirmNo  = document.getElementById('confirmNo');
-    const form       = document.querySelector('form');
+    document.addEventListener('DOMContentLoaded', () => {
+        const submitBtn  = document.getElementById('btn-submit');
+        const form       = document.getElementById('form-update');
+        const modal      = document.getElementById('confirmModal');
+        const confirmYes = document.getElementById('confirmYes');
+        const confirmNo  = document.getElementById('confirmNo');
 
-    btnSubmit.addEventListener('click', () => {
+        submitBtn.addEventListener('click', () => {
         if (form.checkValidity()) {
-            confirmMod.classList.remove('hidden'); 
+            modal.classList.remove('hidden');
         } else {
             form.reportValidity();
         }
-    });
+        });
 
-    confirmNo.addEventListener('click', () => {
-        confirmMod.classList.add('hidden');
-    });
-
-    confirmYes.addEventListener('click', () => {
+        confirmYes.addEventListener('click', () => {
+        modal.classList.add('hidden');
         form.submit();
-    });
+        });
 
-    const toast = document.getElementById('toast');
-    if (toast) {
+        confirmNo.addEventListener('click', () => modal.classList.add('hidden'));
+
+        // Toast success auto-hide
+        const toast = document.getElementById('toast-success');
+        if (toast) {
+        setTimeout(() => toast.classList.add('opacity-0'), 2500);
         setTimeout(() => {
-            toast.classList.add('transition', 'opacity-0');
-            setTimeout(() => toast.remove(), 500);
-        }, 2500);
-    }
-});
-
-</script>
+            toast.remove();
+            window.location.href = "{{ route('kalenderevent') }}";
+        }, 3000);
+        }
+    });
+    </script>
 @endpush
+
+

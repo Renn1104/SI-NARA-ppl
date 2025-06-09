@@ -9,8 +9,11 @@ class C_Alamat extends Controller
 {
     public function edit()
     {
-        $user = Auth::user(); // ambil data pelanggan yang sedang login
-        return view('admin.V_UbahAlamat', compact('user'));
+        $user = Auth::user();
+        
+        $pesanan = \App\Models\Pesanan::where('user_id', $user->id)->latest()->first();
+
+        return view('admin.V_UbahAlamat', compact('user', 'pesanan'));
     }
 
     public function update(Request $request)
@@ -33,6 +36,8 @@ class C_Alamat extends Controller
             'kodepos' => $request->kodepos,
         ]);
 
-        return redirect()->route('produk')->with('success', 'Alamat berhasil diperbarui!');
+        return redirect()->route('belanja.detailpesanan', ['id' => $request->pesanan_id])
+                 ->with('success', 'Alamat berhasil diperbarui!');
+
     }
 }

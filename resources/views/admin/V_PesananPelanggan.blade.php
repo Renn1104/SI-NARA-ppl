@@ -60,7 +60,7 @@
     </div>
       <div class="flex justify-between font-semibold mt-2 border-t pt-2">
         <span>Total Pembayaran</span>
-        <span>Rp{{ number_format($pesanan->total_harga + 10000, 0, ',', '.') }}</span>
+        <span>Rp{{ number_format(($pesanan->total_harga + ($pesanan->ongkir ?? 0)), 0, ',', '.') }}</span>
       </div>
     </div>
 

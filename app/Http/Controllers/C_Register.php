@@ -9,13 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class C_Register extends Controller
 {
-    // Menampilkan form register
+
     public function register()
     {
         return view('auth.V_Register');
     }
 
-    // Menangani proses registrasi
     public function store(Request $request)
     {
         $request->validate([
@@ -25,7 +24,6 @@ class C_Register extends Controller
             'namalengkap' => 'required',
         ]);
 
-        // Buat user dan simpan hasilnya di $user
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
@@ -34,12 +32,9 @@ class C_Register extends Controller
             'role' => 'pelanggan',
         ]);
 
-        // Langsung login user yang baru dibuat
         Auth::login($user);
-        // Jika ingin menyimpan session custom, bisa dilakukan, tapi biasanya Auth sudah cukup
         // session(['user' => $user]);
 
-        // Redirect ke halaman beranda sesuai role, misalnya route 'pelanggan.beranda'
         return redirect()->route($user->role . '.beranda')->with('success', 'Akun berhasil dibuat. Selamat datang!');
     }
 }

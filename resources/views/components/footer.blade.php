@@ -5,7 +5,7 @@
         <div class="flex items-center mb-2">
           <img src="{{ asset('assets/logo sinara.png') }}" alt="Logo" class="w-36 h-auto">
         </div>
-        <p>Jember, Indonesia</p>
+        <p>Jl. Merpati, Perumnas, Patrang, Kec. Patrang, Kabupaten Jember, Jawa Timur 68118</p>
         <p class="mt-2">Telepon: +62 81249494460</p>
         <p>Email: sinara.id@gmail.com</p>
       </div>

@@ -30,7 +30,7 @@
     </div>
 
     {{-- Tanggal & Jam --}}
-    <div class="flex flex-col md:flex-row gap-4">
+    {{-- <div class="flex flex-col md:flex-row gap-4">
     <div class="flex-1">
         <label class="block text-sm font-semibold">
         Tanggal<span class="text-red-500">*</span>
@@ -47,7 +47,7 @@
             value="{{ old('jam', \Carbon\Carbon::parse($konten->tanggal_unggah)->format('H:i')) }}"
             class="mt-1 w-full border border-gray-300 rounded p-2" required>
     </div>
-    </div>
+    </div> --}}
 
     {{-- Deskripsi --}}
     <div>

@@ -2,7 +2,6 @@
 @section('title', 'DetailProfilPelanggan')
 
 @section('content')
-  <!-- Profil -->
   <main class="flex justify-center items-center p-6">
     <div class="bg-white shadow-lg rounded-md w-full max-w-xl p-6 relative">
       <h2 class="text-center text-lg font-semibold text-purple-700 border-b pb-2 mb-4">Profil</h2>

@@ -5,19 +5,16 @@
 <main class="flex justify-center items-center py-12 px-4">
   <div class="bg-white shadow-lg rounded-xl w-full max-w-xl p-6 relative">
 
-    <!-- Tombol Close -->
     <button class="absolute right-4 top-4 text-gray-500 hover:text-red-500 text-2xl leading-none">&times;</button>
 
     <h2 class="text-center text-xl font-bold text-purple-800 mb-6">Form Ubah Kalender Event</h2>
 
-    <!-- FORM -->
     <form action="{{ route('kalenderevent.update', $event->id) }}"
           method="POST" enctype="multipart/form-data"
           class="space-y-5" id="form-ubah-kalender-event">
       @csrf
       @method('PUT')
 
-        <!-- Judul Event -->
     <div>
     <label class="block text-sm font-semibold">
         Judul Event<span class="text-red-500">*</span>
@@ -28,7 +25,6 @@
             class="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-purple-700" required>
     </div>
 
-    <!-- Tanggal dan Jam -->
     <div class="flex flex-col md:flex-row gap-4">
     <div class="flex-1">
         <label class="block text-sm font-semibold">
@@ -48,7 +44,6 @@
     </div>
     </div>
 
-    <!-- Deskripsi Event -->
     <div>
     <label class="block text-sm font-semibold">
         Deskripsi Event<span class="text-red-500">*</span>
@@ -58,11 +53,9 @@
                 required>{{ old('deskripsi_konten', $event->deskripsi_event) }}</textarea>
     </div>
 
-            <!-- Poster Event -->
         <div>
         <label class="block text-sm font-medium text-gray-900">Poster Event</label>
 
-        <!-- Gambar Lama -->
         @if ($event->file_konten)
             <div id="old-image-container" class="mb-4">
             <p class="text-sm text-gray-700 mb-1">File lama:</p>
@@ -72,7 +65,6 @@
             </div>
         @endif
 
-        <!-- Upload File Baru -->
         <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div class="text-center">
             <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
@@ -91,7 +83,6 @@
             </div>
             <p class="text-xs text-gray-600">PNG, JPG, GIF up to 10MB</p>
 
-            <!-- Preview Gambar Baru -->
             <div class="mt-4">
                 <img id="image-preview"
                     src=""
@@ -101,7 +92,6 @@
             </div>
         </div>
         </div>
-      <!-- Tombol Submit -->
       <div class="text-center">
         <button id="btn-submit" type="button"
                 class="bg-purple-800 text-white font-semibold px-6 py-2 rounded hover:bg-purple-900 transition">
@@ -112,7 +102,6 @@
   </div>
 </main>
 
-<!-- Modal Konfirmasi -->
 <div id="confirmModal"
      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
   <div class="bg-purple-800 text-white rounded-xl shadow-lg p-6 w-[90%] max-w-md text-center relative animate-fade-in">
@@ -125,7 +114,6 @@
   </div>
 </div>
 
-<!-- Flash Toast Success -->
 @if(session('success'))
   <div id="toast-success"
        class="toast-fade fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-purple-800 text-white px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3 animate-fade-in opacity-100">
@@ -137,7 +125,6 @@
 
 @endsection
 
-{{-- Tambahan CSS dan Script --}}
 @push('styles')
 <style>
 @keyframes fade-in {
@@ -151,7 +138,6 @@
 @endpush
 
 @push('scripts')
-<!-- Script Preview -->
 <script>
   function previewImage(event) {
     const input = event.target;
@@ -165,7 +151,7 @@
         preview.src = e.target.result;
         preview.classList.remove('hidden');
         if (oldImageContainer) {
-          oldImageContainer.classList.add('hidden'); // sembunyikan gambar lama
+          oldImageContainer.classList.add('hidden');
         }
       };
 
@@ -195,7 +181,6 @@
 
     confirmNo.addEventListener('click', () => modal.classList.add('hidden'));
 
-    // Handle toast
     const toast = document.getElementById('toast-success');
     if (toast) {
         setTimeout(() => toast.classList.add('opacity-0', 'transition'), 2500);

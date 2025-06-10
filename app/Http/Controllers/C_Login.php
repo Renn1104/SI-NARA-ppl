@@ -24,30 +24,24 @@ public function cekdata(Request $request)
         'password.required' => 'Password belum terisi!',
     ]);
 
-    // Cek apakah user dengan username tersebut ada
     $user = User::where('username', $request->username)->first();
 
     if (!$user) {
-        // Jika username tidak ditemukan
         return redirect()->route('V_Login')->with('failed', 'Username Anda salah!');
     }
 
-    // Jika username ada, cek password
     if (!Hash::check($request->password, $user->password)) {
         return redirect()->route('V_Login')->with('failed', 'Password Anda  salah!');
     }
 
-    // Autentikasi berhasil
     Auth::login($user);
     $request->session()->regenerate();
     session(['user' => $user]);
 
-    // Flash message
     session()->flash('login_success', true);
     session()->flash('success', 'Selamat datang, ' . $user->username . '!');
     // session()->flash('success', 'Selamat datang, ' . $user->username . '!');
 
-    // Redirect berdasarkan role
     return redirect()->route($user->role . '.beranda');
 }
 

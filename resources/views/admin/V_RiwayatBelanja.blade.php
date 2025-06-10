@@ -10,12 +10,10 @@
       Daftar Riwayat Pesanan Pelanggan
     </h2>
 
-    {{-- Jika tidak ada pesanan --}}
     @if ($pesanans->isEmpty())
       <p class="text-center text-gray-500 mt-6">Belum ada riwayat pesanan pelanggan.</p>
     @endif
 
-    {{-- Loop setiap pesanan --}}
     @foreach ($pesanans as $pesanan)
     @if ($pesanan->user && $pesanan->detailPesanan->isNotEmpty())
         <div class="bg-white mt-4 rounded-md shadow-md p-4">
@@ -44,7 +42,6 @@
         </div>
     @endif
     @endforeach
-
   </div>
 </main>
 

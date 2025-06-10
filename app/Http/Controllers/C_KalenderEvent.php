@@ -38,24 +38,22 @@ class C_KalenderEvent extends Controller
     return redirect()->back()->with('success', 'Kalender event berhasil diunggah');
 
     }
+    
     public function index(Request $request)
-{
-    // Default bulan dan tahun sekarang
+    {
+
     $month = $request->get('month', date('m'));
     $year = $request->get('year', date('Y'));
 
-    // Ambil event sesuai bulan dan tahun filter
     $kalender = KalenderEvent::whereYear('tanggal_event', $year)
                 ->whereMonth('tanggal_event', $month)
                 ->get();
 
-    // Untuk dropdown tahun, ambil range tahun dinamis dari data, atau fixed
     $years = KalenderEvent::selectRaw('YEAR(tanggal_event) as year')
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year')->toArray();
 
-    // Kalau kosong, bisa kasih default tahun sekarang
     if (empty($years)) {
         $years = [date('Y')];
     }
@@ -70,7 +68,7 @@ class C_KalenderEvent extends Controller
 }
 public function edit($id)
 {
-    $event = KalenderEvent::findOrFail($id); // ambil data event berdasarkan id
+    $event = KalenderEvent::findOrFail($id);
     return view('admin.V_UbahKalenderEvent', [
         'event' => $event,
         'id' => $event->id,
@@ -95,9 +93,7 @@ public function update(Request $request, $id)
 
     $event = KalenderEvent::findOrFail($id);
 
-    // Jika ada file baru, simpan dan hapus file lama jika ada
     if ($request->hasFile('file_konten')) {
-        // Hapus file lama dari storage jika ada
         if ($event->file_event && \Storage::disk('public')->exists($event->file_event)) {
             \Storage::disk('public')->delete($event->file_event);
         }

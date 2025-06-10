@@ -2,9 +2,7 @@
 @section('title','Landing')
 @section('content')
 
-  <!-- Carousel -->
   <section class="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden" id="carousel">
-  <!-- Slides -->
   <div class="carousel-slides w-full h-full relative">
   @php
   $slides = [
@@ -25,11 +23,9 @@
   @endforeach
   </div>
 
-  <!-- Panah -->
   <button id="prevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 text-3xl text-white hover:text-purple-300 z-30">❮</button>
   <button id="nextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 text-3xl text-white hover:text-purple-300 z-30">❯</button>
 
-  <!-- Indikator -->
   <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
     @foreach ($slides as $index => $slide)
       <div class="carousel-dot w-3 h-3 rounded-full {{ $index === 0 ? 'bg-purple-500' : 'bg-gray-300' }}"></div>
@@ -37,12 +33,10 @@
   </div>
 </section>
 
-<!-- Section Tentang Nara Garden -->
 <section class="px-4 md:px-6 py-16 bg-gray-50">
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
 
-      <!-- Gambar dengan slide dari kiri & efek hover -->
       <div class="flex-shrink-0 w-full md:w-1/2 mt-6 md:mt-12 transform transition duration-700 ease-in-out animate-slide-in-left">
         <img
           src="{{ asset('assets/owner.jpg') }}"
@@ -51,7 +45,6 @@
         >
       </div>
 
-      <!-- Konten teks -->
       <div class="w-full md:w-1/2">
         <div class="flex flex-col items-start mb-4">
           {{-- <img src="{{ asset('assets/logo.png') }}" alt="Icon Anggur" class="w-28 h-auto mb-4 animate-bounce" /> --}}
@@ -96,7 +89,6 @@
 
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-    <!-- KONTEN -->
     <a href="{{ route('konten') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
         <img src="{{ asset('assets/content.png') }}" alt="KONTEN" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
@@ -107,29 +99,26 @@
     </div>
     </a>
 
-    <!-- KALENDER EVENT -->
     <a href="{{ route('kalenderevent') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-      <img src="{{ asset('assets/schedule.png') }}" alt="KALENDER EVENT" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
-      <h3 class="text-xl font-bold mb-2">KALENDER EVENT</h3>
-      <p class="text-gray-600 max-w-xs">
+        <img src="{{ asset('assets/schedule.png') }}" alt="KALENDER EVENT" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
+        <h3 class="text-xl font-bold mb-2">KALENDER EVENT</h3>
+        <p class="text-gray-600 max-w-xs">
         Dengan kalender event ini jadwal acara SI-NARA lebih teratur.
       </p>
     </div>
 
-    <!-- BELANJA -->
     <a href="{{ route('produk') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-      <img src="{{ asset('assets/shopping-bag.png') }}" alt="BELANJA" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
-      <h3 class="text-xl font-bold mb-2">BELANJA</h3>
-      <p class="text-gray-600 max-w-xs">
+        <img src="{{ asset('assets/shopping-bag.png') }}" alt="BELANJA" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
+        <h3 class="text-xl font-bold mb-2">BELANJA</h3>
+        <p class="text-gray-600 max-w-xs">
         Kami siap membantu Anda menemukan bibit Anggur yang cocok untuk budidaya.
       </p>
     </div>
   </div>
 </section>
 
-<!-- Tambahkan CSS Animasi Fade In Up -->
 <style>
   @keyframes fadeInUp {
     0% {
@@ -146,55 +135,52 @@
     animation: fadeInUp 1s ease-out forwards;
   }
 </style>
+    <script>
+    const slides = document.querySelectorAll('.carousel-item');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentIndex = 0;
+    let intervalTime = 5000;
+    let interval = setInterval(nextSlide, intervalTime);
 
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+        slide.classList.toggle('opacity-100', i === index);
+        slide.classList.toggle('z-20', i === index);
+        slide.classList.toggle('opacity-0', i !== index);
+        slide.classList.toggle('z-10', i !== index);
+        });
 
+        dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-purple-500', i === index);
+        dot.classList.toggle('bg-gray-300', i !== index);
+        });
 
-  <script>
-  const slides = document.querySelectorAll('.carousel-item');
-  const dots = document.querySelectorAll('.carousel-dot');
-  let currentIndex = 0;
-  let intervalTime = 5000;
-  let interval = setInterval(nextSlide, intervalTime);
+        currentIndex = index;
+    }
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('opacity-100', i === index);
-      slide.classList.toggle('z-20', i === index);
-      slide.classList.toggle('opacity-0', i !== index);
-      slide.classList.toggle('z-10', i !== index);
+    function nextSlide() {
+        let next = (currentIndex + 1) % slides.length;
+        showSlide(next);
+    }
+
+    function prevSlide() {
+        let prev = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(prev);
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        nextSlide();
+        resetInterval();
     });
 
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('bg-purple-500', i === index);
-      dot.classList.toggle('bg-gray-300', i !== index);
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        prevSlide();
+        resetInterval();
     });
 
-    currentIndex = index;
-  }
-
-  function nextSlide() {
-    let next = (currentIndex + 1) % slides.length;
-    showSlide(next);
-  }
-
-  function prevSlide() {
-    let prev = (currentIndex - 1 + slides.length) % slides.length;
-    showSlide(prev);
-  }
-
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    nextSlide();
-    resetInterval();
-  });
-
-  document.getElementById('prevBtn').addEventListener('click', () => {
-    prevSlide();
-    resetInterval();
-  });
-
-  function resetInterval() {
-    clearInterval(interval);
-    interval = setInterval(nextSlide, intervalTime);
-  }
-</script>
+    function resetInterval() {
+        clearInterval(interval);
+        interval = setInterval(nextSlide, intervalTime);
+    }
+    </script>
 @endsection

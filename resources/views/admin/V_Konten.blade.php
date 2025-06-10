@@ -1,7 +1,7 @@
 @extends('layouts.layouts')
 @section('title', 'Konten')
 @section('content')
-      <!-- Tombol Tambah Event -->
+
 @php
     $role = auth()->check() ? auth()->user()->role : 'guest';
 @endphp
@@ -16,8 +16,6 @@
 </div>
 @endif
 
-
-<!-- Rekomendasi -->
 <section class="px-4 md:px-6 py-10 min-h-screen">
     <h1 class="text-3xl font-semibold text-center text-purple-800 mb-8">Konten SI-NARA</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">

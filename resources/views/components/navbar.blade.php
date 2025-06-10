@@ -5,17 +5,13 @@
 <nav class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300">
     <div class="flex items-center justify-between px-4 md:px-6 py-4">
 
-        <!-- Logo -->
         <div class="flex items-center space-x-2">
             <a href="{{ route('V_Landing') }}" class="transform hover:scale-105 transition-transform duration-200">
                 <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="h-12 object-contain">
             </a>
         </div>
 
-        <!-- Right Section: Nav + Auth + Hamburger -->
         <div class="flex items-center gap-4 ml-auto">
-
-            <!-- Desktop Nav -->
             <ul class="hidden md:flex gap-6 font-semibold text-gray-700 text-sm md:text-base">
                 <li>
                     <a href="{{ route('landing') }}"
@@ -83,7 +79,6 @@
             @if(Auth::check())
                 @php $role = Auth::user()->role; @endphp
 
-                <!-- Dropdown User Icon -->
                 <div class="relative">
                     <button onclick="toggleDropdown()"
                             class="focus:outline-none transform hover:scale-110 transition-all duration-200"
@@ -121,7 +116,7 @@
                                 </li>
                             @endif
 
-                            <!-- Logout Button -->
+
                             <li>
                                 <button onclick="showLogoutModal()" type="button"
                                     class="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 w-full text-left transition-colors duration-200">
@@ -234,13 +229,10 @@
 </nav>
 
 <script>
-// Vanilla JavaScript with smooth transitions
 let dropdownOpen = false;
 let mobileMenuOpen = false;
 
-// Page transition loader
 document.addEventListener('DOMContentLoaded', function() {
-    // Add fade-in effect to page
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.3s ease-in-out';
 
@@ -249,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 100);
 });
 
-// Smooth page transitions
 function smoothTransition(url) {
     document.body.style.opacity = '0';
     setTimeout(() => {
@@ -257,14 +248,12 @@ function smoothTransition(url) {
     }, 200);
 }
 
-// Enhanced dropdown with smooth animation
 function toggleDropdown() {
     dropdownOpen = !dropdownOpen;
     const dropdown = document.getElementById('userDropdown');
 
     if (dropdownOpen) {
         dropdown.classList.remove('hidden');
-        // Trigger animation
         setTimeout(() => {
             dropdown.classList.remove('scale-95', 'opacity-0');
             dropdown.classList.add('scale-100', 'opacity-100');
@@ -278,7 +267,6 @@ function toggleDropdown() {
     }
 }
 
-// Enhanced mobile menu with smooth animation
 function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
     const menu = document.getElementById('mobileMenu');
@@ -304,18 +292,15 @@ function toggleMobileMenu() {
     }
 }
 
-// Enhanced modal animations
 function showLogoutModal() {
     const modal = document.getElementById('logoutModal');
     const dropdown = document.getElementById('userDropdown');
     const modalContent = modal.querySelector('div');
 
-    // Close dropdown first
     if (dropdownOpen) {
         toggleDropdown();
     }
 
-    // Show modal with animation
     modal.classList.remove('hidden');
     setTimeout(() => {
         modal.classList.remove('bg-opacity-0');
@@ -339,7 +324,6 @@ function hideLogoutModal() {
     }, 300);
 }
 
-// Login alert modal
 function showLoginAlert() {
     const modal = document.getElementById('loginAlertModal');
     const modalContent = modal.querySelector('div');

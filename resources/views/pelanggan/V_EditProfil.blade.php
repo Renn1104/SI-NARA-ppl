@@ -74,7 +74,6 @@
             </div>
         </form>
 
-        {{-- Modal Konfirmasi --}}
         <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
             <div class="bg-purple-800 text-white p-8 rounded-xl shadow-lg text-center w-full max-w-md mx-auto">
                 <div class="text-4xl mb-4">⚠️</div>
@@ -108,13 +107,10 @@
     function openModal() {
         const form = document.getElementById('editProfilForm');
 
-        // Cek apakah form valid
         if (form.checkValidity()) {
-            // Kalau valid, munculkan modal konfirmasi
             confirmModal.classList.remove('hidden');
             confirmModal.classList.add('flex');
         } else {
-            // Kalau tidak valid, tampilkan pesan native HTML5
             form.reportValidity();
         }
     }

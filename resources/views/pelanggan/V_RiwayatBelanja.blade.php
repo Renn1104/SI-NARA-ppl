@@ -15,7 +15,6 @@
       <p class="text-center text-gray-500 mt-6">Belum ada riwayat pesanan.</p>
     @endif
 
-    {{-- Loop setiap pesanan --}}
     @foreach ($pesanans as $pesanan)
     @if ($pesanan->user && $pesanan->detailPesanan->isNotEmpty())
         <div class="bg-white mt-4 rounded-md shadow-md p-4">

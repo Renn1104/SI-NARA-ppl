@@ -29,7 +29,7 @@
         >
       </div>
 
-      <!-- Tanggal dan Jam -->
+      {{-- <!-- Tanggal dan Jam -->
       <div class="flex flex-col md:flex-row gap-4">
         <div class="flex-1">
           <label class="block text-sm font-semibold" for="tanggal">Tanggal*</label>
@@ -51,7 +51,7 @@
             required
           >
         </div>
-      </div>
+      </div> --}}
 
       <!-- Deskripsi Konten -->
       <div>

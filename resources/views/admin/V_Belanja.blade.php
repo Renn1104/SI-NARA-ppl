@@ -25,7 +25,7 @@
 
                     @if (Auth::user()->role === 'pelanggan')
                         <button type="button"
-                            @click="toggleSidebar(); addToCart({{ $item->id }}, '{{ addslashes($item->judul_bibit) }}', {{ $item->harga_bibit }}, '{{ asset('storage/' . $item->foto_bibit) }}')"
+                            @click="toggleSidebar(); addToCart({{ $item->id }}, '{{ addslashes($item->judul_bibit) }}', {{ $item->harga_bibit }}, '{{ asset('storage/' . $item->foto_bibit) }}', {{ $item->jumlah_bibit }})"
                             class="absolute bottom-3 right-3 bg-purple-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:bg-purple-800 shadow transition">
                             +
                         </button>
@@ -80,6 +80,8 @@
     @endif
 </form>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     function cartApp(userId) {
         const localKey = `cartItems_${userId}`;
@@ -103,12 +105,17 @@
                 this.sidebarOpen = false;
             },
 
-            addToCart(id, name, price, image) {
+            addToCart(id, name, price, image, stock) {
                 const existing = this.cartItems.find(i => i.id === id);
                 if (existing) {
-                    existing.qty++;
+                    if (existing.qty < existing.stock) {
+                        existing.qty++;
+                    } else {
+                        this.showAlert(`Stok hanya tersedia ${existing.stock} item. Tidak bisa menambah lagi.`);
+                        return;
+                    }
                 } else {
-                    this.cartItems.push({ id, name, price, image, qty: 1 });
+                    this.cartItems.push({ id, name, price, image, qty: 1, stock });
                 }
                 this.refreshCart();
                 this.sidebarOpen = true;
@@ -117,8 +124,12 @@
             increaseQty(id) {
                 const item = this.cartItems.find(i => i.id === id);
                 if (item) {
-                    item.qty++;
-                    this.refreshCart();
+                    if (item.qty < item.stock) {
+                        item.qty++;
+                        this.refreshCart();
+                    } else {
+                        this.showAlert(`Stok hanya tersedia ${item.stock} item. Tidak bisa menambah lagi.`);
+                    }
                 }
             },
 
@@ -143,17 +154,31 @@
 
             toggleSidebar() {
                 this.sidebarOpen = !this.sidebarOpen;
+            },
+
+            showAlert(message) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Stok Tidak Mencukupi!',
+                    text: message,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                });
             }
         }
     }
 
-    // Handle form submit dan kirim data keranjang
     document.getElementById("checkoutform").addEventListener('submit', (e) => {
         e.preventDefault();
         const userId = {{ $userId }};
         const cartItems = JSON.parse(localStorage.getItem(`cartItems_${userId}`)) || [];
         if (cartItems.length === 0) {
-            alert('Keranjang belanja Anda kosong!');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: 'Keranjang belanja Anda kosong!',
+                confirmButtonText: 'OK'
+            });
             return;
         }
 

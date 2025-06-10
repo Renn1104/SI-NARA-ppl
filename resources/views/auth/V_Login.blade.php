@@ -8,13 +8,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-        <div class="absolute top-6 left-6">
+    <div class="absolute top-6 left-6">
     <img src="{{ asset('assets/logo.png') }}" alt="SI-NARA Logo" class="h-20">
     </div>
 
     <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-10 py-12 w-full max-w-md">
         <body class="min-h-screen bg-cover bg-center flex items-center justify-center relative" style="background-image: url('{{ asset('assets/bg_login.png') }}')">
-    {{-- Flash Messages --}}
     @if (session('failed'))
     <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-center">
         {{ session('failed') }}
@@ -27,21 +26,18 @@
     </div>
     @endif
 
-    <!-- Judul -->
+
   <h2 class="text-2xl font-bold text-black text-center mb-6">Masuk</h2>
 
-    <!-- Form -->
     <form action="{{ route('V_Login') }}" method="POST" class="space-y-5">
       @csrf
 
-      <!-- Username -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
         <input type="text" name="username" placeholder="Masukkan Username" required
           class="w-full border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-700">
       </div>
 
-      <!-- Password -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
         <div class="relative">
@@ -53,7 +49,6 @@
         </div>
       </div>
 
-      <!-- Daftar -->
       <div class="flex items-center justify-between text-sm text-gray-600">
         <span>Belum punya akun?</span>
         <a href="{{ route('V_Register') }}" class="px-3 py-1 border border-gray-400 rounded-full bg-white hover:bg-purple-100 transition">
@@ -61,7 +56,6 @@
         </a>
       </div>
 
-      <!-- Tombol Masuk -->
       <button type="submit"
         class="w-full bg-purple-800 text-white font-semibold py-2 rounded-full hover:bg-purple-900 transition">
         Masuk

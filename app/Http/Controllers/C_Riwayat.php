@@ -19,18 +19,15 @@ class C_Riwayat extends Controller
             return view('admin.V_RiwayatBelanja', compact('pesanans'));
         } elseif ($userRole === 'pelanggan') {
 
-            // DEBUG: Cek semua pesanan user ini
             $allPesanans = Pesanan::with(['detailPesanan.bibit'])
                 ->where('user_id', auth()->id())
                 ->get();
 
-            // DEBUG: Print info untuk debugging
             \Log::info('Total pesanan user: ' . $allPesanans->count());
             foreach($allPesanans as $p) {
                 \Log::info("Pesanan ID: {$p->id}, Status: '{$p->status}', Created: {$p->created_at}");
             }
 
-            // SEMENTARA: Tampilkan semua pesanan dulu (untuk testing)
             $pesanans = Pesanan::with(['detailPesanan.bibit'])
                 ->where('user_id', auth()->id())
                 ->orderBy('created_at', 'desc')

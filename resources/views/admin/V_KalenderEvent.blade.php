@@ -14,7 +14,6 @@
 @endif
 @endauth
 
-<!-- Filter -->
 <div class="px-6 mt-4 hidden" id="filterFormWrapper">
   <form id="filterForm" method="GET" action="{{ route('kalenderevent') }}"
     class="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg shadow">
@@ -38,22 +37,18 @@
   </form>
 </div>
 
-<!-- Layout Utama -->
 <div class="grid md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto mt-6">
 
-  <!-- Kalender -->
   <div class="md:col-span-2 bg-white rounded-lg shadow-md overflow-hidden">
     <div class="flex items-center justify-between bg-purple-600 text-white px-5 py-4">
       <h2 class="text-lg font-semibold">{{ \Carbon\Carbon::create($year, $month)->translatedFormat('F Y') }}</h2>
       <button id="toggleFilterBtn" class="text-xl hover:scale-110 transition">📅</button>
     </div>
 
-    <!-- Hari -->
     <div class="grid grid-cols-7 text-center text-sm font-medium text-gray-600 bg-gray-100 py-3 border-b">
       <div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div><div>Min</div>
     </div>
 
-    <!-- Tanggal -->
     <div class="grid grid-cols-7 gap-y-5 text-sm px-4 py-6">
       @php
         $startDay = \Carbon\Carbon::create($year, $month, 1)->dayOfWeekIso;
@@ -87,22 +82,18 @@
     </div>
   </div>
 
-  <!-- Detail Event -->
   <div id="eventDetail" class="bg-white rounded-lg shadow-md p-5 sticky top-24 h-fit">
     <p class="text-gray-500 italic text-sm text-center">Klik tanggal bertitik untuk melihat detail event</p>
   </div>
 </div>
 
-<!-- Script -->
 <script>
   const userRole = @json(Auth::check() ? Auth::user()->role : 'guest');
 
-  // Toggle Filter
   document.getElementById('toggleFilterBtn').addEventListener('click', function () {
     document.getElementById('filterFormWrapper').classList.toggle('hidden');
   });
 
-  // Klik kalender
   document.querySelectorAll('.grid > div[data-event]').forEach(div => {
     div.addEventListener('click', () => {
       const data = div.getAttribute('data-event');
@@ -112,7 +103,6 @@
         panel.innerHTML = '<p class="text-gray-500 italic text-sm text-center">Tidak ada event di tanggal ini.</p>';
         return;
       }
-
         const e = JSON.parse(data);
         const tgl = new Date(e.tanggal_event);
         const formattedDate = tgl.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });

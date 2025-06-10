@@ -1,6 +1,10 @@
 @extends('layouts.layouts')
 @section('title', 'DetailKonten')
 
+{{-- @php
+    dd(get_defined_vars());
+@endphp --}}
+
 @php
   \Carbon\Carbon::setLocale('id');
 @endphp
@@ -18,10 +22,10 @@
       <p>{{ $deskripsiKonten }}</p>
     </div>
 
-    {{-- <p class="text-sm text-gray-500 mt-6 text-right">
-        Diunggah pada: {{ \Carbon\Carbon::parse($tanggalUnggah ?? \Carbon\Carbon::now())->translatedFormat('d F Y, H:i') }} WIB
-    </p> --}}
-
+    <p class="text-sm text-gray-500 mt-6 text-right">
+        Diunggah pada:
+        {{ \Carbon\Carbon::parse($tanggal_unggah ?? now())->translatedFormat('d F Y, H:i') }} WIB
+    </p>
 
     @auth
       @if(Auth::user()->role === 'admin')

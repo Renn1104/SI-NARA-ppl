@@ -49,13 +49,11 @@
         </div>
     </div>
 
-    {{-- Deskripsi Produk --}}
     <section class="mt-10">
         <h3 class="text-lg font-bold mb-2">Deskripsi</h3>
         <p class="mt-2 text-gray-700 leading-relaxed">{!! nl2br(e($produk->deskripsi_bibit)) !!}</p>
     </section>
 
-    {{-- Spesifikasi --}}
     @if ($produk->spesifikasi)
         <div class="mt-6">
             <h4 class="font-semibold mb-1">📦 Spesifikasi Bibit:</h4>
@@ -67,7 +65,6 @@
         </div>
     @endif
 
-    {{-- Tips Perawatan --}}3
     @if ($produk->tips)
         <div class="mt-6">
             <h4 class="font-semibold mb-1">💡 Tips Perawatan:</h4>
@@ -79,7 +76,6 @@
         </div>
     @endif
 
-    {{-- Form Checkout --}}
     <form id="checkoutform" action="{{ route('belanja.checkout') }}" method="POST" class="relative px-6 py-6">
         @csrf
 

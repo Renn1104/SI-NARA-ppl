@@ -83,10 +83,8 @@
         document.getElementById('pay-button').onclick = function(){
             snap.pay('{{ $pesanan->snap_token }}', {
                 onSuccess: function(result){
-                    // Tampilkan hasil jika diperlukan
                     console.log("Pembayaran berhasil:", result);
 
-                    // Redirect ke halaman riwayat setelah berhasil
                     window.location.href = "{{ route('riwayat') }}";
                 },
                 onPending: function(result){

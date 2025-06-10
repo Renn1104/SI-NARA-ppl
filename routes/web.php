@@ -23,7 +23,6 @@ Route::get('/', function () {
 })->name('landing');
 Route::get('/landing', [C_Landing::class, 'index'])->name('V_Landing');
 
-
 // ===========================
 // ROUTE AUTH (LOGIN & REGISTER)
 // ===========================
@@ -33,7 +32,6 @@ Route::post('/register', [C_Register::class, 'store'])->name('register.store');
 Route::get('/login', [C_Login::class, 'login'])->name('V_Login');
 Route::post('/login', [C_Login::class, 'cekdata']);
 
-
 // ===========================
 // ROUTE BERANDA ADMIN & PELANGGAN
 // ===========================
@@ -41,7 +39,6 @@ Route::get('/admin/beranda', function () {
     return view('admin.V_beranda', ['role' => session('role', 'guest')]);
 })->name('admin.beranda');
 Route::get('/pelanggan/beranda', [C_Pelanggan::class, 'beranda'])->name('pelanggan.beranda');
-
 
 // ===========================
 // ROUTE KONTEN
@@ -58,8 +55,6 @@ Route::get('detailkonten/{judul}/{deskripsiKonten}/{fileKonten}/{id}', function 
     return view('admin.V_DetailKonten', compact('judul', 'deskripsiKonten', 'fileKonten', 'id'));
 })->name('detailkonten');
 Route::get('/konten/{id}', [C_Konten::class, 'show'])->name('konten.show');
-
-
 
 // ===========================
 // ROUTE KALENDER EVENT
@@ -89,7 +84,6 @@ Route::get('/alamat/edit', [C_Alamat::class, 'edit'])->name('alamat.edit');
 Route::put('/alamat/update', [C_Alamat::class, 'update'])->name('alamat.update');
 Route::post('/update-alamat', [C_Belanja::class, 'updateAlamat'])->name('belanja.updatealamat');
 
-
 // ===========================
 // ROUTE RIWAYAT BELANJA
 // ===========================
@@ -109,7 +103,8 @@ Route::middleware(['auth'])->group(function () {
 // ROUTE Midtrans
 // ===========================
 Route::post('/midtrans/callback', [C_Belanja::class, 'midtransCallback'])->name('midtrans.callback');
-
+Route::post('/pembayaran/berhasil', [C_Belanja::class, 'pembayaranBerhasil'])->name('pembayaran.berhasil');
+Route::delete('/pesanan/{id}/batal', [C_Belanja::class, 'batalkanPesanan'])->name('pesanan.batal');
 
 // ===========================
 // ROUTE PROFIL (USER & ADMIN)
@@ -129,7 +124,6 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     Route::get('/pelanggan/profil/edit', [C_Profil::class, 'editProfilPelanggan'])->name('pelanggan.profil.edit');
     Route::post('/pelanggan/profil/update', [C_Profil::class, 'updateProfilPelanggan'])->name('pelanggan.profil.update');
 });
-
 
 // ===========================
 // ROUTE LOGOUT

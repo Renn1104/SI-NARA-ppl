@@ -30,7 +30,6 @@
         </div>
     </div>
 
-    {{-- Produk Dipesan --}}
     @foreach ($pesanan->detailPesanan as $item)
         <div class="bg-white p-4 rounded shadow flex items-center gap-4 mb-4">
         <img src="{{ $item->bibit->foto_bibit ? asset('storage/' . $item->bibit->foto_bibit) : asset('images/bibit-default.png') }}"
@@ -74,7 +73,6 @@
            Midtrans
         </p>
 
-        {{-- Detail metode --}}
         @if ($metodeMidtrans === 'bank_transfer' && isset($paymentDetail['va_numbers'][0]))
             <p class="text-sm text-gray-500 mt-1">
                 Transfer ke <strong>{{ strtoupper($paymentDetail['va_numbers'][0]['bank']) }}</strong><br>
@@ -98,15 +96,8 @@
                 Bayar di <strong>{{ ucfirst($paymentDetail['store']) }}</strong><br>
                 Kode Pembayaran: <strong>{{ $paymentDetail['payment_code'] }}</strong>
             </p>
-        @else
-            {{-- <p class="text-sm text-gray-500 mt-1">
-                Pembayaran telah dilakukan menggunakan Midtrans {{ $namaMetodePembayaran }}.
-            </p> --}}
-        @endif
     </div>
 
-
-    {{-- Rincian Pembayaran --}}
     <div class="bg-white p-4 rounded shadow mb-6">
         <h3 class="font-semibold mb-2">Rincian Pembayaran</h3>
 
@@ -124,7 +115,6 @@
         </div>
     </div>
 
-    {{-- Tombol Kembali --}}
     <div class="text-right">
         <a href="{{ route('riwayat') }}"
            class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800">

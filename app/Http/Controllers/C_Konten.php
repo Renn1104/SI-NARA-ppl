@@ -99,7 +99,7 @@ class C_Konten extends Controller
             'judul' => $konten->judul_konten,
             'deskripsiKonten' => $konten->deskripsi_konten,
             'fileKonten' => $konten->file_konten,
-            'tanggalUnggah' => $konten->tanggal_unggah,  // <-- ini yang harus kamu kirim!
+            'tanggal_unggah' => $konten->tanggal_unggah,
             'id' => $konten->id,
         ]);
     }
@@ -108,7 +108,6 @@ class C_Konten extends Controller
     {
     $konten = Konten::findOrFail($id);
 
-    // Hapus file jika ada
     if ($konten->file_konten && file_exists(public_path('kontens/' . $konten->file_konten))) {
         unlink(public_path('kontens/' . $konten->file_konten));
     }
@@ -116,7 +115,7 @@ class C_Konten extends Controller
     $konten->delete();
 
     return redirect()
-       ->route('konten', $id)   // ATAU route mana pun tempat toast berada
+       ->route('konten', $id)  
        ->with('success', 'Konten berhasil dihapus');
 
 

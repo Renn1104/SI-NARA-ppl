@@ -77,20 +77,14 @@ class C_Belanja extends Controller
         $produk->jumlah_bibit = $validated['jumlah'];
         $produk->harga_bibit = $validated['harga'];
 
-        // Handle file upload jika ada
         if ($request->hasFile('file_konten')) {
-            // Hapus foto lama jika ada
             if ($produk->foto_bibit && Storage::disk('public')->exists($produk->foto_bibit)) {
                 Storage::disk('public')->delete($produk->foto_bibit);
             }
-
-            // Simpan foto baru
             $produk->foto_bibit = $request->file('file_konten')->store('bibits', 'public');
         }
 
         $produk->save();
-
-        // Redirect ke detail belanja dengan pesan sukses
         return redirect()->route('belanja.detail', $produk->id)
                         ->with('success', 'Bibit berhasil diperbarui!');
     }
@@ -99,7 +93,6 @@ class C_Belanja extends Controller
     {
         $produk = Bibit::findOrFail($id);
 
-        // Hapus foto jika ada
         if ($produk->foto_bibit && Storage::disk('public')->exists($produk->foto_bibit)) {
             Storage::disk('public')->delete($produk->foto_bibit);
         }
@@ -118,13 +111,12 @@ class C_Belanja extends Controller
         $totalHarga = collect($cartData)->sum(fn($item) => $item['price'] * $item['qty']);
         $totalBayar = $totalHarga + $ongkosKirim;
 
-        $pesanan = Pesanan::create([
-            'user_id' => $user->id,
-            'total_harga' => $totalHarga,
-            'status' => 'Terbayarkan',
-            'ongkir' => $ongkosKirim,
-        ]);
-
+    $pesanan = Pesanan::create([
+        'user_id' => $user->id,
+        'total_harga' => $totalHarga,
+        'status' => 'Menunggu Pembayaran', // ✅ Benar
+        'ongkir' => $ongkosKirim,
+    ]);
         // Midtrans
         $config = config('midtrans');
         \Midtrans\Config::$serverKey = $config['server_key'];
@@ -186,7 +178,6 @@ class C_Belanja extends Controller
 
         $user = auth()->user();
 
-        // Update alamat user
         $user->update([
             'alamat' => $request->alamat,
             'provinsi' => $request->provinsi,
@@ -195,7 +186,6 @@ class C_Belanja extends Controller
             'kodepos' => $request->kodepos,
         ]);
 
-        // Update ongkir pesanan
         $ongkirBaru = $this->hitungOngkir($request->provinsi);
         $pesanan = Pesanan::find($request->pesanan_id);
 
@@ -222,6 +212,41 @@ class C_Belanja extends Controller
             default => 10000,
         };
     }
+    
+    public function pembayaranBerhasil(Request $request)
+    {
+    $pesanan = Pesanan::with('detailPesanan')->findOrFail($request->pesanan_id);
+
+    if ($pesanan->status === 'Menunggu Pembayaran') {
+        foreach ($pesanan->detailPesanan as $detail) {
+            $bibit = Bibit::find($detail->bibit_id);
+            if ($bibit) {
+                $bibit->jumlah_bibit -= $detail->jumlah;
+                $bibit->save();
+            }
+        }
+
+        $pesanan->status = 'Lunas';
+        $pesanan->save();
+    }
+
+    return response()->json(['message' => 'Stok berhasil dikurangi dan status diperbarui']);
+    }
+
+    public function batalkanPesanan($id)
+    {
+    $pesanan = Pesanan::where('id', $id)
+                      ->where('status', 'Menunggu Pembayaran')
+                      ->first();
+
+    if ($pesanan) {
+        $pesanan->detailPesanan()->delete();
+        $pesanan->delete();
+    }
+
+    return redirect()->route('produk')->with('success', 'Pesanan dibatalkan.');
+    }
+}
 
 //     public function midtransCallback(Request $request)
 //     {
@@ -271,5 +296,3 @@ class C_Belanja extends Controller
 
 //     return response()->json(['message' => 'Pembayaran belum selesai.'], 200);
 // }
-
-}

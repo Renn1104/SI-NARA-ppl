@@ -96,7 +96,6 @@
 
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-    <!-- KONTEN -->
     <a href="{{ route('konten') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
         <img src="{{ asset('assets/content.png') }}" alt="KONTEN" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
@@ -107,7 +106,6 @@
     </div>
     </a>
 
-    <!-- KALENDER EVENT -->
     <a href="{{ route('kalenderevent') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="{{ asset('assets/schedule.png') }}" alt="KALENDER EVENT" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
@@ -117,7 +115,6 @@
       </p>
     </div>
 
-    <!-- BELANJA -->
     <a href="{{ route('produk') }}" class="block">
     <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md outline outline-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img src="{{ asset('assets/shopping-bag.png') }}" alt="BELANJA" class="w-16 h-16 mb-4 outline outline-purple-500 rounded-full p-2">
@@ -129,7 +126,6 @@
   </div>
 </section>
 
-<!-- Tambahkan CSS Animasi Fade In Up -->
 <style>
   @keyframes fadeInUp {
     0% {

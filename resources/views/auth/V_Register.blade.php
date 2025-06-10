@@ -9,22 +9,16 @@
 </head>
 <body class="min-h-screen bg-cover bg-center flex items-center justify-center relative" style="background-image: url('{{ asset('assets/bg_login.png') }}')">
 
-  <!-- Logo pojok kiri atas -->
   <div class="absolute top-6 left-6">
     <img src="{{ asset('assets/logo.png') }}" alt="SI-NARA Logo" class="h-20">
   </div>
 
-  <!-- Form Card -->
   <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl px-10 py-12 w-full max-w-lg">
 
-    <!-- Judul -->
     <h2 class="text-2xl font-bold text-black text-center mb-6">Daftar</h2>
-
-    <!-- Form -->
     <form action="{{ route('register.store') }}" method="POST" class="space-y-4">
       @csrf
 
-      <!-- Username -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
         <input type="text" name="username" placeholder="Masukkan Username" required
@@ -34,7 +28,6 @@
         @enderror
       </div>
 
-      <!-- Password -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
         <div class="relative">
@@ -49,7 +42,6 @@
         @enderror
       </div>
 
-      <!-- Konfirmasi Password -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Konfirmasi Password</label>
         <input type="password" name="password_confirmation" placeholder="Ulangi Password" required
@@ -59,7 +51,6 @@
         @enderror
       </div>
 
-      <!-- Nama -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Nama</label>
         <input type="text" name="namalengkap" placeholder="Masukkan Nama" required
@@ -69,7 +60,6 @@
         @enderror
       </div>
 
-      <!-- Email -->
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
         <input type="email" name="email" placeholder="Masukkan Email" required
@@ -79,7 +69,6 @@
         @enderror
       </div>
 
-      <!-- Sudah punya akun -->
       <div class="flex items-center justify-between text-sm text-gray-600">
         <span>Sudah punya akun?</span>
         <a href="{{ route('V_Login') }}" class="px-3 py-1 border border-gray-400 rounded-full bg-white hover:bg-purple-100 transition">
@@ -87,14 +76,12 @@
         </a>
       </div>
 
-      <!-- Tombol Daftar -->
       <button type="submit"
         class="w-full bg-purple-800 text-white font-semibold py-2 rounded-full hover:bg-purple-900 transition">
         Daftar
       </button>
     </form>
 
-    <!-- Menampilkan error umum -->
     @if ($errors->any())
       <div class="bg-red-100 text-red-700 text-sm p-3 mt-4 rounded">
         <ul class="list-disc list-inside">

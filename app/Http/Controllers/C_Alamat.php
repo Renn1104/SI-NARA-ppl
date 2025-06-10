@@ -10,7 +10,7 @@ class C_Alamat extends Controller
     public function edit()
     {
         $user = Auth::user();
-        
+
         $pesanan = \App\Models\Pesanan::where('user_id', $user->id)->latest()->first();
 
         return view('admin.V_UbahAlamat', compact('user', 'pesanan'));
@@ -26,7 +26,7 @@ class C_Alamat extends Controller
             'kodepos' => 'required|string|max:10',
         ]);
 
-        $user = auth()->user(); // Pastikan user login
+        $user = auth()->user(); 
 
         $user->update([
             'alamat' => $request->alamat,

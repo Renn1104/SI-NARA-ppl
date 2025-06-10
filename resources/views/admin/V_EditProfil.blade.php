@@ -4,7 +4,6 @@
 @section('content')
 
 
-{{-- Alert sukses --}}
 @if (session('success'))
     <div class="mx-auto max-w-xl mb-6 px-4">
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl relative" role="alert">
@@ -63,7 +62,6 @@
             </div>
         </form>
 
-        {{-- Modal Konfirmasi --}}
         <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
             <div class="bg-purple-800 text-white p-8 rounded-xl shadow-lg text-center w-full max-w-md mx-auto">
                 <div class="text-4xl mb-4">⚠️</div>
@@ -77,7 +75,6 @@
             </div>
         </div>
 
-        {{-- Tombol Tutup --}}
         <a href="{{ route('admin.profil') }}" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -88,19 +85,15 @@
     </div>
 </div>
 
-{{-- Script Modal --}}
 <script>
     function openModal() {
         const form = document.getElementById('editProfilForm');
 
-        // Validasi HTML5 native
         if (form.checkValidity()) {
-            // Kalau valid, tampilkan modal
             const modal = document.getElementById('confirmModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         } else {
-            // Kalau ada input kosong, munculkan native alert bawaan browser
             form.reportValidity();
         }
     }

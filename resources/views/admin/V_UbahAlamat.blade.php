@@ -19,12 +19,10 @@
       </svg>
     </button>
 
-    <!-- Form -->
     <form id="form-ubah-alamat" action="{{ route('alamat.update') }}" method="POST" class="space-y-4 mt-2">
       @csrf
       @method('PUT')
 
-        {{-- Tambahkan hidden input pesanan_id --}}
         @if(isset($pesanan))
             <input type="hidden" name="pesanan_id" value="{{ $pesanan->id }}">
         @endif
@@ -76,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
   submitBtn.addEventListener('click', (e) => {
     if (!form.checkValidity()) {
       e.preventDefault();
-    //   form.reportValidity(); // akan menampilkan alert bawaan browser seperti: "Harap isi bidang ini"
     }
   });
 });
